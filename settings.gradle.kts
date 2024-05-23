@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "blockfrost-kotlin-sdk"
 
 include(":sdk")
+include(":example:composeApp")
