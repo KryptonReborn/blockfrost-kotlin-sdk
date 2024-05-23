@@ -17,6 +17,7 @@ class CommonMppComposePlugin : Plugin<Project> {
                 apply(libs.findPlugin("androidApplication").get().get().pluginId)
                 apply(libs.findPlugin("kotlinMultiplatform").get().get().pluginId)
                 apply(libs.findPlugin("jetbrainsCompose").get().get().pluginId)
+                apply(libs.findPlugin("ktlint").get().get().pluginId)
             }
 
             extensions.configure<ApplicationExtension> {
@@ -72,7 +73,9 @@ class CommonMppComposePlugin : Plugin<Project> {
                         implementation(libs.findLibrary("compose-material").get())
                         implementation(libs.findLibrary("compose-ui").get())
                         implementation(libs.findLibrary("compose-components-resources").get())
-                        implementation(libs.findLibrary("compose-components-ui-tooling-preview").get())
+                        implementation(
+                            libs.findLibrary("compose-components-ui-tooling-preview").get()
+                        )
                     }
                     androidMain.get().dependencies {
                         implementation(libs.findLibrary("compose-ui-tooling-preview").get())
