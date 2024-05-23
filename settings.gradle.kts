@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kmp-template"
+rootProject.name = "blockfrost-kotlin-sdk"
 
-include(":library")
+include(":sdk")

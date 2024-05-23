@@ -8,15 +8,15 @@ plugins {
 }
 
 publishConfig {
-    url = "https://maven.pkg.github.com/KryptonReborn/kmp-template"
-    groupId = "kmp.template"
-    artifactId = "library"
+    url = "https://maven.pkg.github.com/KryptonReborn/blockfrost-kotlin-sdk"
+    groupId = "dev.kryptonreborn.blockfrost-kotlin"
+    artifactId = "core"
 }
 
 version = "0.0.2"
 
 android {
-    namespace = "kmp.template"
+    namespace = "dev.kryptonreborn.blockfrost"
 }
 
 kotlin {
