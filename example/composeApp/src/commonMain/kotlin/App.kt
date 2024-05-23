@@ -8,8 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import blockfrost_kotlin_sdk.example.composeapp.generated.resources.Res
-import blockfrost_kotlin_sdk.example.composeapp.generated.resources.compose_multiplatform
+import blockfrost_kotlin_sdk.composeapp.generated.resources.Res
+import blockfrost_kotlin_sdk.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -29,7 +29,7 @@ fun App() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: ${Sdk.greet()}")
+                    Text("Compose: ${BlockFrostSdk.greet()}")
                 }
             }
         }

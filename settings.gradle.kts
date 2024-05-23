@@ -17,4 +17,6 @@ dependencyResolutionManagement {
 rootProject.name = "blockfrost-kotlin-sdk"
 
 include(":sdk")
-include(":example:composeApp")
+include(":composeApp")
+// Set the directory for each module
+project(":composeApp").projectDir = file("example/composeApp")
