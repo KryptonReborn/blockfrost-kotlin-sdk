@@ -1,5 +1,5 @@
-import androidx.compose.runtime.Composable
+@file:Suppress("ktlint")
+
 import androidx.compose.ui.window.ComposeUIViewController
 
-@Composable
 fun MainViewController() = ComposeUIViewController { App() }
