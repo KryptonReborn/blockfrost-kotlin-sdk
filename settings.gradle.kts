@@ -14,6 +14,12 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kmp-template"
+rootProject.name = "blockfrost-kotlin-sdk"
 
-include(":library")
+include(":core")
+// Include the 'example' directory and any specific projects within it
+include(":example")
+include(":composeApp") // Assuming 'composeApp' is a project under 'example'
+
+// Optionally, specify project directories if they are not located directly under the named folder
+project(":composeApp").projectDir = file("example/composeApp")

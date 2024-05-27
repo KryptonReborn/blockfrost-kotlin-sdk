@@ -1,6 +1,8 @@
-# KMP TEMPLATE
-[![GitHub release](https://img.shields.io/badge/release-v0.0.2-blue.svg)](https://github.com/KryptonReborn/kmp-template/releases/tag/v0.0.2) [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
-[![Build Status](https://github.com/saschpe/kase64/workflows/Main/badge.svg)](https://github.com/KryptonReborn/kmp-template/actions)
+# BLOCKFROST KOTLIN SDK
+
+[![GitHub release](https://img.shields.io/badge/release-v0.0.1-blue.svg)](
+[![GitHub release](https://img.shields.io/badge/release-v0.0.2-blue.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/releases/tag/v0.0.2) [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
+[![Build Status](https://github.com/saschpe/kase64/workflows/Main/badge.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/actions)
 [![License](http://img.shields.io/:License-Apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ![badge-android](http://img.shields.io/badge/Platform-Android-brightgreen.svg?logo=android)
@@ -24,7 +26,7 @@ Add the following repository to your settings.gradle.kts file
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/KryptoReborn/[library name]")
+        url = uri("https://maven.pkg.github.com/KryptoReborn/blockfrost-kotlin-sdk")
         credentials {
             username = "[your username]"
             password = "[your personal access token]"
@@ -35,6 +37,6 @@ repositories {
 Add the following dependency to your build.gradle.kts file
 ```build.gradle.kts
 dependencies {
-    implementation("[library name]:[library version]")
+    implementation("dev.kryptonreborn.blockfrost-kotlin:blockfrost-kotlin:[version]")
 }
 ```
