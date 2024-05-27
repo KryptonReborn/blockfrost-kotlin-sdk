@@ -9,7 +9,7 @@ plugins {
 
 publishConfig {
     url = "https://maven.pkg.github.com/KryptonReborn/blockfrost-kotlin-sdk"
-    groupId = "dev.kryptonreborn.blockfrost-kotlin"
+    groupId = "dev.kryptonreborn.blockfrost"
     artifactId = "core"
 }
 
