@@ -16,7 +16,7 @@ publishConfig {
 version = "0.0.2"
 
 android {
-    namespace = "dev.kryptonreborn.blockfrost"
+    namespace = "dev.kryptonreborn.blockfrost.core"
 }
 
 kotlin {
