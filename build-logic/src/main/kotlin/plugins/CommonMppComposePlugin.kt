@@ -67,19 +67,18 @@ class CommonMppComposePlugin : Plugin<Project> {
                 }
                 sourceSets.apply {
                     commonMain.get().dependencies {
-                        implementation(project(BuildModules.SDK))
-                        implementation(libs.findLibrary("compose-runtime").get())
-                        implementation(libs.findLibrary("compose-foundation").get())
-                        implementation(libs.findLibrary("compose-material").get())
-                        implementation(libs.findLibrary("compose-ui").get())
-                        implementation(libs.findLibrary("compose-components-resources").get())
+                        implementation(libs.findLibrary("composeRuntime").get())
+                        implementation(libs.findLibrary("composeFoundation").get())
+                        implementation(libs.findLibrary("composeMaterial").get())
+                        implementation(libs.findLibrary("composeUi").get())
+                        implementation(libs.findLibrary("composeComponentsResources").get())
                         implementation(
-                            libs.findLibrary("compose-components-ui-tooling-preview").get()
+                            libs.findLibrary("composeComponentsUiToolingPreview").get()
                         )
                     }
                     androidMain.get().dependencies {
-                        implementation(libs.findLibrary("compose-ui-tooling-preview").get())
-                        implementation(libs.findLibrary("androidx-activity-compose").get())
+                        implementation(libs.findLibrary("composeUiToolingPreview").get())
+                        implementation(libs.findLibrary("androidxActivityCompose").get())
                     }
                 }
             }

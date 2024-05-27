@@ -21,7 +21,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        module: [ sdk ]
+        module: [ blockfrost-sdk ]
     steps:
       - uses: actions/checkout@v4
 
@@ -63,7 +63,7 @@ jobs:
     needs: build-and-test
     strategy:
       matrix:
-        module: [ sdk ]
+        module: [ blockfrost-sdk ]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4

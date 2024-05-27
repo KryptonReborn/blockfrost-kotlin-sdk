@@ -2,5 +2,5 @@
  * Configuration of build modules
  */
 object BuildModules {
-    const val SDK = ":sdk"
+    const val BLOCKFROST_SDK = ":blockfrost-sdk"
 }
