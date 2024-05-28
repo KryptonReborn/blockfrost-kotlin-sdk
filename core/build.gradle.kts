@@ -22,7 +22,64 @@ android {
 kotlin {
     sourceSets {
         val commonMain by getting {
-            dependencies {}
+            dependencies {
+                implementation(project.dependencies.platform(libs.koinBom))
+                api(libs.koinCore)
+                // ktor
+                implementation(libs.ktorClientCore)
+                implementation(libs.ktorJson)
+                implementation(libs.ktorLogging)
+                implementation(libs.ktorSerialization)
+                implementation(libs.kotlinxCoroutinesCore)
+                api(libs.arrowCore)
+                api(libs.arrowFxCoroutines)
+                implementation(libs.kotlinxSerializationJson)
+                implementation(libs.kermit)
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                api(libs.ktorClientOkhttp)
+            }
+        }
+        val iosMain by getting {
+            dependencies {
+                api(libs.ktorClientDarwin)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ktorClientOkhttp)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.ktorClientMock)
+                implementation(libs.kotlinxCoroutinesTest)
+                implementation(libs.mockkCommon)
+                implementation(libs.koinTest)
+            }
+        }
+        val integrationTest by creating {
+            dependsOn(commonTest)
+            kotlin.srcDir("src/integrationTest/kotlin")
+            resources.srcDir("src/integrationTest/resources")
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val jvmTest by getting {
+            dependsOn(integrationTest)
+            dependencies {
+                implementation(libs.mockk)
+            }
+        }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.mockkAndroid)
+            }
         }
     }
 }
