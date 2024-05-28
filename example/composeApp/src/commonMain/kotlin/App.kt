@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import common.Context
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
+import dev.kryptonreborn.blockfrost.NetworkType
 import di.appModule
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
@@ -21,7 +23,12 @@ import presentation.ui.result.viewmodel.ResultViewModel
 fun App(context: Context) {
     KoinApplication(application = {
         modules(appModule(context))
-        BlockFrostKotlinSdk.initConfig("mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ")
+        BlockFrostKotlinSdk.initConfig(
+            BlockfrostConfig(
+                networkType = NetworkType.Preprod,
+                projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
+            ),
+        )
     }) {
         MaterialTheme {
             val navigator = rememberNavController()

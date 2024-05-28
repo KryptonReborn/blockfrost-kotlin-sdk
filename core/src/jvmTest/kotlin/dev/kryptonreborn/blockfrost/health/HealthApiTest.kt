@@ -23,7 +23,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_API_ROOT ->
+                        "/api/v0$PATH_API_ROOT" ->
                             respond(
                                 content =
                                     "{\n" +
@@ -55,7 +55,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_API_ROOT ->
+                        "/api/v0$PATH_API_ROOT" ->
                             respond(
                                 content =
                                     "{\n" +
@@ -90,7 +90,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_HEALTH ->
+                        "/api/v0$PATH_HEALTH" ->
                             respond(
                                 content =
                                     "{\n" +
@@ -120,7 +120,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_HEALTH ->
+                        "/api/v0$PATH_HEALTH" ->
                             respond(
                                 content =
                                     "{\n" +
@@ -155,7 +155,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_HEALTH_CLOCK ->
+                        "/api/v0$PATH_HEALTH_CLOCK" ->
                             respond(
                                 content =
                                     "{\n" +
@@ -185,7 +185,7 @@ class HealthApiTest {
             val mockEngine =
                 MockEngine { request ->
                     when (request.url.encodedPath) {
-                        PATH_HEALTH_CLOCK ->
+                        "/api/v0$PATH_HEALTH_CLOCK" ->
                             respond(
                                 content =
                                     "{\n" +

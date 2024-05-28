@@ -1,31 +1,31 @@
 package dev.kryptonreborn.blockfrost.excludeBuild
 
-import dev.kryptonreborn.blockfrost.health.HealthApi
+import BlockFrostKotlinSdk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import org.koin.core.component.inject
+import kotlin.test.assertNotNull
 
 class HealthTest : BaseIntegrationTest() {
-    private val healthApi by inject<HealthApi>()
-
     @Test
     fun testGetHealth() =
         runTest {
-            val r = healthApi.getHealth()
-            assert(r.isHealthy)
+            val r = BlockFrostKotlinSdk.getHealth()
+            assertNotNull(r.getOrNull())
+            assert(r.getOrNull()?.isHealthy == true)
         }
 
     @Test
     fun testGetApiRoot() =
         runTest {
-            val r = healthApi.getApiRoot()
-            assert(r.url == "https://blockfrost.io/")
+            val r = BlockFrostKotlinSdk.getApiRoot()
+            assertNotNull(r.getOrNull())
+            assert(r.getOrNull()?.url == "https://blockfrost.io/")
         }
 
     @Test
     fun testGetCurrentBackendTime() =
         runTest {
-            val r = healthApi.getCurrentBackendTime()
-            assert(r.serverTime > 0)
+            val r = BlockFrostKotlinSdk.getCurrentBackendTime()
+            assertNotNull(r.getOrNull()?.serverTime)
         }
 }

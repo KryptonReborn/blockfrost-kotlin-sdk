@@ -14,3 +14,11 @@ data class ApiError(
 class ServerErrorException(override val message: String) : Exception(message)
 
 object NetworkErrorException : Exception("Network error")
+
+fun Exception.toErrorResponse(): ApiError {
+    return this as? ApiError ?: ApiError(
+        500,
+        this.message ?: "Unknown error",
+        "Internal Server Error",
+    )
+}

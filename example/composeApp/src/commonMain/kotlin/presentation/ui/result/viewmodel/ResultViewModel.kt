@@ -22,7 +22,7 @@ class ResultViewModel : ViewModel() {
                             result =
                                 response.fold(
                                     { error -> error.message },
-                                    { apiRoot -> apiRoot.toString() },
+                                    { result -> result.toString() },
                                 ),
                         )
                 }
@@ -36,7 +36,7 @@ class ResultViewModel : ViewModel() {
                             result =
                                 response.fold(
                                     { error -> error.message },
-                                    { apiRoot -> apiRoot.toString() },
+                                    { result -> result.toString() },
                                 ),
                         )
                 }
@@ -50,7 +50,7 @@ class ResultViewModel : ViewModel() {
                             result =
                                 response.fold(
                                     { error -> error.message },
-                                    { apiRoot -> apiRoot.toString() },
+                                    { result -> result.toString() },
                                 ),
                         )
                 }

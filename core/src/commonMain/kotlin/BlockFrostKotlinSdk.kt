@@ -1,9 +1,10 @@
-import dev.kryptonreborn.blockfrost.Config
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.di.BlockFrostKoinComponent
 import dev.kryptonreborn.blockfrost.health.HealthRepo
 import org.koin.core.component.inject
 
 object BlockFrostKotlinSdk : BlockFrostKoinComponent() {
+    var blockfrostConfig = BlockfrostConfig()
     private val healthRepo: HealthRepo by inject()
 
     suspend fun getApiRoot() = healthRepo.getApiRoot()
@@ -12,7 +13,7 @@ object BlockFrostKotlinSdk : BlockFrostKoinComponent() {
 
     suspend fun getCurrentBackendTime() = healthRepo.getCurrentBackendTime()
 
-    fun initConfig(projectId: String) {
-        Config.projectId = projectId
+    fun initConfig(config: BlockfrostConfig) {
+        blockfrostConfig = config
     }
 }

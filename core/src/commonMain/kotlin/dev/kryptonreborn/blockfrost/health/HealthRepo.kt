@@ -1,10 +1,10 @@
 package dev.kryptonreborn.blockfrost.health
 
 import arrow.core.Either
+import dev.kryptonreborn.blockfrost.base.toErrorResponse
 import dev.kryptonreborn.blockfrost.health.model.ApiRoot
 import dev.kryptonreborn.blockfrost.health.model.Clock
 import dev.kryptonreborn.blockfrost.health.model.Health
-import dev.kryptonreborn.blockfrost.utils.toErrorResponse
 
 internal class HealthRepo(private val healthApi: HealthApi) {
     suspend fun getApiRoot() =
