@@ -84,6 +84,13 @@ kotlin {
     }
 }
 
+tasks.withType<Test> {
+    val ciEnvironment = System.getenv("CI") ?: "false"
+    if (ciEnvironment == "true") {
+        exclude("**/excludeBuild/**")
+    }
+}
+
 rootProject.plugins.withType<YarnPlugin> {
     rootProject.configure<YarnRootExtension> {
         yarnLockMismatchReport = YarnLockMismatchReport.WARNING
