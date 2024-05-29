@@ -1,5 +1,7 @@
 package dev.kryptonreborn.blockfrost.health
 
+import BlockFrostKotlinSdk
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.KtorClientTest
 import dev.kryptonreborn.blockfrost.base.ApiError
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
@@ -17,6 +19,10 @@ import kotlin.test.DefaultAsserter.assertEquals
 import kotlin.test.assertFailsWith
 
 class HealthApiTest {
+    init {
+        BlockFrostKotlinSdk.initConfig(BlockfrostConfig(projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ"))
+    }
+
     @Test
     fun testApiRootReturnCorrectData() =
         runTest {

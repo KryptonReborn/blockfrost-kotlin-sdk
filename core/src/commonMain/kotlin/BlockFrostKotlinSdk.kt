@@ -4,8 +4,13 @@ import dev.kryptonreborn.blockfrost.health.HealthRepo
 import org.koin.core.component.inject
 
 object BlockFrostKotlinSdk : BlockFrostKoinComponent() {
-    var blockfrostConfig = BlockfrostConfig()
-    private val healthRepo: HealthRepo by inject()
+    lateinit var blockfrostConfig: BlockfrostConfig
+    private val healthRepo: HealthRepo by lazy {
+        if (!this::blockfrostConfig.isInitialized) {
+            throw IllegalStateException("BlockFrostKotlinSdk is not initialized. Please call initConfig first.")
+        }
+        inject<HealthRepo>().value
+    }
 
     suspend fun getApiRoot() = healthRepo.getApiRoot()
 

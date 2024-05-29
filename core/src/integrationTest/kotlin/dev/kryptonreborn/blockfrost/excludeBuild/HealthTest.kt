@@ -1,11 +1,16 @@
 package dev.kryptonreborn.blockfrost.excludeBuild
 
 import BlockFrostKotlinSdk
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertNotNull
 
-class HealthTest : BaseIntegrationTest() {
+class HealthTest {
+    init {
+        BlockFrostKotlinSdk.initConfig(BlockfrostConfig(projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ"))
+    }
+
     @Test
     fun testGetHealth() =
         runTest {
