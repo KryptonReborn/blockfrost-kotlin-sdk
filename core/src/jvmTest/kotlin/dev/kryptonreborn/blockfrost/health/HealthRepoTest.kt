@@ -4,128 +4,98 @@ import dev.kryptonreborn.blockfrost.base.ApiError
 import dev.kryptonreborn.blockfrost.health.model.ApiRoot
 import dev.kryptonreborn.blockfrost.health.model.Clock
 import dev.kryptonreborn.blockfrost.health.model.Health
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-class HealthRepoTest {
-    @Test
-    fun testGetApiRootWhenHealthApiReturnCorrect() =
+class HealthRepoTest : FunSpec({
+    val mockHealthApi = mockk<HealthApi>()
+    val healthRepo = HealthRepo(mockHealthApi)
+
+    test("getApiRoot should return correct data when HealthApi returns correct data") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             val expectedApiRoot = ApiRoot("https://blockfrost.io", "1.0.0")
             coEvery { mockHealthApi.getApiRoot() } returns expectedApiRoot
             val result = healthRepo.getApiRoot()
-            assertTrue(result.isRight())
-            assertEquals(result.getOrNull(), expectedApiRoot)
+            result.isRight().shouldBeTrue()
+            result.getOrNull() shouldBe expectedApiRoot
         }
+    }
 
-    @Test
-    fun testGetApiRootWhenHealthApiThrowException() =
+    test("getApiRoot should handle exception when HealthApi throws an exception") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             coEvery { mockHealthApi.getApiRoot() } throws Exception("Error")
             val result = healthRepo.getApiRoot()
-            assertTrue(result.isLeft())
+            result.isLeft().shouldBeTrue()
         }
+    }
 
-    @Test
-    fun testGetApiRootWhenHealthApiThrowErrorResponse() =
+    test("getApiRoot should handle ApiError when HealthApi throws ApiError") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
-            val expectedErrorResponse =
-                ApiError(
-                    400,
-                    "Bad Request",
-                    "bad_request",
-                )
+            val expectedErrorResponse = ApiError(400, "Bad Request", "bad_request")
             coEvery { mockHealthApi.getApiRoot() } throws expectedErrorResponse
             val result = healthRepo.getApiRoot()
-            assertTrue(result.isLeft())
-            assertEquals(result.leftOrNull(), expectedErrorResponse)
+            result.isLeft().shouldBeTrue()
+            result.leftOrNull() shouldBe expectedErrorResponse
         }
+    }
 
-    @Test
-    fun testGetHealthWhenHealthApiReturnCorrect() =
+    test("getHealth should return correct data when HealthApi returns correct data") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             val expectedHealth = Health(true)
             coEvery { mockHealthApi.getHealth() } returns expectedHealth
             val result = healthRepo.getHealth()
-            assertTrue(result.isRight())
-            assertEquals(result.getOrNull(), expectedHealth)
+            result.isRight().shouldBeTrue()
+            result.getOrNull() shouldBe expectedHealth
         }
+    }
 
-    @Test
-    fun testGetHealthWhenHealthApiThrowException() =
+    test("getHealth should handle exception when HealthApi throws an exception") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             coEvery { mockHealthApi.getHealth() } throws Exception("Error")
             val result = healthRepo.getHealth()
-            assertTrue(result.isLeft())
+            result.isLeft().shouldBeTrue()
         }
+    }
 
-    @Test
-    fun testGetHealthWhenHealthApiThrowErrorResponse() =
+    test("getHealth should handle ApiError when HealthApi throws ApiError") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
-            val expectedErrorResponse =
-                ApiError(
-                    400,
-                    "Bad Request",
-                    "bad_request",
-                )
+            val expectedErrorResponse = ApiError(400, "Bad Request", "bad_request")
             coEvery { mockHealthApi.getHealth() } throws expectedErrorResponse
             val result = healthRepo.getHealth()
-            assertTrue(result.isLeft())
-            assertEquals(result.leftOrNull(), expectedErrorResponse)
+            result.isLeft().shouldBeTrue()
+            result.leftOrNull() shouldBe expectedErrorResponse
         }
+    }
 
-    @Test
-    fun testGetCurrentBackendTimeWhenHealthApiReturnCorrect() =
+    test("getCurrentBackendTime should return correct data when HealthApi returns correct data") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             val expectedClock = Clock(1620000000)
             coEvery { mockHealthApi.getCurrentBackendTime() } returns expectedClock
             val result = healthRepo.getCurrentBackendTime()
-            assertTrue(result.isRight())
-            assertEquals(result.getOrNull(), expectedClock)
+            result.isRight().shouldBeTrue()
+            result.getOrNull() shouldBe expectedClock
         }
+    }
 
-    @Test
-    fun testGetCurrentBackendTimeWhenHealthApiThrowException() =
+    test("getCurrentBackendTime should handle exception when HealthApi throws an exception") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
             coEvery { mockHealthApi.getCurrentBackendTime() } throws Exception("Error")
             val result = healthRepo.getCurrentBackendTime()
-            assertTrue(result.isLeft())
+            result.isLeft().shouldBeTrue()
         }
+    }
 
-    @Test
-    fun testGetCurrentBackendTimeWhenHealthApiThrowErrorResponse() =
+    test("getCurrentBackendTime should handle ApiError when HealthApi throws ApiError") {
         runTest {
-            val mockHealthApi = mockk<HealthApi>()
-            val healthRepo = HealthRepo(mockHealthApi)
-            val expectedErrorResponse =
-                ApiError(
-                    400,
-                    "Bad Request",
-                    "bad_request",
-                )
+            val expectedErrorResponse = ApiError(400, "Bad Request", "bad_request")
             coEvery { mockHealthApi.getCurrentBackendTime() } throws expectedErrorResponse
             val result = healthRepo.getCurrentBackendTime()
-            assertTrue(result.isLeft())
-            assertEquals(result.leftOrNull(), expectedErrorResponse)
+            result.isLeft().shouldBeTrue()
+            result.leftOrNull() shouldBe expectedErrorResponse
         }
-}
+    }
+})

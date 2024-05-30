@@ -85,9 +85,9 @@ suspend inline fun <reified T> HttpClient.fetchResource(
         val apiResponse = json.decodeFromString<ApiResponse<T>>(responseBody)
         if (apiResponse.statusCode != null && apiResponse.statusCode != 200) {
             throw ApiError(
-                apiResponse.statusCode,
-                apiResponse.error ?: "Unknown error",
-                apiResponse.message ?: "No message provided",
+                statusCode = apiResponse.statusCode,
+                error = apiResponse.error ?: "Unknown error",
+                message = apiResponse.message ?: "No message provided",
             )
         }
         return apiResponse.data ?: json.decodeFromString<T>(responseBody)
