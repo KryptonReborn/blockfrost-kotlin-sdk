@@ -14,7 +14,6 @@ env:
     ~/.gradle/wrapper
   USERNAME_GITHUB: ${{ github.actor }}
   TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
-  IS_CI_ENVIRONMENT: true
 
 jobs:
   build-and-test:
