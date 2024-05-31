@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiRoot(
-    val url: String = "",
-    val version: String = "",
+    val url: String,
+    val version: String,
 )
