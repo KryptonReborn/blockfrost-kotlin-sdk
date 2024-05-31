@@ -23,16 +23,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project.dependencies.platform(libs.koinBom))
-                api(libs.koinCore)
                 // ktor
                 implementation(libs.ktorClientCore)
                 implementation(libs.ktorJson)
                 implementation(libs.ktorLogging)
                 implementation(libs.ktorSerialization)
                 implementation(libs.kotlinxCoroutinesCore)
-                api(libs.arrowCore)
-                api(libs.arrowFxCoroutines)
                 implementation(libs.kotlinxSerializationJson)
                 implementation(libs.kermit)
             }
@@ -40,12 +36,12 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api(libs.ktorClientOkhttp)
+                implementation(libs.ktorClientOkhttp)
             }
         }
         val iosMain by getting {
             dependencies {
-                api(libs.ktorClientDarwin)
+                implementation(libs.ktorClientDarwin)
             }
         }
         val jvmMain by getting {
@@ -57,8 +53,6 @@ kotlin {
             dependencies {
                 implementation(libs.ktorClientMock)
                 implementation(libs.kotlinxCoroutinesTest)
-                implementation(libs.mockkCommon)
-                implementation(libs.koinTest)
             }
         }
         val integrationTest by creating {
@@ -72,14 +66,8 @@ kotlin {
         }
         val jvmTest by getting {
             dependsOn(integrationTest)
-            dependencies {
-                implementation(libs.mockk)
-            }
         }
         val androidUnitTest by getting {
-            dependencies {
-                implementation(libs.mockkAndroid)
-            }
         }
     }
 }

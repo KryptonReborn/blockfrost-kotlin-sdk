@@ -1,22 +1,29 @@
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
-import dev.kryptonreborn.blockfrost.di.BlockFrostKoinComponent
-import dev.kryptonreborn.blockfrost.health.HealthRepo
-import org.koin.core.component.inject
+import dev.kryptonreborn.blockfrost.health.HealthApi
+import dev.kryptonreborn.blockfrost.ktor.Ktor
 
-object BlockFrostKotlinSdk : BlockFrostKoinComponent() {
+object BlockFrostKotlinSdk {
     lateinit var blockfrostConfig: BlockfrostConfig
-    private val healthRepo: HealthRepo by lazy {
+    private val healthApi: HealthApi by lazy {
         if (!this::blockfrostConfig.isInitialized) {
             throw IllegalStateException("BlockFrostKotlinSdk is not initialized. Please call initConfig first.")
         }
-        inject<HealthRepo>().value
+        HealthApi(Ktor.httpClient)
     }
 
-    suspend fun getApiRoot() = healthRepo.getApiRoot()
+    suspend fun getApiRoot() = handleApiResult { healthApi.getApiRoot() }
 
-    suspend fun getHealth() = healthRepo.getHealth()
+    suspend fun getHealth() = handleApiResult { healthApi.getHealth() }
 
-    suspend fun getCurrentBackendTime() = healthRepo.getCurrentBackendTime()
+    suspend fun getCurrentBackendTime() = handleApiResult { healthApi.getCurrentBackendTime() }
+
+    private inline fun <T> handleApiResult(block: () -> T): Result<T> {
+        return try {
+            Result.success(block())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     fun initConfig(config: BlockfrostConfig) {
         blockfrostConfig = config

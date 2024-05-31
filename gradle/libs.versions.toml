@@ -26,8 +26,7 @@ coroutines = "1.8.1-Beta"
 androidxLifecycle = "2.8.0-beta01"
 arrow = "1.2.4"
 kotlinxCoroutinesTest = "1.8.0"
-kotest = "5.7.2"
-mockk = "1.12.0"
+kotest = "5.9.0"
 
 [libraries]
 # Kotlin and Coroutines
@@ -58,19 +57,12 @@ kotestAssertionsCore = { module = "io.kotest:kotest-assertions-core", version.re
 kotestFrameworkDatatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotestFrameworkEngine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
 kotestRunnerJunit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockkAndroid = { module = "io.mockk:mockk-android", version.ref = "mockk" }
-mockkCommon = { module = "io.mockk:mockk-common", version.ref = "mockk" }
 
 # Dependency Injection
 koinBom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
 koinCompose = { module = "io.insert-koin:koin-compose", version.ref = "koinCompose" }
 koinCore = { module = "io.insert-koin:koin-core" }
 koinTest = { module = "io.insert-koin:koin-test" }
-
-# Functional Programming
-arrowCore = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrowFxCoroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 
 # Miscellaneous
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

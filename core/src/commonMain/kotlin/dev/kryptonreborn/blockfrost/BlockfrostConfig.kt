@@ -1,8 +1,11 @@
 package dev.kryptonreborn.blockfrost
 
+import io.ktor.client.plugins.logging.LogLevel
+
 data class BlockfrostConfig(
     val networkType: NetworkType = NetworkType.Mainnet,
     var projectId: String? = null,
+    val logLevel: LogLevel = LogLevel.ALL,
 )
 
 enum class NetworkType(val url: String) {

@@ -1,8 +1,7 @@
 package dev.kryptonreborn.blockfrost.ktor
 
 import BlockFrostKotlinSdk
-import dev.kryptonreborn.blockfrost.base.ApiError
-import dev.kryptonreborn.blockfrost.base.ApiResponse
+import dev.kryptonreborn.blockfrost.base.handleResponseFromString
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -17,7 +16,6 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.InternalAPI
@@ -38,7 +36,6 @@ object Ktor {
                     },
                 )
             }
-            install(ErrorHandlingPlugin)
             install(Logging) {
                 logger =
                     object : Logger {
@@ -78,21 +75,6 @@ suspend inline fun <reified T> HttpClient.fetchResource(
             }
         }
 
-    if (response.status == HttpStatusCode.OK) {
-        val responseBody = response.bodyAsText()
-        val json = Json { ignoreUnknownKeys = true }
-
-        val apiResponse = json.decodeFromString<ApiResponse<T>>(responseBody)
-        if (apiResponse.statusCode != null && apiResponse.statusCode != 200) {
-            throw ApiError(
-                statusCode = apiResponse.statusCode,
-                error = apiResponse.error ?: "Unknown error",
-                message = apiResponse.message ?: "No message provided",
-            )
-        }
-        return apiResponse.data ?: json.decodeFromString<T>(responseBody)
-            ?: throw IllegalStateException("No data provided")
-    }
-
-    throw IllegalStateException("Unexpected response status: ${response.status}")
+    val responseBody = response.bodyAsText()
+    return handleResponseFromString<T>(responseBody)
 }

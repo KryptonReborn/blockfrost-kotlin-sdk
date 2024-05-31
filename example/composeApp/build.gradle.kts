@@ -13,7 +13,7 @@ kotlin {
             dependencies {
                 implementation(project(BuildModules.BLOCKFROST_SDK))
                 implementation(libs.koinCore)
-                api(libs.koinCompose)
+                implementation(libs.koinCompose)
                 implementation(libs.ktorClientCore)
                 implementation(libs.kotlinxCoroutinesCore)
                 implementation(libs.androidxLifecycleViewmodelCompose)

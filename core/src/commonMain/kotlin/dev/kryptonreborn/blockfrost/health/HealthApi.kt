@@ -5,9 +5,7 @@ import dev.kryptonreborn.blockfrost.health.model.ApiRoot
 import dev.kryptonreborn.blockfrost.health.model.Clock
 import dev.kryptonreborn.blockfrost.health.model.Health
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
-import dev.kryptonreborn.blockfrost.utils.withIO
 import io.ktor.client.HttpClient
-import io.ktor.client.request.get
 
 class HealthApi(private val httpClient: HttpClient) {
     companion object {
@@ -17,23 +15,17 @@ class HealthApi(private val httpClient: HttpClient) {
     }
 
     suspend fun getApiRoot() =
-        withIO {
-            httpClient.fetchResource<ApiRoot>(
-                "${blockfrostConfig.networkType.url}$PATH_API_ROOT",
-            )
-        }
+        httpClient.fetchResource<ApiRoot>(
+            "${blockfrostConfig.networkType.url}$PATH_API_ROOT",
+        )
 
     suspend fun getHealth() =
-        withIO {
-            httpClient.fetchResource<Health>(
-                "${blockfrostConfig.networkType.url}$PATH_HEALTH",
-            )
-        }
+        httpClient.fetchResource<Health>(
+            "${blockfrostConfig.networkType.url}$PATH_HEALTH",
+        )
 
     suspend fun getCurrentBackendTime() =
-        withIO {
-            httpClient.fetchResource<Clock>(
-                "${blockfrostConfig.networkType.url}$PATH_HEALTH_CLOCK",
-            )
-        }
+        httpClient.fetchResource<Clock>(
+            "${blockfrostConfig.networkType.url}$PATH_HEALTH_CLOCK",
+        )
 }

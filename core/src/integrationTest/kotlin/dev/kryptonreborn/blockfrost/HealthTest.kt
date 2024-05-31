@@ -11,7 +11,7 @@ import kotlinx.coroutines.test.runTest
 class HealthTest : FunSpec({
 
     beforeTest {
-        BlockFrostKotlinSdk.initConfig(BlockfrostConfig(projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ"))
+        BlockFrostKotlinSdk.initConfig(BlockfrostConfig(projectId = "your project id"))
     }
 
     test("getHealth should return a non-null result and isHealthy should be true") {

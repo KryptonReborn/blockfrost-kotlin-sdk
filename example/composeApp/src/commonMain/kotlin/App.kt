@@ -26,7 +26,7 @@ fun App(context: Context) {
         BlockFrostKotlinSdk.initConfig(
             BlockfrostConfig(
                 networkType = NetworkType.Preprod,
-                projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
+                projectId = "your project id",
             ),
         )
     }) {
