@@ -34,21 +34,6 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.ktorClientOkhttp)
-            }
-        }
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktorClientDarwin)
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.ktorClientOkhttp)
-            }
-        }
         val commonTest by getting {
             dependencies {
                 implementation(libs.ktorClientMock)
@@ -66,8 +51,6 @@ kotlin {
         }
         val jvmTest by getting {
             dependsOn(commonTest)
-        }
-        val androidUnitTest by getting {
         }
     }
 }
