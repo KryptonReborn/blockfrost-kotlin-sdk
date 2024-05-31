@@ -22,7 +22,7 @@ import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 import co.touchlab.kermit.Logger as KLogger
 
-object Ktor {
+internal object Ktor {
     val httpClient =
         HttpClient {
             install(ContentNegotiation) {
@@ -61,7 +61,7 @@ object Ktor {
 }
 
 @OptIn(InternalAPI::class)
-suspend inline fun <reified T> HttpClient.fetchResource(
+internal suspend inline fun <reified T> HttpClient.fetchResource(
     url: String,
     method: HttpMethod = HttpMethod.Get,
     requestBody: Any? = null,

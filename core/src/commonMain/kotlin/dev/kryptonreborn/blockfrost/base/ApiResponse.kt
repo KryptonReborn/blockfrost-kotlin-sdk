@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class ApiResponse<T>(
+internal data class ApiResponse<T>(
     val data: T? = null,
     @SerialName("status_code")
     val statusCode: Int? = null,
@@ -22,7 +22,7 @@ data class ApiResponse<T>(
     fun error() = error ?: "Unknown error"
 }
 
-inline fun <reified T> handleResponseFromString(jsonString: String): T {
+internal inline fun <reified T> handleResponseFromString(jsonString: String): T {
     val json = Json { ignoreUnknownKeys = true }
     val apiResponse = json.decodeFromString<ApiResponse<T>>(jsonString)
     if (apiResponse.statusCode != null && apiResponse.statusCode != 200) {
@@ -32,7 +32,7 @@ inline fun <reified T> handleResponseFromString(jsonString: String): T {
         ?: throw IllegalStateException("No data provided")
 }
 
-inline fun <T> handleErrorResponse(res: ApiResponse<T>) {
+internal inline fun <T> handleErrorResponse(res: ApiResponse<T>) {
     when {
         res.statusCode == HttpStatusCode.BadRequest.value -> {
             throw BadRequestException(

@@ -7,7 +7,7 @@ import dev.kryptonreborn.blockfrost.health.model.Health
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
-class HealthApi(private val httpClient: HttpClient) {
+internal class HealthApi(private val httpClient: HttpClient) {
     companion object {
         const val PATH_API_ROOT = "/"
         const val PATH_HEALTH = "/health"
