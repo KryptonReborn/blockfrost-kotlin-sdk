@@ -38,20 +38,53 @@ kotlin {
             dependencies {
                 implementation(libs.ktorClientMock)
                 implementation(libs.kotlinxCoroutinesTest)
-            }
-        }
-        val integrationTest by creating {
-            dependsOn(commonTest)
-            kotlin.srcDir("src/integrationTest/kotlin")
-            resources.srcDir("src/integrationTest/resources")
-            dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val jvmTest by getting {
-            dependsOn(commonTest)
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-okhttp:2.3.11")
+            }
         }
+        val androidUnitTest by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:2.3.11")
+            }
+        }
+        val jvmTest by getting
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:2.3.11")
+            }
+        }
+        val jsTest by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:2.3.11")
+            }
+        }
+        val iosTest by getting
+        val macosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:2.3.11")
+            }
+        }
+        val macosTest by getting
+        val linuxX64Main by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:2.3.11")
+            }
+        }
+        val linuxX64Test by getting
+
+        val linuxArm64Main by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:2.3.11")
+            }
+        }
+        val linuxArm64Test by getting
     }
 }
 

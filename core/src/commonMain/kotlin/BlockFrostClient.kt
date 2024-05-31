@@ -2,14 +2,9 @@ import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 
-object BlockFrostKotlinSdk {
-    lateinit var blockfrostConfig: BlockfrostConfig
-    private val healthApi: HealthApi by lazy {
-        if (!this::blockfrostConfig.isInitialized) {
-            throw IllegalStateException("BlockFrostKotlinSdk is not initialized. Please call initConfig first.")
-        }
-        HealthApi(Ktor.httpClient)
-    }
+class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
+    private val healthApi: HealthApi =
+        HealthApi(Ktor.httpClient(blockfrostConfig.projectId), blockfrostConfig)
 
     suspend fun getApiRoot() = handleApiResult { healthApi.getApiRoot() }
 
@@ -23,9 +18,5 @@ object BlockFrostKotlinSdk {
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
-
-    fun initConfig(config: BlockfrostConfig) {
-        blockfrostConfig = config
     }
 }

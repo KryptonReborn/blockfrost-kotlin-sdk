@@ -1,9 +1,9 @@
 package dev.kryptonreborn.blockfrost.base
 
+import dev.kryptonreborn.blockfrost.ktor.Ktor
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
 @Serializable
 internal data class ApiResponse<T>(
@@ -23,12 +23,11 @@ internal data class ApiResponse<T>(
 }
 
 internal inline fun <reified T> handleResponseFromString(jsonString: String): T {
-    val json = Json { ignoreUnknownKeys = true }
-    val apiResponse = json.decodeFromString<ApiResponse<T>>(jsonString)
+    val apiResponse = Ktor.json.decodeFromString<ApiResponse<T>>(jsonString)
     if (apiResponse.statusCode != null && apiResponse.statusCode != 200) {
         handleErrorResponse(apiResponse)
     }
-    return apiResponse.data ?: json.decodeFromString<T>(jsonString)
+    return apiResponse.data ?: Ktor.json.decodeFromString<T>(jsonString)
         ?: throw IllegalStateException("No data provided")
 }
 

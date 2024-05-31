@@ -1,13 +1,16 @@
 package dev.kryptonreborn.blockfrost.health
 
-import BlockFrostKotlinSdk.blockfrostConfig
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.health.model.ApiRoot
 import dev.kryptonreborn.blockfrost.health.model.Clock
 import dev.kryptonreborn.blockfrost.health.model.Health
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
-internal class HealthApi(private val httpClient: HttpClient) {
+internal class HealthApi(
+    private val httpClient: HttpClient,
+    private val blockfrostConfig: BlockfrostConfig,
+) {
     companion object {
         const val PATH_API_ROOT = "/"
         const val PATH_HEALTH = "/health"

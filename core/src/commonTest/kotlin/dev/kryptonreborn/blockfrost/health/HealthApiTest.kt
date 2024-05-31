@@ -1,10 +1,7 @@
 package dev.kryptonreborn.blockfrost.health
 
-import BlockFrostKotlinSdk
-import dev.kryptonreborn.blockfrost.BlockfrostConfig
-import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
-import dev.kryptonreborn.blockfrost.KtorClientTest.createHealthApi
-import dev.kryptonreborn.blockfrost.KtorClientTest.createHealthApiWithFailData
+import com.goncalossilva.resources.Resource
+import dev.kryptonreborn.blockfrost.TestKtorClient.createHealthApi
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
@@ -18,15 +15,6 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class HealthApiTest {
-    init {
-        BlockFrostKotlinSdk.initConfig(
-            BlockfrostConfig(
-                projectId = "your project id",
-                logLevel = BlockfrostLogLevel.ALL,
-            ),
-        )
-    }
-
     @Test
     fun testApiRootReturnCorrectData() =
         runTest {
@@ -45,8 +33,11 @@ class HealthApiTest {
     @Test
     fun testApiRootReturn200WithFailData() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_API_ROOT", HttpStatusCode.OK)
+                createHealthApi("/api/v0$PATH_API_ROOT", responseContent, HttpStatusCode.OK)
+
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getApiRoot()
@@ -58,8 +49,10 @@ class HealthApiTest {
     @Test
     fun testApiRootReturn400() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_API_ROOT", HttpStatusCode.BadRequest)
+                createHealthApi("/api/v0$PATH_API_ROOT", responseContent, HttpStatusCode.BadRequest)
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getApiRoot()
@@ -84,8 +77,10 @@ class HealthApiTest {
     @Test
     fun testHealthReturn200WithFailData() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_HEALTH", HttpStatusCode.OK)
+                createHealthApi("/api/v0$PATH_HEALTH", responseContent, HttpStatusCode.OK)
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getHealth()
@@ -97,8 +92,10 @@ class HealthApiTest {
     @Test
     fun testHealthReturn400() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_HEALTH", HttpStatusCode.BadRequest)
+                createHealthApi("/api/v0$PATH_HEALTH", responseContent, HttpStatusCode.BadRequest)
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getHealth()
@@ -123,8 +120,10 @@ class HealthApiTest {
     @Test
     fun testHealthClockReturn200WithFailData() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_HEALTH_CLOCK", HttpStatusCode.OK)
+                createHealthApi("/api/v0$PATH_HEALTH_CLOCK", responseContent, HttpStatusCode.OK)
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getCurrentBackendTime()
@@ -136,8 +135,14 @@ class HealthApiTest {
     @Test
     fun testHealthClockReturn400() =
         runTest {
+            val responseContent =
+                Resource("src/commonTest/resources/test_data_errors_response.json").readText()
             val healthApi =
-                createHealthApiWithFailData("/api/v0$PATH_HEALTH_CLOCK", HttpStatusCode.BadRequest)
+                createHealthApi(
+                    "/api/v0$PATH_HEALTH_CLOCK",
+                    responseContent,
+                    HttpStatusCode.BadRequest,
+                )
             val exception =
                 assertFailsWith<BlockfrostException> {
                     healthApi.getCurrentBackendTime()
