@@ -65,7 +65,7 @@ kotlin {
             }
         }
         val jvmTest by getting {
-            dependsOn(integrationTest)
+            dependsOn(commonTest)
         }
         val androidUnitTest by getting {
         }
