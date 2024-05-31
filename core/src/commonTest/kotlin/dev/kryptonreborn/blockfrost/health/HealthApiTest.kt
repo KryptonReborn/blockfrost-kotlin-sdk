@@ -2,6 +2,7 @@ package dev.kryptonreborn.blockfrost.health
 
 import BlockFrostKotlinSdk
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
+import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.KtorClientTest.createHealthApi
 import dev.kryptonreborn.blockfrost.KtorClientTest.createHealthApiWithFailData
 import dev.kryptonreborn.blockfrost.base.BadRequestException
@@ -18,7 +19,12 @@ import kotlin.test.assertTrue
 
 class HealthApiTest {
     init {
-        BlockFrostKotlinSdk.initConfig(BlockfrostConfig(projectId = "your project id"))
+        BlockFrostKotlinSdk.initConfig(
+            BlockfrostConfig(
+                projectId = "your project id",
+                logLevel = BlockfrostLogLevel.ALL,
+            ),
+        )
     }
 
     @Test

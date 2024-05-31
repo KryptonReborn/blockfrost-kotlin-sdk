@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import common.Context
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
+import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
 import di.appModule
 import org.koin.compose.KoinApplication
@@ -27,6 +28,7 @@ fun App(context: Context) {
             BlockfrostConfig(
                 networkType = NetworkType.Preprod,
                 projectId = "your project id",
+                logLevel = BlockfrostLogLevel.ALL,
             ),
         )
     }) {
