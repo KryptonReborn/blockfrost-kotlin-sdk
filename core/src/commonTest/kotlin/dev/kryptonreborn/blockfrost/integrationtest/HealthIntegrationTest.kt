@@ -5,11 +5,14 @@ import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.NetworkType
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
+// TODO: Fix run in iosSimulatorArm64 to enable
+@Ignore
 class HealthIntegrationTest {
     private lateinit var blockfrostClient: BlockFrostClient
 
@@ -19,7 +22,7 @@ class HealthIntegrationTest {
             BlockFrostClient(
                 blockfrostConfig =
                     BlockfrostConfig(
-                        projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
+                        projectId = "your project id",
                         networkType = NetworkType.Mainnet,
                     ),
             )

@@ -56,12 +56,7 @@ kotlin {
                 implementation(libs.ktorClientJs)
             }
         }
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktorClientIos)
-            }
-        }
-        val macosMain by getting {
+        val appleMain by getting {
             dependencies {
                 implementation(libs.ktorClientIos)
             }

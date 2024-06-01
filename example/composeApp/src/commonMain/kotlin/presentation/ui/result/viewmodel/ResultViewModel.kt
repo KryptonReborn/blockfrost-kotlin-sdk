@@ -14,7 +14,7 @@ class ResultViewModel : ViewModel() {
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
-                networkType = NetworkType.Preprod,
+                networkType = NetworkType.Mainnet,
                 projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
                 logLevel = BlockfrostLogLevel.ALL,
             ),
