@@ -26,7 +26,6 @@ coroutines = "1.8.1-Beta"
 androidxLifecycle = "2.8.0-beta01"
 arrow = "1.2.4"
 kotlinxCoroutinesTest = "1.8.0"
-kotest = "5.9.0"
 
 [libraries]
 # Kotlin and Coroutines
@@ -57,10 +56,6 @@ ktorSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", versio
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotestAssertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
-kotestFrameworkDatatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
-kotestFrameworkEngine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
-kotestRunnerJunit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 
 # Dependency Injection
 koinBom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
@@ -99,7 +94,6 @@ kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", 
 kotlinTestingResource = { id = "com.goncalossilva.resources", version.ref = "kotlinTestingResource" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion" }
 mavenPublish = { id = "maven-publish", version = "unspecified" }
-kotestMultiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest" }
 commonMppLib = { id = "common.mpp.lib", version = "unspecified" }
 commonMppPublish = { id = "common.mpp.publish", version = "unspecified" }
 commonMppCompose = { id = "common.mpp.compose", version = "unspecified" }

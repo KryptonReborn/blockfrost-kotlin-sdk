@@ -20,7 +20,6 @@ class CommonMppLibPlugin : Plugin<Project> {
                 apply(libs.findPlugin("kotlinTestingResource").get().get().pluginId)
                 apply(libs.findPlugin("kotlinPluginSerialization").get().get().pluginId)
                 apply(libs.findPlugin("ktlint").get().get().pluginId)
-                apply(libs.findPlugin("kotestMultiplatform").get().get().pluginId)
             }
 
             extensions.configure<LibraryExtension> {
@@ -82,12 +81,6 @@ class CommonMppLibPlugin : Plugin<Project> {
                         implementation(libs.findLibrary("kotlinTest").get())
                         implementation(libs.findLibrary("kotlinxSerializationJson").get())
                         implementation(libs.findLibrary("kotlinTestingResource").get())
-                        implementation(libs.findLibrary("kotestAssertionsCore").get())
-                        implementation(libs.findLibrary("kotestFrameworkEngine").get())
-                        implementation(libs.findLibrary("kotestFrameworkDatatest").get())
-                    }
-                    jvmTest.get().dependencies{
-                        implementation(libs.findLibrary("kotestRunnerJunit5").get())
                     }
                 }
             }

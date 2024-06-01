@@ -18,12 +18,8 @@ class HealthApiTest {
     @Test
     fun testApiRootReturnCorrectData() =
         runTest {
-            val responseContent = """
-                    {
-                      "url": "https://blockfrost.io/",
-                      "version": "0.1.0"
-                    }
-                    """
+            val responseContent =
+                Resource("src/commonTest/resources/api_root_200.json").readText()
             val healthApi = createHealthApi("/api/v0$PATH_API_ROOT", responseContent)
             val result = healthApi.getApiRoot()
             assertEquals("https://blockfrost.io/", result.url)
@@ -64,11 +60,7 @@ class HealthApiTest {
     @Test
     fun testHealthReturnCorrectData() =
         runTest {
-            val content = """
-                    {
-                      "is_healthy": true
-                    }
-                    """
+            val content = Resource("src/commonTest/resources/api_health_200.json").readText()
             val healthApi = createHealthApi("/api/v0$PATH_HEALTH", content)
             val result = healthApi.getHealth()
             assertEquals(true, result.isHealthy)
@@ -107,11 +99,7 @@ class HealthApiTest {
     @Test
     fun testHealthClockReturnCorrectData() =
         runTest {
-            val content = """
-                    {
-                      "server_time": 1620000000
-                    }
-                    """
+            val content = Resource("src/commonTest/resources/api_health_clock_200.json").readText()
             val healthApi = createHealthApi("/api/v0$PATH_HEALTH_CLOCK", content)
             val result = healthApi.getCurrentBackendTime()
             assertEquals(1620000000L, result.serverTime)
