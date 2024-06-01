@@ -19,7 +19,7 @@ class HealthIntegrationTest {
             BlockFrostClient(
                 blockfrostConfig =
                     BlockfrostConfig(
-                        projectId = "your project id",
+                        projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
                         networkType = NetworkType.Mainnet,
                     ),
             )
