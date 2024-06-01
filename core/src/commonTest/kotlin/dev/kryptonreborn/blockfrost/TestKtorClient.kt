@@ -1,6 +1,5 @@
 package dev.kryptonreborn.blockfrost
 
-import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -21,17 +20,11 @@ object TestKtorClient {
             }
         }
 
-    internal fun createHealthApi(
+    internal fun createMockHttpClient(
         path: String,
         responseContent: String,
         status: HttpStatusCode = HttpStatusCode.OK,
-    ): HealthApi {
-        val blockfrostConfig =
-            BlockfrostConfig(
-                projectId = "your project id",
-                logLevel = BlockfrostLogLevel.ALL,
-            )
-
+    ): HttpClient {
         val mockEngine =
             MockEngine { request ->
                 when (request.url.encodedPath) {
@@ -49,7 +42,6 @@ object TestKtorClient {
                     else -> error("Unhandled ${request.url.encodedPath}")
                 }
             }
-        val httpClient = httpClient(mockEngine)
-        return HealthApi(httpClient, blockfrostConfig)
+        return httpClient(mockEngine)
     }
 }
