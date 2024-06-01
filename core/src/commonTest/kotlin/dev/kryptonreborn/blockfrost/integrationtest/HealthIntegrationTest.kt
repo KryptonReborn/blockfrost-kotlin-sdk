@@ -1,4 +1,4 @@
-package integrationtest
+package dev.kryptonreborn.blockfrost.integrationtest
 
 import BlockFrostClient
 import dev.kryptonreborn.blockfrost.BlockfrostConfig

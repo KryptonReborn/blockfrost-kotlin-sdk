@@ -94,6 +94,6 @@ rootProject.plugins.withType<YarnPlugin> {
 tasks.withType<Test> {
     val ciEnvironment = System.getenv("CI")
     if (ciEnvironment == "true") {
-        exclude("integrationtest/**")
+        exclude("**/integrationtest/**")
     }
 }

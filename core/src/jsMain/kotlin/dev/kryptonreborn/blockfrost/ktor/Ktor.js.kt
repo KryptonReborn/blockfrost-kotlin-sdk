@@ -1,10 +1,11 @@
 package dev.kryptonreborn.blockfrost.ktor
 
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.js.Js
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
@@ -13,8 +14,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 
-actual fun createHttpClient(projectId: String?): HttpClient {
+actual fun createHttpClient(blockfrostConfig: BlockfrostConfig): HttpClient {
     return HttpClient(Js) {
+        defaultRequest {
+            url(blockfrostConfig.networkType.url)
+        }
         install(ContentNegotiation) {
             json(Ktor.json)
         }
@@ -25,7 +29,7 @@ actual fun createHttpClient(projectId: String?): HttpClient {
                         co.touchlab.kermit.Logger.d("Logger Ktor => $message")
                     }
                 }
-            level = LogLevel.ALL
+            level = blockfrostConfig.logLevel.value
         }
 
         install(ResponseObserver) {
@@ -37,7 +41,7 @@ actual fun createHttpClient(projectId: String?): HttpClient {
         }
         install(DefaultRequest) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            header("project_id", projectId)
+            header("project_id", blockfrostConfig.projectId)
         }
     }
 }

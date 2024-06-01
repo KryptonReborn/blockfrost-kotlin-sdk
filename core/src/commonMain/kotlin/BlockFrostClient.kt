@@ -3,8 +3,7 @@ import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 
 class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
-    private val healthApi: HealthApi =
-        HealthApi(Ktor.httpClient(blockfrostConfig.projectId), blockfrostConfig)
+    private val healthApi: HealthApi = HealthApi(Ktor.httpClient(blockfrostConfig))
 
     suspend fun getApiRoot() = handleApiResult { healthApi.getApiRoot() }
 

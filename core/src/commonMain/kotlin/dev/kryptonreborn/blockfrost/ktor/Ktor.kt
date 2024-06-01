@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.ktor
 
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.base.handleResponseFromString
 import io.ktor.client.HttpClient
 import io.ktor.client.request.request
@@ -8,6 +9,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
+import io.ktor.http.encodedPath
 import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 
@@ -21,22 +23,25 @@ internal object Ktor {
             coerceInputValues = true
         }
 
-    fun httpClient(projectId: String?) = createHttpClient(projectId)
+    fun httpClient(blockfrostConfig: BlockfrostConfig) = createHttpClient(blockfrostConfig)
 }
 
-expect fun createHttpClient(projectId: String?): HttpClient
+expect fun createHttpClient(blockfrostConfig: BlockfrostConfig): HttpClient
 
 @OptIn(InternalAPI::class)
 internal suspend inline fun <reified T> HttpClient.fetchResource(
-    url: String,
+    path: String,
     method: HttpMethod = HttpMethod.Get,
     requestBody: Any? = null,
 ): T {
     val response: HttpResponse =
-        request(url) {
+        request {
+            url {
+                encodedPath += path
+            }
             this.method = method
-            if (requestBody != null) {
-                contentType(ContentType.Application.Json)
+            contentType(ContentType.Application.Json)
+            requestBody?.let {
                 body = requestBody
             }
         }
