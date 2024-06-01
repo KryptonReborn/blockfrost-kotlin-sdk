@@ -44,47 +44,52 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:2.3.11")
+                implementation(libs.ktorClientOkhttp)
             }
         }
         val androidUnitTest by getting
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:2.3.11")
+                implementation(libs.ktorClientCio)
             }
         }
         val jvmTest by getting
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.3.11")
+                implementation(libs.ktorClientJs)
             }
         }
         val jsTest by getting
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.3.11")
+                implementation(libs.ktorClientIos)
             }
         }
         val iosTest by getting
         val macosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.3.11")
+                implementation(libs.ktorClientIos)
             }
         }
         val macosTest by getting
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:2.3.11")
+                implementation(libs.ktorClientCio)
             }
         }
         val linuxX64Test by getting
 
         val linuxArm64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:2.3.11")
+                implementation(libs.ktorClientCio)
             }
         }
         val linuxArm64Test by getting
+        val mingwX64Main by getting {
+            dependencies {
+                implementation(libs.ktorClientWinhttp)
+            }
+        }
     }
 }
 
