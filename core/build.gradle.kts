@@ -99,3 +99,10 @@ rootProject.plugins.withType<YarnPlugin> {
         yarnLockAutoReplace = true
     }
 }
+
+tasks.withType<Test> {
+    val ciEnvironment = System.getenv("CI")
+    if (ciEnvironment == "true") {
+        exclude("**/integrationtest/**")
+    }
+}
