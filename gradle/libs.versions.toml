@@ -97,3 +97,4 @@ mavenPublish = { id = "maven-publish", version = "unspecified" }
 commonMppLib = { id = "common.mpp.lib", version = "unspecified" }
 commonMppPublish = { id = "common.mpp.publish", version = "unspecified" }
 commonMppCompose = { id = "common.mpp.compose", version = "unspecified" }
+commonMppBuildKonfig = { id = "common.mpp.buildKonfig", version = "unspecified" }

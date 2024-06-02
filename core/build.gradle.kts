@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -6,6 +5,15 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 plugins {
     id(libs.plugins.commonMppLib.get().pluginId)
     id(libs.plugins.commonMppPublish.get().pluginId)
+    id(libs.plugins.commonMppBuildKonfig.get().pluginId)
+}
+
+buildKonfig {
+    fields.set(
+        listOf(
+            Triple("IS_CI", "Boolean", System.getenv("CI")?.toBoolean() ?: false),
+        ),
+    )
 }
 
 publishConfig {
@@ -85,44 +93,5 @@ rootProject.plugins.withType<YarnPlugin> {
     rootProject.configure<YarnRootExtension> {
         yarnLockMismatchReport = YarnLockMismatchReport.WARNING
         yarnLockAutoReplace = true
-    }
-}
-
-fun generateBuildConfigFile(
-    outputDir: String,
-    fields: List<Triple<String, String, Any?>>,
-) {
-    val outputFile = file("$outputDir/BuildConfig.kt")
-    if (!outputFile.exists()) {
-        outputFile.parentFile.mkdirs()
-        outputFile.createNewFile()
-    }
-
-    val content =
-        buildString {
-            appendLine("package dev.kryptonreborn.blockfrost")
-            appendLine()
-            appendLine("object BuildConfig {")
-            for ((name, type, value) in fields) {
-                appendLine("    val $name: $type = $value")
-            }
-            appendLine("}")
-        }
-    outputFile.writeText(content)
-}
-
-tasks.register("updateBuildConfig") {
-    doLast {
-        val fields =
-            listOf(
-                Triple("IS_CI", "Boolean", System.getenv("CI").toBoolean()),
-            )
-        val outputDir = "build/generated/kotlin/dev/kryptonreborn/blockfrost"
-        generateBuildConfigFile(outputDir, fields)
-    }
-}
-kotlin.targets.all {
-    compilations.all {
-        compileTaskProvider.dependsOn(tasks.named("updateBuildConfig"))
     }
 }
