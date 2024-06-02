@@ -72,12 +72,9 @@ class CommonMppComposePlugin : Plugin<Project> {
                         implementation(libs.findLibrary("composeMaterial").get())
                         implementation(libs.findLibrary("composeUi").get())
                         implementation(libs.findLibrary("composeComponentsResources").get())
-                        implementation(
-                            libs.findLibrary("composeComponentsUiToolingPreview").get()
-                        )
+                        implementation(libs.findLibrary("composeNavigation").get())
                     }
                     androidMain.get().dependencies {
-                        implementation(libs.findLibrary("composeUiToolingPreview").get())
                         implementation(libs.findLibrary("androidxActivityCompose").get())
                     }
                 }

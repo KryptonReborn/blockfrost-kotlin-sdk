@@ -1,12 +1,27 @@
 plugins {
     alias(libs.plugins.commonMppCompose)
 }
-
 kotlin {
-    dependencies {
-        implementation(project(BuildModules.BLOCKFROST_SDK))
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktorClientOkhttp)
+                implementation(libs.kotlinxCoroutinesAndroid)
+            }
+        }
+        val commonMain by getting {
+            dependencies {
+                implementation(project(BuildModules.BLOCKFROST_SDK))
+                implementation(libs.koinCore)
+                implementation(libs.koinCompose)
+                implementation(libs.ktorClientCore)
+                implementation(libs.kotlinxCoroutinesCore)
+                implementation(libs.androidxLifecycleViewmodelCompose)
+            }
+        }
     }
 }
+
 ktlint {
     filter {
         exclude("**/generated/**")

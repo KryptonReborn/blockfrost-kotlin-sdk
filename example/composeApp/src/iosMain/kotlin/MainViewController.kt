@@ -1,5 +1,4 @@
-@file:Suppress("ktlint")
-
 import androidx.compose.ui.window.ComposeUIViewController
+import common.Context
 
-fun MainViewController() = ComposeUIViewController { App() }
+fun mainViewController() = ComposeUIViewController { App(Context()) }

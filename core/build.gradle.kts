@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -5,6 +6,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 plugins {
     id(libs.plugins.commonMppLib.get().pluginId)
     id(libs.plugins.commonMppPublish.get().pluginId)
+    id(libs.plugins.buildKonfig.get().pluginId)
 }
 
 publishConfig {
@@ -22,7 +24,59 @@ android {
 kotlin {
     sourceSets {
         val commonMain by getting {
-            dependencies {}
+            dependencies {
+                // ktor
+                implementation(libs.ktorClientCore)
+                implementation(libs.ktorJson)
+                implementation(libs.ktorLogging)
+                implementation(libs.ktorSerialization)
+                implementation(libs.kotlinxCoroutinesCore)
+                implementation(libs.kotlinxSerializationJson)
+                implementation(libs.kermit)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.ktorClientMock)
+                implementation(libs.kotlinxCoroutinesTest)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktorClientOkhttp)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ktorClientOkhttp)
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.ktorClientJs)
+            }
+        }
+        val appleMain by getting {
+            dependencies {
+                implementation(libs.ktorClientIos)
+            }
+        }
+        val linuxX64Main by getting {
+            dependencies {
+                implementation(libs.ktorClientCio)
+            }
+        }
+        val linuxArm64Main by getting {
+            dependencies {
+                implementation(libs.ktorClientCio)
+            }
+        }
+        val mingwX64Main by getting {
+            dependencies {
+                implementation(libs.ktorClientWinhttp)
+            }
         }
     }
 }
@@ -33,3 +87,25 @@ rootProject.plugins.withType<YarnPlugin> {
         yarnLockAutoReplace = true
     }
 }
+
+buildkonfig {
+    packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
+    defaultConfigs {
+        buildConfigField(BOOLEAN, "IS_CI", isCiEnv())
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
+    if (!isCiEnv().toBoolean()) {
+        standalone.set(false)
+        device.set("your device ios simulator id")
+    }
+}
+
+ktlint {
+    filter {
+        exclude("**/buildKonfig/**")
+    }
+}
+
+fun isCiEnv() = System.getenv()["CI"] ?: "false"
