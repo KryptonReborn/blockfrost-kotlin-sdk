@@ -20,9 +20,13 @@
 This is the template for initializing a repo based on Kotlin Multiplarform
 
 ## Download
-You must use a personal access token (classic) with the appropriate scopes to publish and install packages in [GitHub Packages](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages#authenticating-to-github-packages).
+
+You must use a personal access token (classic) with the appropriate scopes to publish and install
+packages
+in [GitHub Packages](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages#authenticating-to-github-packages).
 
 Add the following repository to your settings.gradle.kts file
+
 ```kotlin
 repositories {
     maven {
@@ -34,9 +38,35 @@ repositories {
     }
 }
 ```
+
 Add the following dependency to your build.gradle.kts file
+
 ```build.gradle.kts
 dependencies {
     implementation("dev.kryptonreborn.blockfrost-kotlin:blockfrost-kotlin:[version]")
 }
 ```
+
+## Integration
+
+To perform integration tests, you need to obtain a project ID from Blockfrost. Make sure to set this
+project ID in your test configurations.
+
+For running tests with the target iosSimulatorArm64, you need to obtain the device ID using the
+command:
+
+``` shell
+xcrun simctl list
+```
+
+Then, update your build.gradle.kts file with the following code to configure the iOS simulator:
+
+``` build.gradle.kts
+tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
+    standalone.set(false)
+    device.set("your device ios simulator id")
+}
+```
+
+This configuration ensures that the integration tests run on the specified iOS simulator.
+
