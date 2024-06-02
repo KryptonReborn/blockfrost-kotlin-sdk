@@ -1,6 +1,7 @@
 package dev.kryptonreborn.blockfrost
 
 import BlockFrostClient
+import dev.kryptonreborn.blockfrost.buildKonfig.BuildKonfig
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 
