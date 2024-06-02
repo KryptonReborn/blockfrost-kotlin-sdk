@@ -21,7 +21,7 @@ open class BaseIntegrationTest {
 
     fun runTestIfNotCI(block: suspend () -> Unit) =
         runTest {
-            if (!BuildConfig.IS_CI) {
+            if (!BuildKonfig.IS_CI) {
                 block()
             }
         }

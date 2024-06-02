@@ -8,18 +8,19 @@ plugins {
     id(libs.plugins.commonMppBuildKonfig.get().pluginId)
 }
 
-buildKonfig {
-    fields.set(
-        listOf(
-            Triple("IS_CI", "Boolean", System.getenv("CI")?.toBoolean() ?: false),
-        ),
-    )
-}
-
 publishConfig {
     url = "https://maven.pkg.github.com/KryptonReborn/blockfrost-kotlin-sdk"
     groupId = "dev.kryptonreborn.blockfrost"
     artifactId = "core"
+}
+
+buildKonfig {
+    packages = "dev.kryptonreborn.blockfrost"
+    fields.set(
+        listOf(
+            Triple("IS_CI", "Boolean", System.getenv("CI").toBoolean()),
+        ),
+    )
 }
 
 version = "0.0.2"
