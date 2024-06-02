@@ -21,9 +21,5 @@ gradlePlugin {
             id = "common.mpp.compose"
             implementationClass = "plugins.CommonMppComposePlugin"
         }
-        register("commonMppBuildKonfig"){
-            id = "common.mpp.buildKonfig"
-            implementationClass = "plugins.BuildKonfigPlugin"
-        }
     }
 }

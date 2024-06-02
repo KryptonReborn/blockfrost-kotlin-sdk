@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -5,22 +6,13 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 plugins {
     id(libs.plugins.commonMppLib.get().pluginId)
     id(libs.plugins.commonMppPublish.get().pluginId)
-    id(libs.plugins.commonMppBuildKonfig.get().pluginId)
+    id(libs.plugins.buildKonfig.get().pluginId)
 }
 
 publishConfig {
     url = "https://maven.pkg.github.com/KryptonReborn/blockfrost-kotlin-sdk"
     groupId = "dev.kryptonreborn.blockfrost"
     artifactId = "core"
-}
-
-buildKonfig {
-    packages = "dev.kryptonreborn.blockfrost"
-    fields.set(
-        listOf(
-            Triple("IS_CI", "Boolean", System.getenv("CI").toBoolean()),
-        ),
-    )
 }
 
 version = "0.0.2"
@@ -59,7 +51,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(libs.ktorClientCio)
+                implementation(libs.ktorClientOkhttp)
             }
         }
         val jsMain by getting {
@@ -96,11 +88,22 @@ rootProject.plugins.withType<YarnPlugin> {
         yarnLockAutoReplace = true
     }
 }
-
+buildkonfig {
+    packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
+    defaultConfigs {
+        buildConfigField(BOOLEAN, "IS_CI", System.getenv()["CI"] ?: "false")
+    }
+}
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
     val isCi = System.getenv()["CI"].toBoolean()
     if (!isCi) {
         standalone.set(false)
         device.set("your device ios simulator id")
+    }
+}
+
+ktlint {
+    filter {
+        exclude("**/buildKonfig/**")
     }
 }
