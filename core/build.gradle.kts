@@ -98,6 +98,9 @@ rootProject.plugins.withType<YarnPlugin> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
-    standalone.set(false)
-    device.set("your device ios simulator id")
+    val isCi = System.getenv()["CI"].toBoolean()
+    if (!isCi) {
+        standalone.set(false)
+        device.set("your device ios simulator id")
+    }
 }

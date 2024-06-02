@@ -63,8 +63,11 @@ Then, update your build.gradle.kts file with the following code to configure the
 
 ``` build.gradle.kts
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
-    standalone.set(false)
-    device.set("your device ios simulator id")
+    val isCi = System.getenv()["CI"].toBoolean()
+    if (!isCi) {
+        standalone.set(false)
+        device.set("your device ios simulator id")
+    }
 }
 ```
 
