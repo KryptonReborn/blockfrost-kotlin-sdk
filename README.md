@@ -1,6 +1,5 @@
 # BLOCKFROST KOTLIN SDK
 
-[![GitHub release](https://img.shields.io/badge/release-v0.0.1-blue.svg)](
 [![GitHub release](https://img.shields.io/badge/release-v0.0.2-blue.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/releases/tag/v0.0.2) [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Build Status](https://github.com/saschpe/kase64/workflows/Main/badge.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/actions)
 [![License](http://img.shields.io/:License-Apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
