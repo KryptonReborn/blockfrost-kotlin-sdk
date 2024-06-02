@@ -25,7 +25,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                kotlin.srcDir("build/generated/kotlin")
                 // ktor
                 implementation(libs.ktorClientCore)
                 implementation(libs.ktorJson)
@@ -88,15 +87,16 @@ rootProject.plugins.withType<YarnPlugin> {
         yarnLockAutoReplace = true
     }
 }
+
 buildkonfig {
     packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
     defaultConfigs {
-        buildConfigField(BOOLEAN, "IS_CI", System.getenv()["CI"] ?: "false")
+        buildConfigField(BOOLEAN, "IS_CI", isCiEnv())
     }
 }
+
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
-    val isCi = System.getenv()["CI"].toBoolean()
-    if (!isCi) {
+    if (!isCiEnv().toBoolean()) {
         standalone.set(false)
         device.set("your device ios simulator id")
     }
@@ -107,3 +107,5 @@ ktlint {
         exclude("**/buildKonfig/**")
     }
 }
+
+fun isCiEnv() = System.getenv()["CI"] ?: "false"
