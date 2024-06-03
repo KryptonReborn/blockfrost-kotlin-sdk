@@ -7,7 +7,7 @@ import kotlin.test.BeforeTest
 
 open class BaseIntegrationTest {
     lateinit var blockfrostClient: BlockFrostClient
-    private val projectId: String = "<your project id>"
+    private val projectId: String = BuildKonfig.PROJECT_ID
 
     @BeforeTest
     fun setup() {
