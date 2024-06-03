@@ -1,4 +1,4 @@
-package dev.kryptonreborn.blockfrost.health
+package dev.kryptonreborn.blockfrost.unittest
 
 import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient
