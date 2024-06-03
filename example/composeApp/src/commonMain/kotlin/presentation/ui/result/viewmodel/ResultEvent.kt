@@ -10,4 +10,6 @@ sealed class ResultEvent(val id: String) {
     data object GetMetrics : ResultEvent("GetMetrics")
 
     data object GetMetricEndpoints : ResultEvent("GetMetricEndpoints")
+
+    data object GetAccount : ResultEvent("GetAccount")
 }

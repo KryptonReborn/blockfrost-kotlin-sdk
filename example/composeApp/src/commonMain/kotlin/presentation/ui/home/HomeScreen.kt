@@ -57,6 +57,15 @@ fun HomeScreen(
             }) {
                 Text("Get metric endpoints")
             }
+            Text(
+                text = "Account Api",
+                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+            )
+            TextButton(onClick = {
+                navigateToResult(ResultEvent.GetAccount.id)
+            }) {
+                Text("Get Account")
+            }
         }
     }
 }

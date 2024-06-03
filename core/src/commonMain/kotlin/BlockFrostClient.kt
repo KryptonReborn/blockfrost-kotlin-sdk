@@ -1,4 +1,5 @@
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
+import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -12,6 +13,7 @@ class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
     private val httpClient by lazy { Ktor.httpClient(blockfrostConfig) }
     private val healthApi: HealthApi by lazy { HealthApi(httpClient) }
     private val metricsApi: MetricsApi by lazy { MetricsApi(httpClient) }
+    private val cardanoAccountsApi: CardanoAccountsApi by lazy { CardanoAccountsApi(httpClient) }
 
     /**
      * Retrieves the root information of the API.
@@ -54,6 +56,29 @@ class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
      * @param block The API call to be executed.
      * @return A [Result] containing the result of the API call or an exception if it fails.
      */
+    // Cardano API
+    suspend fun getAccount(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccount(stakeAddress) }
+
+    suspend fun getAccountRewards(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountRewards(stakeAddress) }
+
+    suspend fun getAccountHistory(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountHistory(stakeAddress) }
+
+    suspend fun getAccountDelegations(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountDelegations(stakeAddress) }
+
+    suspend fun getAccountRegistrations(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountRegistrations(stakeAddress) }
+
+    suspend fun getAccountWithdrawals(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountWithdrawals(stakeAddress) }
+
+    suspend fun getAccountMirs(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountMirs(stakeAddress) }
+
+    suspend fun getAccountAddresses(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountAddresses(stakeAddress) }
+
+    suspend fun getAccountAddressesAssets(stakeAddress: String) =
+        handleApiResult { cardanoAccountsApi.getAccountAddressesAssets(stakeAddress) }
+
+    suspend fun getAccountAddressesTotal(stakeAddress: String) =
+        handleApiResult { cardanoAccountsApi.getAccountAddressesTotal(stakeAddress) }
+
     private inline fun <T> handleApiResult(block: () -> T): Result<T> {
         return try {
             Result.success(block())
