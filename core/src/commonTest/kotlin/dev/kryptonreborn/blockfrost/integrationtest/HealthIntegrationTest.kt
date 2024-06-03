@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 class HealthIntegrationTest : BaseIntegrationTest() {
     @Test
     fun testHealth() =
-        runTestIfNotCI {
+        runIntegrationTest {
             val result = blockfrostClient.getHealth()
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull()?.isHealthy ?: false)
@@ -17,7 +17,7 @@ class HealthIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun testApiRoot() =
-        runTestIfNotCI {
+        runIntegrationTest {
             val result = blockfrostClient.getApiRoot()
             assertNotNull(result.getOrNull())
             assertEquals(result.getOrNull()?.url, "https://blockfrost.io/")
@@ -25,7 +25,7 @@ class HealthIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun testCurrentBackendTime() =
-        runTestIfNotCI {
+        runIntegrationTest {
             val result = blockfrostClient.getCurrentBackendTime()
             assertNotNull(result.getOrNull()?.serverTime, null)
         }

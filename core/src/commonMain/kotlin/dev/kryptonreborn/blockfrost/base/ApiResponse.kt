@@ -23,7 +23,13 @@ internal data class ApiResponse<T>(
 }
 
 internal inline fun <reified T> handleResponseFromString(jsonString: String): T {
-    val apiResponse = Ktor.json.decodeFromString<ApiResponse<T>>(jsonString)
+    val apiResponse =
+        try {
+            Ktor.json.decodeFromString<ApiResponse<T>>(jsonString)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ApiResponse()
+        }
     if (apiResponse.statusCode != null && apiResponse.statusCode != 200) {
         handleErrorResponse(apiResponse)
     }

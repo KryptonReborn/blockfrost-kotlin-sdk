@@ -43,6 +43,20 @@ fun HomeScreen(
             }) {
                 Text("Get Current Backend Time")
             }
+            Text(
+                text = "Metrics Api",
+                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+            )
+            TextButton(onClick = {
+                navigateToResult(ResultEvent.GetMetrics.id)
+            }) {
+                Text("Get metrics")
+            }
+            TextButton(onClick = {
+                navigateToResult(ResultEvent.GetMetricEndpoints.id)
+            }) {
+                Text("Get metric endpoints")
+            }
         }
     }
 }
