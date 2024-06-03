@@ -5,8 +5,8 @@ import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 
 class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
     private val httpClient by lazy { Ktor.httpClient(blockfrostConfig) }
-    private val healthApi: HealthApi = HealthApi(httpClient)
-    private val metricsApi: MetricsApi = MetricsApi(httpClient)
+    private val healthApi: HealthApi by lazy { HealthApi(httpClient) }
+    private val metricsApi: MetricsApi by lazy { MetricsApi(httpClient) }
 
     // Health API
     suspend fun getApiRoot() = handleApiResult { healthApi.getApiRoot() }
