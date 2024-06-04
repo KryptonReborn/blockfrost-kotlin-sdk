@@ -1,6 +1,5 @@
 package extensions
 
-import org.apache.tools.ant.property.LocalProperties
 import org.gradle.api.Project
 import org.gradle.api.artifacts.*
 import org.gradle.kotlin.dsl.getByType
