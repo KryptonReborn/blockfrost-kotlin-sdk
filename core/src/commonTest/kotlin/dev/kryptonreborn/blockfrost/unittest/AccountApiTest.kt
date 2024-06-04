@@ -14,16 +14,16 @@ import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_A
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_REWARDS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_STAKE_ADDRESS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_WITHDRAWALS
-import dev.kryptonreborn.blockfrost.accounts.model.Account
-import dev.kryptonreborn.blockfrost.accounts.model.AccountAddress
-import dev.kryptonreborn.blockfrost.accounts.model.AssociatedAsset
-import dev.kryptonreborn.blockfrost.accounts.model.Delegation
-import dev.kryptonreborn.blockfrost.accounts.model.History
-import dev.kryptonreborn.blockfrost.accounts.model.Mir
-import dev.kryptonreborn.blockfrost.accounts.model.Registration
-import dev.kryptonreborn.blockfrost.accounts.model.Reward
-import dev.kryptonreborn.blockfrost.accounts.model.TotalAddresses
-import dev.kryptonreborn.blockfrost.accounts.model.Withdrawal
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesAsset
+import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
+import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
 import io.ktor.http.HttpStatusCode
@@ -40,7 +40,7 @@ class AccountApiTest {
     fun testApiAccountReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_200.json"
-            val expectedResult = resource.resourceToExpectedData<Account>()
+            val expectedResult = resource.resourceToExpectedData<AccountContent>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -54,7 +54,7 @@ class AccountApiTest {
     fun testApiAccountDelegationReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_delegation_history_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<Delegation>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountDelegationContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -68,7 +68,7 @@ class AccountApiTest {
     fun testApiAccountRewardsReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_rewards_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<Reward>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountRewardContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -82,7 +82,7 @@ class AccountApiTest {
     fun testApiAccountHistoryReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_histories_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<History>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountHistoryContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -96,7 +96,7 @@ class AccountApiTest {
     fun testApiAccountRegistrationsReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_registrations_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<Registration>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountRegistrationContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -110,7 +110,7 @@ class AccountApiTest {
     fun testApiAccountWithdrawalsReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_withdrawals_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<Withdrawal>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountWithdrawalContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -124,7 +124,7 @@ class AccountApiTest {
     fun testApiAccountMirsReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_mirs_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<Mir>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountMirContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -138,7 +138,7 @@ class AccountApiTest {
     fun testApiAccountAddressesReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_addresses_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<AccountAddress>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountAddressesContent>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -152,7 +152,7 @@ class AccountApiTest {
     fun testApiAccountAddressesAssetsReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_addresses_assets_200.json"
-            val expectedResult = resource.resourceToExpectedData<List<AssociatedAsset>>()
+            val expectedResult = resource.resourceToExpectedData<List<AccountAddressesAsset>>()
             val accountsApi =
                 createAccountApi(
                     resource,
@@ -166,7 +166,7 @@ class AccountApiTest {
     fun testApiAccountAddressesTotalReturnCorrectData() =
         runTest {
             val resource = "src/commonTest/resources/api_account_addresses_total_200.json"
-            val expectedResult = resource.resourceToExpectedData<TotalAddresses>()
+            val expectedResult = resource.resourceToExpectedData<AccountContentTotal>()
             val accountsApi =
                 createAccountApi(
                     resource,

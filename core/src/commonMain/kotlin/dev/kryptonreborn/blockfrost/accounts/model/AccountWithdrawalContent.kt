@@ -4,8 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Delegation(
-    @SerialName("active_epoch") val activeEpoch: Int,
+data class AccountWithdrawalContent(
+    @SerialName("tx_hash") val txHash: String,
     @SerialName("amount") val amount: String,
-    @SerialName("pool_id") val poolId: String,
 )

@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AssociatedAsset(
-    @SerialName("unit") val unit: String,
-    @SerialName("quantity") val quantity: String,
+data class AccountAddressesContent(
+    @SerialName("address") val address: String,
 )

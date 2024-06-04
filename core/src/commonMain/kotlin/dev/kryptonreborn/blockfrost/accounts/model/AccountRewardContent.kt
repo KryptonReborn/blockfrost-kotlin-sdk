@@ -4,7 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Mir(
-    @SerialName("tx_hash") val txHash: String,
+data class AccountRewardContent(
+    @SerialName("epoch") val epoch: Int,
     @SerialName("amount") val amount: String,
+    @SerialName("pool_id") val poolId: String,
+    @SerialName("type") val type: String,
 )

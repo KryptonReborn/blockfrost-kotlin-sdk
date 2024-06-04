@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Account(
+data class AccountContent(
     @SerialName("stake_address") val stakeAddress: String,
     @SerialName("active") val active: Boolean,
     @SerialName("active_epoch") val activeEpoch: Int,

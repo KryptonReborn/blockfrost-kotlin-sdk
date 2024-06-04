@@ -1,16 +1,16 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
 import dev.kryptonreborn.blockfrost.BaseIntegrationTest
-import dev.kryptonreborn.blockfrost.accounts.model.Account
-import dev.kryptonreborn.blockfrost.accounts.model.AccountAddress
-import dev.kryptonreborn.blockfrost.accounts.model.AssociatedAsset
-import dev.kryptonreborn.blockfrost.accounts.model.Delegation
-import dev.kryptonreborn.blockfrost.accounts.model.History
-import dev.kryptonreborn.blockfrost.accounts.model.Mir
-import dev.kryptonreborn.blockfrost.accounts.model.Registration
-import dev.kryptonreborn.blockfrost.accounts.model.Reward
-import dev.kryptonreborn.blockfrost.accounts.model.TotalAddresses
-import dev.kryptonreborn.blockfrost.accounts.model.Withdrawal
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesAsset
+import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
+import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -23,7 +23,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccount(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is Account)
+            assertTrue(result.getOrNull() is AccountContent)
         }
 
     @Test
@@ -31,7 +31,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountRewards(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<Reward>)
+            assertTrue(result.getOrNull() is List<AccountRewardContent>)
         }
 
     @Test
@@ -39,7 +39,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountHistory(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<History>)
+            assertTrue(result.getOrNull() is List<AccountHistoryContent>)
         }
 
     @Test
@@ -47,7 +47,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountDelegations(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<Delegation>)
+            assertTrue(result.getOrNull() is List<AccountDelegationContent>)
         }
 
     @Test
@@ -55,7 +55,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountRegistrations(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<Registration>)
+            assertTrue(result.getOrNull() is List<AccountRegistrationContent>)
         }
 
     @Test
@@ -63,7 +63,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountWithdrawals(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<Withdrawal>)
+            assertTrue(result.getOrNull() is List<AccountWithdrawalContent>)
         }
 
     @Test
@@ -71,7 +71,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountMirs(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<Mir>)
+            assertTrue(result.getOrNull() is List<AccountMirContent>)
         }
 
     @Test
@@ -79,7 +79,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountAddresses(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<AccountAddress>)
+            assertTrue(result.getOrNull() is List<AccountAddressesContent>)
         }
 
     @Test
@@ -87,7 +87,7 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountAddressesAssets(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is List<AssociatedAsset>)
+            assertTrue(result.getOrNull() is List<AccountAddressesAsset>)
         }
 
     @Test
@@ -95,6 +95,6 @@ class AccountIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result = blockfrostClient.getAccountAddressesTotal(stakeAddress)
             assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is TotalAddresses)
+            assertTrue(result.getOrNull() is AccountContentTotal)
         }
 }
