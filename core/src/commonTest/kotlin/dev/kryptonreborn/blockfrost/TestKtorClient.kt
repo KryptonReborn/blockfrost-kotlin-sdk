@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost
 
+import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -44,4 +45,6 @@ object TestKtorClient {
             }
         return httpClient(mockEngine)
     }
+
+    internal inline fun <reified T> String.resourceToExpectedData() = Ktor.json.decodeFromString<T>(Resource(this).readText())
 }

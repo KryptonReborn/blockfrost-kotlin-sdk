@@ -1,9 +1,10 @@
-package dev.kryptonreborn.blockfrost.health
+package dev.kryptonreborn.blockfrost.unittest
 
 import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient.createMockHttpClient
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH_CLOCK

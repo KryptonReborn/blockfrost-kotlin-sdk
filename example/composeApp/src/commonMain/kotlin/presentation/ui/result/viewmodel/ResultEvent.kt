@@ -6,4 +6,8 @@ sealed class ResultEvent(val id: String) {
     data object GetHealth : ResultEvent("GetHealth")
 
     data object GetCurrentBackendTime : ResultEvent("GetCurrentBackendTime")
+
+    data object GetMetrics : ResultEvent("GetMetrics")
+
+    data object GetMetricEndpoints : ResultEvent("GetMetricEndpoints")
 }

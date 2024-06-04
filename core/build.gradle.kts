@@ -1,4 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import extensions.getLocalProperty
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -92,6 +94,7 @@ buildkonfig {
     packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
     defaultConfigs {
         buildConfigField(BOOLEAN, "IS_CI", isCiEnv())
+        buildConfigField(STRING, "PROJECT_ID", getLocalProperty("projectId") ?: "<your project id>")
     }
 }
 

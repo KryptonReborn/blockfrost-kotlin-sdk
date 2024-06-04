@@ -7,6 +7,7 @@ import kotlin.test.BeforeTest
 
 open class BaseIntegrationTest {
     lateinit var blockfrostClient: BlockFrostClient
+    private val projectId: String = BuildKonfig.PROJECT_ID
 
     @BeforeTest
     fun setup() {
@@ -14,16 +15,17 @@ open class BaseIntegrationTest {
             BlockFrostClient(
                 blockfrostConfig =
                     BlockfrostConfig(
-                        projectId = "your project id",
+                        projectId = projectId,
                         networkType = NetworkType.Mainnet,
                     ),
             )
     }
 
-    fun runTestIfNotCI(block: suspend () -> Unit) =
+    fun runIntegrationTest(block: suspend () -> Unit) =
         runTest {
-            if (!BuildKonfig.IS_CI) {
-                block()
-            }
+            if (BuildKonfig.IS_CI || !isRealProjectId(projectId)) return@runTest
+            block()
         }
+
+    private fun isRealProjectId(projectId: String) = projectId != "<your project id>"
 }

@@ -38,6 +38,16 @@ class ResultViewModel : ViewModel() {
                     getResponse {
                         blockFrostClient.getHealth()
                     }
+
+                ResultEvent.GetMetrics ->
+                    getResponse {
+                        blockFrostClient.getMetrics()
+                    }
+
+                ResultEvent.GetMetricEndpoints ->
+                    getResponse {
+                        blockFrostClient.getMetricEndpoints()
+                    }
             }
         }
     }
@@ -65,6 +75,8 @@ class ResultViewModel : ViewModel() {
                 "GetApiRoot" to ResultEvent.GetApiRoot,
                 "GetHealth" to ResultEvent.GetHealth,
                 "GetCurrentBackendTime" to ResultEvent.GetCurrentBackendTime,
+                "GetMetrics" to ResultEvent.GetMetrics,
+                "GetMetricEndpoints" to ResultEvent.GetMetricEndpoints,
             )
     }
 }
