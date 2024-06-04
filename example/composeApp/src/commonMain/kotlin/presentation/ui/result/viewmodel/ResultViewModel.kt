@@ -94,9 +94,7 @@ class ResultViewModel : ViewModel() {
         state.value =
             state.value.copy(
                 isLoading = false,
-                result =
-                    response.toResultString()?.toString() ?: response.exceptionOrNull()?.message
-                        ?: "Unknown error",
+                result = response.toResultString(),
             )
     }
 
