@@ -1,15 +1,15 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
 import dev.kryptonreborn.blockfrost.BaseIntegrationTest
-import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
-import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesAsset
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
 import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
-import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import kotlin.test.Test
 import kotlin.test.assertNotNull
