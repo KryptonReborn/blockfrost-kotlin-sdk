@@ -21,6 +21,7 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
 import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
@@ -35,6 +36,7 @@ import kotlin.test.assertTrue
 
 class AccountApiTest {
     private val stakeAddress = "stake_address"
+    private val queryParameters = AccountQueryParameters()
 
     @Test
     fun testApiAccountReturnCorrectData() =
@@ -60,7 +62,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_DELEGATIONS,
                 )
-            val result = accountsApi.getAccountDelegations(stakeAddress)
+            val result = accountsApi.getAccountDelegations(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -74,7 +76,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_REWARDS,
                 )
-            val result = accountsApi.getAccountRewards(stakeAddress)
+            val result = accountsApi.getAccountRewards(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -88,7 +90,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_HISTORY,
                 )
-            val result = accountsApi.getAccountHistory(stakeAddress)
+            val result = accountsApi.getAccountHistory(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -102,7 +104,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_REGISTRATIONS,
                 )
-            val result = accountsApi.getAccountRegistrations(stakeAddress)
+            val result = accountsApi.getAccountRegistrations(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -116,7 +118,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_WITHDRAWALS,
                 )
-            val result = accountsApi.getAccountWithdrawals(stakeAddress)
+            val result = accountsApi.getAccountWithdrawals(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -130,7 +132,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_MIRS,
                 )
-            val result = accountsApi.getAccountMirs(stakeAddress)
+            val result = accountsApi.getAccountMirs(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -144,7 +146,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_ADDRESSES,
                 )
-            val result = accountsApi.getAccountAddresses(stakeAddress)
+            val result = accountsApi.getAccountAddresses(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -158,7 +160,7 @@ class AccountApiTest {
                     resource,
                     PATH_ACCOUNTS_ADDRESSES_ASSETS,
                 )
-            val result = accountsApi.getAccountAddressesAssets(stakeAddress)
+            val result = accountsApi.getAccountAddressesAssets(stakeAddress, queryParameters)
             assertEquals(result, expectedResult)
         }
 
@@ -205,7 +207,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_DELEGATIONS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountDelegations(stakeAddress)
+                accountsApi.getAccountDelegations(stakeAddress, queryParameters)
             }
         }
 
@@ -216,7 +218,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_DELEGATIONS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountDelegations(stakeAddress)
+                accountsApi.getAccountDelegations(stakeAddress, queryParameters)
             }
         }
 
@@ -227,7 +229,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_REWARDS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountRewards(stakeAddress)
+                accountsApi.getAccountRewards(stakeAddress, queryParameters)
             }
         }
 
@@ -238,7 +240,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_REWARDS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountRewards(stakeAddress)
+                accountsApi.getAccountRewards(stakeAddress, queryParameters)
             }
         }
 
@@ -249,7 +251,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_HISTORY,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountHistory(stakeAddress)
+                accountsApi.getAccountHistory(stakeAddress, queryParameters)
             }
         }
 
@@ -260,7 +262,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_HISTORY,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountHistory(stakeAddress)
+                accountsApi.getAccountHistory(stakeAddress, queryParameters)
             }
         }
 
@@ -271,7 +273,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_REGISTRATIONS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountRegistrations(stakeAddress)
+                accountsApi.getAccountRegistrations(stakeAddress, queryParameters)
             }
         }
 
@@ -282,7 +284,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_REGISTRATIONS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountRegistrations(stakeAddress)
+                accountsApi.getAccountRegistrations(stakeAddress, queryParameters)
             }
         }
 
@@ -293,7 +295,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_WITHDRAWALS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountWithdrawals(stakeAddress)
+                accountsApi.getAccountWithdrawals(stakeAddress, queryParameters)
             }
         }
 
@@ -304,7 +306,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_WITHDRAWALS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountWithdrawals(stakeAddress)
+                accountsApi.getAccountWithdrawals(stakeAddress, queryParameters)
             }
         }
 
@@ -315,7 +317,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_MIRS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountMirs(stakeAddress)
+                accountsApi.getAccountMirs(stakeAddress, queryParameters)
             }
         }
 
@@ -326,7 +328,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_MIRS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountMirs(stakeAddress)
+                accountsApi.getAccountMirs(stakeAddress, queryParameters)
             }
         }
 
@@ -337,7 +339,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_ADDRESSES,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountAddresses(stakeAddress)
+                accountsApi.getAccountAddresses(stakeAddress, queryParameters)
             }
         }
 
@@ -348,7 +350,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_ADDRESSES,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountAddresses(stakeAddress)
+                accountsApi.getAccountAddresses(stakeAddress, queryParameters)
             }
         }
 
@@ -359,7 +361,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_ADDRESSES_ASSETS,
                 HttpStatusCode.OK,
             ) { accountsApi ->
-                accountsApi.getAccountAddressesAssets(stakeAddress)
+                accountsApi.getAccountAddressesAssets(stakeAddress, queryParameters)
             }
         }
 
@@ -370,7 +372,7 @@ class AccountApiTest {
                 PATH_ACCOUNTS_ADDRESSES_ASSETS,
                 HttpStatusCode.BadRequest,
             ) { accountsApi ->
-                accountsApi.getAccountAddressesAssets(stakeAddress)
+                accountsApi.getAccountAddressesAssets(stakeAddress, queryParameters)
             }
         }
 
