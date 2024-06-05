@@ -1,8 +1,7 @@
 package presentation.ui.home
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -10,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import presentation.ui.home.viewmodel.HomeEvent
 import presentation.ui.home.viewmodel.HomeState
@@ -23,48 +21,99 @@ fun HomeScreen(
     navigateToResult: (id: String) -> Unit,
 ) {
     Scaffold {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-            Text(
-                text = "Health Api",
-                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
-            )
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetApiRoot.id)
-            }) {
-                Text("Get Api Root")
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            item {
+                Text(
+                    text = "Health Api",
+                    style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                )
             }
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetHealth.id)
-            }) {
-                Text("Get Api Health")
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetApiRoot.id) }) {
+                    Text("Get Api Root")
+                }
             }
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetCurrentBackendTime.id)
-            }) {
-                Text("Get Current Backend Time")
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetHealth.id) }) {
+                    Text("Get Health")
+                }
             }
-            Text(
-                text = "Metrics Api",
-                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
-            )
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetMetrics.id)
-            }) {
-                Text("Get metrics")
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetCurrentBackendTime.id) }) {
+                    Text("Get Current Backend Time")
+                }
             }
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetMetricEndpoints.id)
-            }) {
-                Text("Get metric endpoints")
+            item {
+                Text(
+                    text = "Metrics Api",
+                    style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                )
             }
-            Text(
-                text = "Account Api",
-                style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
-            )
-            TextButton(onClick = {
-                navigateToResult(ResultEvent.GetAccount.id)
-            }) {
-                Text("Get Account")
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetMetrics.id) }) {
+                    Text("Get Metrics")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetMetricEndpoints.id) }) {
+                    Text("Get Metric Endpoints")
+                }
+            }
+            item {
+                Text(
+                    text = "Account Api",
+                    style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                )
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccount.id) }) {
+                    Text("Get Account")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountAddressesAsset.id) }) {
+                    Text("Get Account Addresses Asset")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountAddresses.id) }) {
+                    Text("Get Account Addresses")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountAddressesTotal.id) }) {
+                    Text("Get Account Addresses Total")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountDelegations.id) }) {
+                    Text("Get Account Delegations")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountHistory.id) }) {
+                    Text("Get Account History")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountMirs.id) }) {
+                    Text("Get Account Mirs")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountRegistrations.id) }) {
+                    Text("Get Account Registrations")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountRewards.id) }) {
+                    Text("Get Account Rewards")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAccountWithdrawals.id) }) {
+                    Text("Get Account Withdrawals")
+                }
             }
         }
     }

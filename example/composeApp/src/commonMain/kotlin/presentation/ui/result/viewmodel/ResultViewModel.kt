@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
-import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import kotlinx.coroutines.launch
 
 class ResultViewModel : ViewModel() {
@@ -52,35 +51,63 @@ class ResultViewModel : ViewModel() {
                     }
 
                 ResultEvent.GetAccount -> {
-                    val resutl =
-                        blockFrostClient.getAccount(stakeAddress).toResultString()
-                            .toString() + "\n" +
-                            blockFrostClient.getAccountRewards(stakeAddress)
-                                .toResultString() + "\n" +
-                            blockFrostClient.getAccountHistory(
-                                stakeAddress,
-                                queryParameters = AccountQueryParameters(count = 1),
-                            ).toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountDelegations(stakeAddress)
-                                .toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountRegistrations(stakeAddress)
-                                .toResultString() + "\n" +
-                            blockFrostClient.getAccountWithdrawals(stakeAddress)
-                                .toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountMirs(stakeAddress).toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountAddresses(stakeAddress).toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountAddressesAssets(stakeAddress)
-                                .toResultString()
-                                .toString() + "\n" +
-                            blockFrostClient.getAccountAddressesTotal(stakeAddress)
-                                .toResultString()
-                                .toString()
-                    state.value = state.value.copy(result = resutl)
+                    getResponse {
+                        blockFrostClient.getAccount(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountAddressesAsset -> {
+                    getResponse {
+                        blockFrostClient.getAccountAddressesAssets(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountAddresses -> {
+                    getResponse {
+                        blockFrostClient.getAccountAddresses(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountAddressesTotal -> {
+                    getResponse {
+                        blockFrostClient.getAccountAddressesTotal(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountDelegations -> {
+                    getResponse {
+                        blockFrostClient.getAccountDelegations(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountHistory -> {
+                    getResponse {
+                        blockFrostClient.getAccountHistory(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountMirs -> {
+                    getResponse {
+                        blockFrostClient.getAccountMirs(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountRegistrations -> {
+                    getResponse {
+                        blockFrostClient.getAccountRegistrations(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountRewards -> {
+                    getResponse {
+                        blockFrostClient.getAccountRewards(stakeAddress)
+                    }
+                }
+
+                ResultEvent.GetAccountWithdrawals -> {
+                    getResponse {
+                        blockFrostClient.getAccountWithdrawals(stakeAddress)
+                    }
                 }
             }
         }
@@ -112,6 +139,15 @@ class ResultViewModel : ViewModel() {
                 "GetMetrics" to ResultEvent.GetMetrics,
                 "GetMetricEndpoints" to ResultEvent.GetMetricEndpoints,
                 "GetAccount" to ResultEvent.GetAccount,
+                "GetAccountAddressesAsset" to ResultEvent.GetAccountAddressesAsset,
+                "GetAccountAddresses" to ResultEvent.GetAccountAddresses,
+                "GetAccountAddressesTotal" to ResultEvent.GetAccountAddressesTotal,
+                "GetAccountDelegations" to ResultEvent.GetAccountDelegations,
+                "GetAccountHistory" to ResultEvent.GetAccountHistory,
+                "GetAccountMirs" to ResultEvent.GetAccountMirs,
+                "GetAccountRegistrations" to ResultEvent.GetAccountRegistrations,
+                "GetAccountRewards" to ResultEvent.GetAccountRewards,
+                "GetAccountWithdrawals" to ResultEvent.GetAccountWithdrawals,
             )
     }
 }
