@@ -7,6 +7,7 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
 import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
+import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
@@ -23,7 +24,8 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         const val PATH_ACCOUNTS_WITHDRAWALS = "/api/v0/accounts/:stake_address/withdrawals"
         const val PATH_ACCOUNTS_MIRS = "/api/v0/accounts/:stake_address/mirs"
         const val PATH_ACCOUNTS_ADDRESSES = "/api/v0/accounts/:stake_address/addresses"
-        const val PATH_ACCOUNTS_ADDRESSES_ASSETS = "/api/v0/accounts/:stake_address/addresses/assets"
+        const val PATH_ACCOUNTS_ADDRESSES_ASSETS =
+            "/api/v0/accounts/:stake_address/addresses/assets"
         const val PATH_ACCOUNTS_ADDRESSES_TOTAL = "/api/v0/accounts/:stake_address/addresses/total"
     }
 
@@ -32,45 +34,69 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
             PATH_ACCOUNTS_STAKE_ADDRESS.replace(":stake_address", stakeAddress),
         )
 
-    suspend fun getAccountRewards(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountRewardContent>>(
-            PATH_ACCOUNTS_REWARDS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountRewards(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountRewardContent>>(
+        PATH_ACCOUNTS_REWARDS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountHistory(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountHistoryContent>>(
-            PATH_ACCOUNTS_HISTORY.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountHistory(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountHistoryContent>>(
+        PATH_ACCOUNTS_HISTORY.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountDelegations(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountDelegationContent>>(
-            PATH_ACCOUNTS_DELEGATIONS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountDelegations(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountDelegationContent>>(
+        PATH_ACCOUNTS_DELEGATIONS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountRegistrations(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountRegistrationContent>>(
-            PATH_ACCOUNTS_REGISTRATIONS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountRegistrations(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountRegistrationContent>>(
+        PATH_ACCOUNTS_REGISTRATIONS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountWithdrawals(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountWithdrawalContent>>(
-            PATH_ACCOUNTS_WITHDRAWALS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountWithdrawals(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountWithdrawalContent>>(
+        PATH_ACCOUNTS_WITHDRAWALS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountMirs(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountMirContent>>(
-            PATH_ACCOUNTS_MIRS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountMirs(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountMirContent>>(
+        PATH_ACCOUNTS_MIRS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountAddresses(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountAddressesContent>>(
-            PATH_ACCOUNTS_ADDRESSES.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountAddresses(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountAddressesContent>>(
+        PATH_ACCOUNTS_ADDRESSES.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAccountAddressesAssets(stakeAddress: String) =
-        httpClient.fetchResource<List<AccountAddressesAsset>>(
-            PATH_ACCOUNTS_ADDRESSES_ASSETS.replace(":stake_address", stakeAddress),
-        )
+    suspend fun getAccountAddressesAssets(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters,
+    ) = httpClient.fetchResource<List<AccountAddressesAsset>>(
+        PATH_ACCOUNTS_ADDRESSES_ASSETS.replace(":stake_address", stakeAddress),
+        queryParams = queryParameters.toMap(),
+    )
 
     suspend fun getAccountAddressesTotal(stakeAddress: String) =
         httpClient.fetchResource<AccountContentTotal>(

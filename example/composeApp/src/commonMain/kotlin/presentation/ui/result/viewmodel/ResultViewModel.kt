@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
+import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import kotlinx.coroutines.launch
 
 class ResultViewModel : ViewModel() {
@@ -56,14 +57,16 @@ class ResultViewModel : ViewModel() {
                             .toString() + "\n" +
                             blockFrostClient.getAccountRewards(stakeAddress)
                                 .toResultString() + "\n" +
-                            blockFrostClient.getAccountHistory(stakeAddress).toResultString()
+                            blockFrostClient.getAccountHistory(
+                                stakeAddress,
+                                queryParameters = AccountQueryParameters(count = 1),
+                            ).toResultString()
                                 .toString() + "\n" +
                             blockFrostClient.getAccountDelegations(stakeAddress)
                                 .toResultString()
                                 .toString() + "\n" +
                             blockFrostClient.getAccountRegistrations(stakeAddress)
-                                .toResultString()
-                                .toString() + "\n" +
+                                .toResultString() + "\n" +
                             blockFrostClient.getAccountWithdrawals(stakeAddress)
                                 .toResultString()
                                 .toString() + "\n" +

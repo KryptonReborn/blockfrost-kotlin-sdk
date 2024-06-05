@@ -1,5 +1,6 @@
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
+import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -59,22 +60,55 @@ class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
     // Cardano API
     suspend fun getAccount(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccount(stakeAddress) }
 
-    suspend fun getAccountRewards(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountRewards(stakeAddress) }
+    suspend fun getAccountRewards(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountRewards(stakeAddress, queryParameters) }
 
-    suspend fun getAccountHistory(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountHistory(stakeAddress) }
+    suspend fun getAccountHistory(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountHistory(stakeAddress, queryParameters) }
 
-    suspend fun getAccountDelegations(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountDelegations(stakeAddress) }
+    suspend fun getAccountDelegations(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountDelegations(stakeAddress, queryParameters) }
 
-    suspend fun getAccountRegistrations(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountRegistrations(stakeAddress) }
+    suspend fun getAccountRegistrations(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult {
+        cardanoAccountsApi.getAccountRegistrations(
+            stakeAddress,
+            queryParameters,
+        )
+    }
 
-    suspend fun getAccountWithdrawals(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountWithdrawals(stakeAddress) }
+    suspend fun getAccountWithdrawals(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountWithdrawals(stakeAddress, queryParameters) }
 
-    suspend fun getAccountMirs(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountMirs(stakeAddress) }
+    suspend fun getAccountMirs(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountMirs(stakeAddress, queryParameters) }
 
-    suspend fun getAccountAddresses(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccountAddresses(stakeAddress) }
+    suspend fun getAccountAddresses(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult { cardanoAccountsApi.getAccountAddresses(stakeAddress, queryParameters) }
 
-    suspend fun getAccountAddressesAssets(stakeAddress: String) =
-        handleApiResult { cardanoAccountsApi.getAccountAddressesAssets(stakeAddress) }
+    suspend fun getAccountAddressesAssets(
+        stakeAddress: String,
+        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+    ) = handleApiResult {
+        cardanoAccountsApi.getAccountAddressesAssets(
+            stakeAddress,
+            queryParameters,
+        )
+    }
 
     suspend fun getAccountAddressesTotal(stakeAddress: String) =
         handleApiResult { cardanoAccountsApi.getAccountAddressesTotal(stakeAddress) }
