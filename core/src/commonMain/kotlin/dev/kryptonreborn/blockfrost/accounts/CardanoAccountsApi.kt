@@ -14,6 +14,11 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
+/**
+ * The `CardanoAccountsApi` class provides methods to interact with the Cardano accounts endpoints of the Blockfrost API.
+ *
+ * @property httpClient The HttpClient instance used to make HTTP requests.
+ */
 internal class CardanoAccountsApi(private val httpClient: HttpClient) {
     companion object {
         const val PATH_ACCOUNTS_STAKE_ADDRESS = "/api/v0/accounts/:stake_address"
@@ -24,16 +29,28 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         const val PATH_ACCOUNTS_WITHDRAWALS = "/api/v0/accounts/:stake_address/withdrawals"
         const val PATH_ACCOUNTS_MIRS = "/api/v0/accounts/:stake_address/mirs"
         const val PATH_ACCOUNTS_ADDRESSES = "/api/v0/accounts/:stake_address/addresses"
-        const val PATH_ACCOUNTS_ADDRESSES_ASSETS =
-            "/api/v0/accounts/:stake_address/addresses/assets"
+        const val PATH_ACCOUNTS_ADDRESSES_ASSETS = "/api/v0/accounts/:stake_address/addresses/assets"
         const val PATH_ACCOUNTS_ADDRESSES_TOTAL = "/api/v0/accounts/:stake_address/addresses/total"
     }
 
+    /**
+     * Retrieves account information for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @return An [AccountContent] object containing account information.
+     */
     suspend fun getAccount(stakeAddress: String) =
         httpClient.fetchResource<AccountContent>(
             PATH_ACCOUNTS_STAKE_ADDRESS.replace(":stake_address", stakeAddress),
         )
 
+    /**
+     * Retrieves account rewards for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountRewardContent] objects containing account rewards.
+     */
     suspend fun getAccountRewards(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -42,6 +59,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account history for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountHistoryContent] objects containing account history.
+     */
     suspend fun getAccountHistory(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -50,6 +74,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account delegations for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountDelegationContent] objects containing account delegations.
+     */
     suspend fun getAccountDelegations(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -58,6 +89,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account registrations for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountRegistrationContent] objects containing account registrations.
+     */
     suspend fun getAccountRegistrations(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -66,6 +104,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account withdrawals for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountWithdrawalContent] objects containing account withdrawals.
+     */
     suspend fun getAccountWithdrawals(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -74,6 +119,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account MIRs (Move Instantaneous Rewards) for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountMirContent] objects containing account MIRs.
+     */
     suspend fun getAccountMirs(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -82,6 +134,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account addresses for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountAddressesContent] objects containing account addresses.
+     */
     suspend fun getAccountAddresses(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -90,6 +149,13 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves account addresses assets for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A list of [AccountAddressesAsset] objects containing account addresses assets.
+     */
     suspend fun getAccountAddressesAssets(
         stakeAddress: String,
         queryParameters: AccountQueryParameters,
@@ -98,6 +164,12 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
         queryParams = queryParameters.toMap(),
     )
 
+    /**
+     * Retrieves the total account addresses for a given stake address.
+     *
+     * @param stakeAddress The stake address to query.
+     * @return An [AccountContentTotal] object containing the total account addresses.
+     */
     suspend fun getAccountAddressesTotal(stakeAddress: String) =
         httpClient.fetchResource<AccountContentTotal>(
             PATH_ACCOUNTS_ADDRESSES_TOTAL.replace(":stake_address", stakeAddress),
