@@ -3,7 +3,7 @@ name: Deploy Dokka Documentation
 on:
   push:
     branches:
-      - update_kdoc
+      - main
 
 jobs:
   build:
@@ -16,13 +16,13 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '17'
+          java-version: '11'
 
       - name: Build Dokka documentation
-        run: ./gradlew dokkaHtml
+        run: ./gradlew :core:dokkaHtml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/dokka
+          publish_dir: ./core/build/documentation/html
