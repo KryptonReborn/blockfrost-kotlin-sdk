@@ -3,7 +3,7 @@ name: Deploy Dokka Documentation
 on:
   push:
     branches:
-      - main
+      - update_kdoc
 
 jobs:
   build:
