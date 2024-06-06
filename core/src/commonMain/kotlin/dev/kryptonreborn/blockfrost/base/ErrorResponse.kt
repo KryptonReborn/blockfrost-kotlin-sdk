@@ -8,6 +8,13 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 
+/**
+ * The `ErrorResponse` class represents an error response from the Blockfrost API.
+ *
+ * @property statusCode The HTTP status code of the error response.
+ * @property error The error message of the error response.
+ * @property message The detailed message of the error response.
+ */
 @Serializable
 internal data class ErrorResponse(
     @SerialName("status_code")

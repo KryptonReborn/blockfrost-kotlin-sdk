@@ -37,9 +37,9 @@ internal object Ktor {
     fun httpClient(blockfrostConfig: BlockfrostConfig) = createHttpClient(blockfrostConfig)
 }
 
-expect val httpEngine: HttpClientEngineFactory<HttpClientEngineConfig>
+internal expect val httpEngine: HttpClientEngineFactory<HttpClientEngineConfig>
 
-fun createHttpClient(blockfrostConfig: BlockfrostConfig): HttpClient {
+private fun createHttpClient(blockfrostConfig: BlockfrostConfig): HttpClient {
     return HttpClient(httpEngine) {
         defaultRequest {
             url(blockfrostConfig.networkType.url)
