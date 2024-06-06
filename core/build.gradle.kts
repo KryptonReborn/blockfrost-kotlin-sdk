@@ -111,4 +111,13 @@ ktlint {
     }
 }
 
+tasks.dokkaHtml {
+    outputDirectory.set(layout.buildDirectory.dir("documentation/html"))
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+        }
+    }
+}
+
 fun isCiEnv() = System.getenv()["CI"] ?: "false"

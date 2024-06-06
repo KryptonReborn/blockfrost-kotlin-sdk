@@ -3,6 +3,12 @@ package dev.kryptonreborn.blockfrost.base
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The `BlockfrostException` class represents a generic exception from the Blockfrost API.
+ *
+ * @property message The error message of the exception.
+ * @property error The detailed error of the exception.
+ */
 @Serializable
 open class BlockfrostException(
     override val message: String,

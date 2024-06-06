@@ -95,6 +95,7 @@ kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", 
 kotlinTestingResource = { id = "com.goncalossilva.resources", version.ref = "kotlinTestingResource" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
+dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 mavenPublish = { id = "maven-publish", version = "unspecified" }
 commonMppLib = { id = "common.mpp.lib", version = "unspecified" }
 commonMppPublish = { id = "common.mpp.publish", version = "unspecified" }
