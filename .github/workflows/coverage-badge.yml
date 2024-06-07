@@ -31,8 +31,8 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{secrets.GH_GIST_TOKEN}}
-          gistID: 6ef4423537d7143b76994e2f7c58499a
-          filename: block-frost-code-coverage-badge.json
+          gistID: 80bcc643522fc574144cb35911894d21
+          filename: blockfrost-kotlin-sdk-coverage-badge.json
           label: coverage
           message: ${{env.COVERAGE}}%
           valColorRange: ${{env.COVERAGE}}
