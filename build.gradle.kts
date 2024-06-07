@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose).apply(false)
     alias(libs.plugins.buildKonfig).apply(false)
     alias(libs.plugins.dokka).apply(false)
+    alias(libs.plugins.kover).apply(false)
 }
 
 // https://youtrack.jetbrains.com/issue/KT-63014/Running-tests-with-wasmJs-in-1.9.20-requires-Chrome-Canary
