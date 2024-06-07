@@ -11,7 +11,6 @@
 ![badge-linux](http://img.shields.io/badge/Platform-Linux-lightgrey.svg?logo=linux)
 ![badge-macos](http://img.shields.io/badge/Platform-macOS-orange.svg?logo=apple)
 ![badge-windows](http://img.shields.io/badge/Platform-Windows-blue.svg?logo=windows)
-
 [//]: # (![badge-tvos]&#40;http://img.shields.io/badge/Platform-tvOS-orange.svg?logo=apple&#41;)
 
 [//]: # (![badge-watchos]&#40;http://img.shields.io/badge/Platform-watchOS-orange.svg?logo=apple&#41;)

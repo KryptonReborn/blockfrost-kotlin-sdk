@@ -49,12 +49,12 @@ jobs:
         run: ./gradlew :${{ matrix.module }}:build --parallel --build-cache --gradle-user-home ~/.gradle
 
       - name: Generate Kover Report
-        run: ./gradlew  :${{ matrix.module }}:koverXmlReport
+        run: ./gradlew :${{ matrix.module }}:koverXmlReport
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
-          name: kover-report
+          name: kover-report-${{ matrix.module }}
           path: ${{ matrix.module }}/build/reports/kover/
 
       - name: Archive artifacts
@@ -138,13 +138,13 @@ jobs:
       - name: Download coverage report
         uses: actions/download-artifact@v2
         with:
-          name: kover-report
-          path: ${{ matrix.module }}/build/reports/kover/
+          name: kover-report-core
+          path: core/build/reports/kover/
 
       - name: Generate coverage summary
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: ${{ matrix.module }}/build/reports/kover/report.xml
+          filename: core/build/reports/kover/report.xml
           badge: true
 
       - name: Update README with coverage badge
