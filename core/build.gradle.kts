@@ -10,7 +10,7 @@ plugins {
     id(libs.plugins.commonMppLib.get().pluginId)
     id(libs.plugins.commonMppPublish.get().pluginId)
     id(libs.plugins.buildKonfig.get().pluginId)
-    id("org.jetbrains.kotlinx.kover") version "0.8.0"
+    id(libs.plugins.kover.get().pluginId)
 }
 
 publishConfig {
