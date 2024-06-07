@@ -1,0 +1,40 @@
+name: Create coverage badge
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17' # !! CONFIRM THIS !!
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate coverage output
+        run: |
+          COVERAGE=$(./gradlew -q printLineCoverage | tail -n 1)
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+
+      - name: Update dynamic badge gist
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{secrets.GIST_SECRET}}
+          gistID: 6ef4423537d7143b76994e2f7c58499a
+          filename: block-frost-code-coverage-badge.json
+          label: coverage
+          message: ${{env.COVERAGE}}%
+          valColorRange: ${{env.COVERAGE}}
+          minColorRange: 0
+          maxColorRange: 100
