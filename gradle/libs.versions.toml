@@ -28,6 +28,7 @@ androidxLifecycle = "2.8.0-beta01"
 arrow = "1.2.4"
 kotlinxCoroutinesTest = "1.8.0"
 dokka = "1.9.20"
+kover = "0.8.0"
 [libraries]
 # Kotlin and Coroutines
 androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -96,6 +97,7 @@ kotlinTestingResource = { id = "com.goncalossilva.resources", version.ref = "kot
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 mavenPublish = { id = "maven-publish", version = "unspecified" }
 commonMppLib = { id = "common.mpp.lib", version = "unspecified" }
 commonMppPublish = { id = "common.mpp.publish", version = "unspecified" }

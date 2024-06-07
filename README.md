@@ -3,6 +3,8 @@
 [![GitHub release](https://img.shields.io/badge/release-v0.0.2-blue.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/releases/tag/v0.0.2) [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.23-B125EA?logo=kotlin)](https://kotlinlang.org)
 [![Build Status](https://github.com/saschpe/kase64/workflows/Main/badge.svg)](https://github.com/KryptonReborn/blockfrost-kotlin-sdk/actions)
 [![License](http://img.shields.io/:License-Apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+![coverage badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iTanChi/80bcc643522fc574144cb35911894d21/raw/blockfrost-kotlin-sdk-coverage-badge.json)
+
 
 ![badge-android](http://img.shields.io/badge/Platform-Android-brightgreen.svg?logo=android)
 ![badge-ios](http://img.shields.io/badge/Platform-iOS-orange.svg?logo=apple)
