@@ -76,11 +76,15 @@ internal suspend inline fun <reified T> HttpClient.fetchResource(
     path: String,
     method: HttpMethod = HttpMethod.Get,
     requestBody: Any? = null,
+    queryParams: Map<String, String> = emptyMap(),
 ): T {
     val response: HttpResponse =
         request {
             url {
                 encodedPath += path
+                queryParams.forEach { (key, value) ->
+                    parameters.append(key, value)
+                }
             }
             this.method = method
             contentType(ContentType.Application.Json)
