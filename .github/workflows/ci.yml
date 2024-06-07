@@ -48,6 +48,30 @@ jobs:
       - name: Build and Test
         run: ./gradlew :${{ matrix.module }}:build --parallel --build-cache --gradle-user-home ~/.gradle
 
+      - name: Kover
+        run: ./gradlew koverXmlReport
+
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: build/reports/kover/coverage.xml
+          badge: true
+          format: markdown
+          output: both
+          thresholds: '60 80'
+
+      - name: Update README with Coverage
+        run: |
+          echo "## Code Coverage" >> README.md
+          cat code-coverage-results.md >> README.md
+          git config --global user.email "doduchieu.kstn@gmail.com"
+          git config --global user.name "14H"
+          git add README.md
+          git commit -m "Update code coverage in README"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:

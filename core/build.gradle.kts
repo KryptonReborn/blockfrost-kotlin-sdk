@@ -9,6 +9,7 @@ plugins {
     id(libs.plugins.commonMppLib.get().pluginId)
     id(libs.plugins.commonMppPublish.get().pluginId)
     id(libs.plugins.buildKonfig.get().pluginId)
+    id(libs.plugins.kover.get().pluginId)
 }
 
 publishConfig {
@@ -101,7 +102,7 @@ buildkonfig {
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
     if (!isCiEnv().toBoolean()) {
         standalone.set(false)
-        device.set("your device ios simulator id")
+        device.set("EF26CE8C-1B5C-4BEB-A7A2-2732C6C0A682")
     }
 }
 

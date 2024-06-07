@@ -16,7 +16,7 @@
 
 [//]: # (![badge-watchos]&#40;http://img.shields.io/badge/Platform-watchOS-orange.svg?logo=apple&#41;)
 
-This is the template for initializing a repo based on Kotlin Multiplarform
+Kotlin Multiple Platform SDK for Blockfrost.io API
 
 ## Download
 
