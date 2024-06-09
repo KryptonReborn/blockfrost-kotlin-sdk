@@ -1,6 +1,5 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
-import dev.kryptonreborn.blockfrost.BaseIntegrationTest
 import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesAsset
 import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountContent

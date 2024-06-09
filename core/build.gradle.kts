@@ -121,7 +121,7 @@ tasks.register("printLineCoverage") {
     group = "verification" // Put into the same group as the `kover` tasks
     dependsOn("koverXmlReport")
     doLast {
-        val report = file("$buildDir/reports/kover/report.xml")
+        val report = file("$projectDir/build/reports/kover/report.xml")
 
         val doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(report)
         val rootNode = doc.firstChild

@@ -1,6 +1,5 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
-import dev.kryptonreborn.blockfrost.BaseIntegrationTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue

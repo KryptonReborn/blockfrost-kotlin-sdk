@@ -1,4 +1,4 @@
-package dev.kryptonreborn.blockfrost.unittest
+package dev.kryptonreborn.blockfrost.unittest.health
 
 import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient.createMockHttpClient

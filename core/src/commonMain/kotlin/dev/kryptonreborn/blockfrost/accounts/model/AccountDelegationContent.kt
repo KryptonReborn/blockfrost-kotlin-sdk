@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AccountDelegationContent(
     @SerialName("active_epoch") val activeEpoch: Int,
+    @SerialName("tx_hash") val txHash: String,
     @SerialName("amount") val amount: String,
     @SerialName("pool_id") val poolId: String,
 )

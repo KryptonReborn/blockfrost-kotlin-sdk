@@ -1,4 +1,5 @@
-import dev.kryptonreborn.blockfrost.BlockfrostConfig
+package dev.kryptonreborn.blockfrost
+
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
 import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.health.HealthApi
@@ -6,7 +7,7 @@ import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 
 /**
- * The `BlockFrostClient` class provides a client interface to interact with the Blockfrost API.
+ * The `dev.kryptonreborn.blockfrost.BlockFrostClient` class provides a client interface to interact with the Blockfrost API.
  *
  * @property blockfrostConfig The configuration for the Blockfrost API client.
  */
