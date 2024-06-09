@@ -13,6 +13,5 @@ data class Health(
     /**
      * Indicates whether the API is healthy.
      */
-    @SerialName("is_healthy")
-    val isHealthy: Boolean,
+    @SerialName("is_healthy") val isHealthy: Boolean,
 )

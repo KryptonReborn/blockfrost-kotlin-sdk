@@ -3,6 +3,7 @@ package dev.kryptonreborn.blockfrost.unittest.accounts.model
 import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class AccountContentTest {
@@ -25,14 +26,18 @@ class AccountContentTest {
             }
             """.trimIndent()
         val content = Ktor.json.decodeFromString<AccountContent>(json)
+        assertEquals(
+            "stake1ux3g2c9dx2nhhehyrezyxpkstartcqmu9hk63qgfkccw5rqttygt7",
+            content.stakeAddress,
+        )
         assertTrue(content.active)
-        assertTrue(content.activeEpoch == 412)
-        assertTrue(content.controlledAmount == "619154618165")
-        assertTrue(content.rewardsSum == "319154618165")
-        assertTrue(content.withdrawalsSum == "12125369253")
-        assertTrue(content.reservesSum == "319154618165")
-        assertTrue(content.treasurySum == "12000000")
-        assertTrue(content.withdrawableAmount == "319154618165")
-        assertTrue(content.poolId == "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy")
+        assertEquals(412, content.activeEpoch)
+        assertEquals("619154618165", content.controlledAmount)
+        assertEquals("319154618165", content.rewardsSum)
+        assertEquals("12125369253", content.withdrawalsSum)
+        assertEquals("319154618165", content.reservesSum)
+        assertEquals("12000000", content.treasurySum)
+        assertEquals("319154618165", content.withdrawableAmount)
+        assertEquals("pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy", content.poolId)
     }
 }
