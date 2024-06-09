@@ -45,6 +45,14 @@ jobs:
       - name: Check ktlint
         run: ./gradlew ktlintCheck --gradle-user-home ~/.gradle
 
+      - name: Launch iOS Simulator
+        uses: futureware-tech/simulator-action@v3
+        with:
+          model: 'iPhone 14'
+          os: 'iOS'
+          os_version: '>=14.0'
+          erase_before_boot: true
+
       - name: Build and Test
         run: ./gradlew :${{ matrix.module }}:build --parallel --build-cache --gradle-user-home ~/.gradle
 

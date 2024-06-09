@@ -96,14 +96,16 @@ buildkonfig {
     packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
     defaultConfigs {
         buildConfigField(BOOLEAN, "IS_CI", isCiEnv())
-        buildConfigField(STRING, "PROJECT_ID", getLocalProperty("projectId") ?: "<your project id>")
+        buildConfigField(STRING, "PROJECT_ID", getLocalProperty("projectId") ?: "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ")
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest> {
+    standalone.set(false)
     if (!isCiEnv().toBoolean()) {
-        standalone.set(false)
         device.set("your device ios simulator id")
+    } else {
+        device.set("2FA59E4C-CA1E-4E15-8F14-9824DBB43DD3")
     }
 }
 
