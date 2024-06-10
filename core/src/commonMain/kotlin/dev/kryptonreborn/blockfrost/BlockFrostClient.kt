@@ -7,7 +7,7 @@ import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 
 /**
- * The `dev.kryptonreborn.blockfrost.BlockFrostClient` class provides a client interface to interact with the Blockfrost API.
+ * The `BlockFrostClient` class provides a client interface to interact with the Blockfrost API.
  *
  * @property blockfrostConfig The configuration for the Blockfrost API client.
  */

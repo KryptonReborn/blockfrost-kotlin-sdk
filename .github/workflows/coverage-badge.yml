@@ -8,6 +8,7 @@ on:
 
 env:
   JAVA_VERSION: '17'
+  DISABLE_INTEGRATION_TESTS: false
 
 jobs:
   build:

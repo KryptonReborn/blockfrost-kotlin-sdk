@@ -25,6 +25,7 @@ open class BaseIntegrationTest {
 
     fun runIntegrationTest(block: suspend () -> Unit) =
         runTest {
+            if (BuildKonfig.DISABLE_INTEGRATION_TESTS || !isRealProjectId(projectId)) return@runTest
             block()
         }
 

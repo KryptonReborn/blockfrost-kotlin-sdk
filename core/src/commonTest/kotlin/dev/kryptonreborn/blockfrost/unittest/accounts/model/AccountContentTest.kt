@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class AccountContentTest {
-    // test account content deserialization
     @Test
     fun testDeserialization() {
         val json =
