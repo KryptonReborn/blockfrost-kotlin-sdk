@@ -18,13 +18,9 @@ class BlockFrostClient {
     private val metricsApi: MetricsApi
     private val cardanoAccountsApi: CardanoAccountsApi
 
-    constructor(blockfrostConfig: BlockfrostConfig) {
-        this.httpClient = Ktor.httpClient(blockfrostConfig)
-        this.healthApi = HealthApi(httpClient)
-        this.metricsApi = MetricsApi(httpClient)
-        this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
-    }
+    constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
+    // This use for testing
     internal constructor(httpClient: HttpClient) {
         this.httpClient = httpClient
         this.healthApi = HealthApi(httpClient)
