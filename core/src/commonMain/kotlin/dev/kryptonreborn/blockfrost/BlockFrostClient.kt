@@ -5,17 +5,32 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
+import io.ktor.client.HttpClient
 
 /**
  * The `BlockFrostClient` class provides a client interface to interact with the Blockfrost API.
  *
  * @property blockfrostConfig The configuration for the Blockfrost API client.
  */
-class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
-    private val httpClient by lazy { Ktor.httpClient(blockfrostConfig) }
-    private val healthApi: HealthApi by lazy { HealthApi(httpClient) }
-    private val metricsApi: MetricsApi by lazy { MetricsApi(httpClient) }
-    private val cardanoAccountsApi: CardanoAccountsApi by lazy { CardanoAccountsApi(httpClient) }
+class BlockFrostClient {
+    private val httpClient: HttpClient
+    private val healthApi: HealthApi
+    private val metricsApi: MetricsApi
+    private val cardanoAccountsApi: CardanoAccountsApi
+
+    constructor(blockfrostConfig: BlockfrostConfig) {
+        this.httpClient = Ktor.httpClient(blockfrostConfig)
+        this.healthApi = HealthApi(httpClient)
+        this.metricsApi = MetricsApi(httpClient)
+        this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
+    }
+
+    internal constructor(httpClient: HttpClient) {
+        this.httpClient = httpClient
+        this.healthApi = HealthApi(httpClient)
+        this.metricsApi = MetricsApi(httpClient)
+        this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
+    }
 
     /**
      * Retrieves the root information of the API.
@@ -106,7 +121,12 @@ class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
     suspend fun getAccountRegistrations(
         stakeAddress: String,
         queryParameters: AccountQueryParameters = AccountQueryParameters(),
-    ) = handleApiResult { cardanoAccountsApi.getAccountRegistrations(stakeAddress, queryParameters) }
+    ) = handleApiResult {
+        cardanoAccountsApi.getAccountRegistrations(
+            stakeAddress,
+            queryParameters,
+        )
+    }
 
     /**
      * Retrieves account withdrawals for a given stake address.
@@ -154,7 +174,12 @@ class BlockFrostClient(blockfrostConfig: BlockfrostConfig) {
     suspend fun getAccountAddressesAssets(
         stakeAddress: String,
         queryParameters: AccountQueryParameters = AccountQueryParameters(),
-    ) = handleApiResult { cardanoAccountsApi.getAccountAddressesAssets(stakeAddress, queryParameters) }
+    ) = handleApiResult {
+        cardanoAccountsApi.getAccountAddressesAssets(
+            stakeAddress,
+            queryParameters,
+        )
+    }
 
     /**
      * Retrieves the total account addresses for a given stake address.

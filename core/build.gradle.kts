@@ -95,12 +95,8 @@ rootProject.plugins.withType<YarnPlugin> {
 buildkonfig {
     packageName = "dev.kryptonreborn.blockfrost.buildKonfig"
     defaultConfigs {
-        buildConfigField(BOOLEAN, "DISABLE_INTEGRATION_TESTS", isDisableIntegrationTests())
-        buildConfigField(
-            STRING,
-            "PROJECT_ID",
-            getLocalProperty("projectId") ?: "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
-        )
+        buildConfigField(BOOLEAN, "IS_CI", isCiEnv())
+        buildConfigField(STRING, "PROJECT_ID", getLocalProperty("projectId") ?: "<your project id>")
     }
 }
 
@@ -156,5 +152,3 @@ tasks.register("printLineCoverage") {
 }
 
 fun isCiEnv() = System.getenv()["CI"] ?: "false"
-
-fun isDisableIntegrationTests() = System.getenv()["DISABLE_INTEGRATION_TESTS"] ?: "false"
