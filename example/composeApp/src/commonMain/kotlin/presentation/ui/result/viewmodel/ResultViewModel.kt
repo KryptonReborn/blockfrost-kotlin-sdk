@@ -117,6 +117,18 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getSpecificAddress(address)
                     }
                 }
+
+                is ResultEvent.GetSpecificAddressExtended -> {
+                    getResponse {
+                        blockFrostClient.getSpecificAddressExtended(address)
+                    }
+                }
+
+                is ResultEvent.GetAddressDetail -> {
+                    getResponse {
+                        blockFrostClient.getAddressDetail(address)
+                    }
+                }
             }
         }
     }
@@ -157,6 +169,8 @@ class ResultViewModel : ViewModel() {
                 "GetAccountRewards" to ResultEvent.GetAccountRewards,
                 "GetAccountWithdrawals" to ResultEvent.GetAccountWithdrawals,
                 "GetSpecificAddress" to ResultEvent.GetSpecificAddress,
+                "GetSpecificAddressExtended" to ResultEvent.GetSpecificAddressExtended,
+                "GetAddressDetail" to ResultEvent.GetAddressDetail,
             )
     }
 }

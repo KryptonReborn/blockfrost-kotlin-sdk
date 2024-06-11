@@ -3,6 +3,7 @@ package dev.kryptonreborn.blockfrost.unittest.addresses
 import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
+import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
@@ -88,6 +89,43 @@ class CardanoAddressesApiTest {
                 HttpStatusCode.BadRequest,
             ) { api ->
                 api.getSpecificAddressExtended(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressDetailReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/model/address_detail.json"
+            val expectedData =
+                Ktor.json.decodeFromString<AddressDetail>(Resource(resource).readText())
+            val api =
+                createAddressApi(
+                    resource,
+                    CardanoAddressApi.PATH_ADDRESS_DETAIL,
+                )
+            val result = api.getAddressDetail(address)
+            assertEquals(result, expectedData)
+        }
+
+    @Test
+    fun testGetAddressDetailReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_DETAIL,
+                HttpStatusCode.OK,
+            ) { api ->
+                api.getAddressDetail(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressDetailReturnBadRequest() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_DETAIL,
+                HttpStatusCode.BadRequest,
+            ) { api ->
+                api.getAddressDetail(address)
             }
         }
 

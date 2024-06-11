@@ -126,6 +126,16 @@ fun HomeScreen(
                     Text("Get Specific Address")
                 }
             }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetSpecificAddressExtended.id) }) {
+                    Text("Get Specific Address Extended")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAddressDetail.id) }) {
+                    Text("Get Address Detail")
+                }
+            }
         }
     }
 }
