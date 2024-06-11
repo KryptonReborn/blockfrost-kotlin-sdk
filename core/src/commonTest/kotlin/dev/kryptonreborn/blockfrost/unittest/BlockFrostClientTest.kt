@@ -23,10 +23,13 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_DETAIL
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_TRANSACTIONS
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_TXS
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_UTXOS
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES_EXTENDED
 import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
+import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
@@ -362,6 +365,60 @@ class BlockFrostClientTest {
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
             val result = blockFrostClient.getAddressUtxos(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAddressUtxosAssets() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_utxos_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AddressUTXO>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ADDRESS_UTXOS.replace(
+                        ":address",
+                        anyString,
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAddressUtxos(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAddressTransactions() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_transactions_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AddressTransaction>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ADDRESS_TRANSACTIONS.replace(
+                        ":address",
+                        anyString,
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAddressTransactions(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAddressTxs() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_txs_200.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ADDRESS_TXS.replace(
+                        ":address",
+                        anyString,
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAddressTxs(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 }

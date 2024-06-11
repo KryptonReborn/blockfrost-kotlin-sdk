@@ -16,6 +16,14 @@ class AddressUTXOTest {
             content.address,
         )
         assertEquals(1, content.amount.size)
+        assertEquals(
+            "7eb8e27d18686c7db9a18f8bbcfe34e3fed6e047afaa2d969904d15e934847e6",
+            content.block,
+        )
+        assertEquals(
+            "9e478573ab81ea7a8e31891ce0648b81229f408d596a3483e6f4f9b92d3cf710",
+            content.dataHash,
+        )
         assertEquals("lovelace", content.amount[0].unit)
         assertEquals("42000000", content.amount[0].quantity)
         assertEquals(null, content.inlineDatum)

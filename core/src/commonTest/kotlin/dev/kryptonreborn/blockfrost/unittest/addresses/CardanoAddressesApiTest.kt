@@ -4,6 +4,7 @@ import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
 import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
+import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.base.BadRequestException
@@ -164,6 +165,117 @@ class CardanoAddressesApiTest {
                 HttpStatusCode.BadRequest,
             ) { api ->
                 api.getAddressUtxos(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressUtxosAssetsReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_utxos_200.json"
+            val expectedData =
+                Ktor.json.decodeFromString<List<AddressUTXO>>(Resource(resource).readText())
+            val api =
+                createAddressApi(
+                    resource,
+                    CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                )
+            val result = api.getAddressUtxosAssets(address)
+            assertEquals(result, expectedData)
+        }
+
+    @Test
+    fun testGetAddressUtxosAssetsReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                HttpStatusCode.OK,
+            ) { api ->
+                api.getAddressUtxosAssets(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressUtxosAssetsReturnBadRequest() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                HttpStatusCode.BadRequest,
+            ) { api ->
+                api.getAddressUtxosAssets(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressTransactionsReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_transactions_200.json"
+            val expectedData =
+                Ktor.json.decodeFromString<List<AddressTransaction>>(Resource(resource).readText())
+            val api =
+                createAddressApi(
+                    resource,
+                    CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
+                )
+            val result = api.getAddressTransactions(address)
+            assertEquals(result, expectedData)
+        }
+
+    @Test
+    fun testGetAddressTransactionsReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
+                HttpStatusCode.OK,
+            ) { api ->
+                api.getAddressTransactions(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressTransactionsReturnBadRequest() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
+                HttpStatusCode.BadRequest,
+            ) { api ->
+                api.getAddressTransactions(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressTxsReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_txs_200.json"
+            val expectedData =
+                Ktor.json.decodeFromString<List<String>>(Resource(resource).readText())
+            val api =
+                createAddressApi(
+                    resource,
+                    CardanoAddressApi.PATH_ADDRESS_TXS,
+                )
+            val result = api.getAddressTxs(address)
+            assertEquals(result, expectedData)
+        }
+
+    @Test
+    fun testGetAddressTxsReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_TXS,
+                HttpStatusCode.OK,
+            ) { api ->
+                api.getAddressTxs(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressTxsReturnBadRequest() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_TXS,
+                HttpStatusCode.BadRequest,
+            ) { api ->
+                api.getAddressTxs(address)
             }
         }
 
