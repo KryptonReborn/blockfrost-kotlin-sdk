@@ -13,6 +13,5 @@ data class Clock(
     /**
      * The current server time in UNIX time milliseconds.
      */
-    @SerialName("server_time")
-    val serverTime: Long,
+    @SerialName("server_time") val serverTime: Long,
 )

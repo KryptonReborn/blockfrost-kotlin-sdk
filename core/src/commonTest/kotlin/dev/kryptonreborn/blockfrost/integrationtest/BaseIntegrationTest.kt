@@ -1,6 +1,8 @@
-package dev.kryptonreborn.blockfrost
+package dev.kryptonreborn.blockfrost.integrationtest
 
-import BlockFrostClient
+import dev.kryptonreborn.blockfrost.BlockFrostClient
+import dev.kryptonreborn.blockfrost.BlockfrostConfig
+import dev.kryptonreborn.blockfrost.NetworkType
 import dev.kryptonreborn.blockfrost.buildKonfig.BuildKonfig
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest

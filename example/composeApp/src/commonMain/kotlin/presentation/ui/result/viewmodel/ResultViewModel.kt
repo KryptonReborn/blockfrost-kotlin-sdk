@@ -1,10 +1,10 @@
 package presentation.ui.result.viewmodel
 
-import BlockFrostClient
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.kryptonreborn.blockfrost.BlockFrostClient
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType

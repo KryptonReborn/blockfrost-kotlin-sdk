@@ -27,4 +27,5 @@ data class AccountContent(
     @SerialName("reserves_sum") val reservesSum: String,
     @SerialName("treasury_sum") val treasurySum: String,
     @SerialName("withdrawable_amount") val withdrawableAmount: String,
+    @SerialName("pool_id") val poolId: String?,
 )

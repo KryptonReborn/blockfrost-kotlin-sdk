@@ -4,4 +4,4 @@ import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.engine.js.Js
 
-actual val httpEngine: HttpClientEngineFactory<HttpClientEngineConfig> = Js
+internal actual val httpEngine: HttpClientEngineFactory<HttpClientEngineConfig> = Js
