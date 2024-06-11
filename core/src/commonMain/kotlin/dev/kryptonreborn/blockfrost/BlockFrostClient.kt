@@ -198,6 +198,14 @@ class BlockFrostClient {
     suspend fun getSpecificAddress(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddress(address) }
 
     /**
+     * Obtain extended information about a specific address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing the specific address information.
+     */
+    suspend fun getSpecificAddressExtended(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddressExtended(address) }
+
+    /**
      * Handles the result of an API call, wrapping it in a [Result] object.
      *
      * @param block The API call to be executed.

@@ -23,6 +23,7 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES_EXTENDED
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
@@ -303,6 +304,24 @@ class BlockFrostClientTest {
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
             val result = blockFrostClient.getSpecificAddress(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificAddressExtended() =
+        runTest {
+            val resource = "src/commonTest/resources/model/specific_address.json"
+            val expectedData = resource.resourceToExpectedData<SpecificAddress>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_ADDRESSES_EXTENDED.replace(
+                        ":address",
+                        anyString,
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificAddressExtended(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 }
