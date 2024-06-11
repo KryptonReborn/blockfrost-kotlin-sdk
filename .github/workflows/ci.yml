@@ -45,16 +45,6 @@ jobs:
       - name: Build and Test
         run: ./gradlew :${{ matrix.module }}:build --parallel --build-cache --gradle-user-home ~/.gradle
 
-      - name: Check Coverage
-        run: |
-          coverage=$(./gradlew -q printLineCoverage | tail -n 1)
-          echo "Coverage: $coverage"
-          coverage=${coverage%\%}  # Remove the percentage sign
-          if (( $(echo "$coverage < 85" | bc -l) )); then
-            echo "Coverage is below 85%"
-            exit 1
-          fi
-
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:

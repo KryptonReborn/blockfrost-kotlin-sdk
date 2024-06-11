@@ -24,9 +24,11 @@ class ErrorResponseTest {
     fun testHandleErrorFromString() {
         val jsonString =
             Resource("src/commonTest/resources/test_data_errors_response.json").readText()
-        assertFailsWith<BlockfrostException> {
-            handleResponseFromString<AccountContent>(jsonString)
-        }
+        val exception =
+            assertFailsWith<BlockfrostException> {
+                handleResponseFromString<AccountContent>(jsonString)
+            }
+        assertTrue(exception is BadRequestException)
     }
 
     @Test
