@@ -214,6 +214,14 @@ class BlockFrostClient {
     suspend fun getAddressDetail(address: String) = handleApiResult { cardanoAddressApi.getAddressDetail(address) }
 
     /**
+     * UTXOs of the address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing a list of UTXOs.
+     */
+    suspend fun getAddressUtxos(address: String) = handleApiResult { cardanoAddressApi.getAddressUtxos(address) }
+
+    /**
      * Handles the result of an API call, wrapping it in a [Result] object.
      *
      * @param block The API call to be executed.

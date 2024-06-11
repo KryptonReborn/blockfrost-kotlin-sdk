@@ -136,6 +136,11 @@ fun HomeScreen(
                     Text("Get Address Detail")
                 }
             }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAddressUtxos.id) }) {
+                    Text("Get Address Utxos")
+                }
+            }
         }
     }
 }

@@ -129,6 +129,12 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getAddressDetail(address)
                     }
                 }
+
+                is ResultEvent.GetAddressUtxos -> {
+                    getResponse {
+                        blockFrostClient.getAddressUtxos(address)
+                    }
+                }
             }
         }
     }
@@ -171,6 +177,7 @@ class ResultViewModel : ViewModel() {
                 "GetSpecificAddress" to ResultEvent.GetSpecificAddress,
                 "GetSpecificAddressExtended" to ResultEvent.GetSpecificAddressExtended,
                 "GetAddressDetail" to ResultEvent.GetAddressDetail,
+                "GetAddressUtxos" to ResultEvent.GetAddressUtxos,
             )
     }
 }

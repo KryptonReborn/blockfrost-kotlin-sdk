@@ -36,4 +36,6 @@ sealed class ResultEvent(val id: String) {
     data object GetSpecificAddressExtended : ResultEvent("GetSpecificAddressExtended")
 
     data object GetAddressDetail : ResultEvent("GetAddressDetail")
+
+    data object GetAddressUtxos : ResultEvent("GetAddressUtxos")
 }

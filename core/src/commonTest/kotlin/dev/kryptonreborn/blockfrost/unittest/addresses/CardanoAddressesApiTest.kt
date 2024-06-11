@@ -4,6 +4,7 @@ import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
 import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
+import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
@@ -126,6 +127,43 @@ class CardanoAddressesApiTest {
                 HttpStatusCode.BadRequest,
             ) { api ->
                 api.getAddressDetail(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressUtxosReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/api_address_utxos_200.json"
+            val expectedData =
+                Ktor.json.decodeFromString<List<AddressUTXO>>(Resource(resource).readText())
+            val api =
+                createAddressApi(
+                    resource,
+                    CardanoAddressApi.PATH_ADDRESS_UTXOS,
+                )
+            val result = api.getAddressUtxos(address)
+            assertEquals(result, expectedData)
+        }
+
+    @Test
+    fun testGetAddressUtxosReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_UTXOS,
+                HttpStatusCode.OK,
+            ) { api ->
+                api.getAddressUtxos(address)
+            }
+        }
+
+    @Test
+    fun testGetAddressUtxosReturnBadRequest() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAddressApi.PATH_ADDRESS_UTXOS,
+                HttpStatusCode.BadRequest,
+            ) { api ->
+                api.getAddressUtxos(address)
             }
         }
 
