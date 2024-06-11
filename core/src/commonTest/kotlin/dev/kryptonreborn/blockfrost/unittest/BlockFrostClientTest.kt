@@ -289,18 +289,20 @@ class BlockFrostClientTest {
         }
 
     @Test
-    fun testGetSpecificAddress() = runTest {
-        val resource = "src/commonTest/resources/model/specific_address.json"
-        val expectedData = resource.resourceToExpectedData<SpecificAddress>()
-        val httpClient = createMockHttpClient(
-            PATH_SPECIFIC_ADDRESSES.replace(
-                ":address",
-                anyString,
-            ),
-            Resource(resource).readText(),
-        )
-        val blockFrostClient = BlockFrostClient(httpClient)
-        val result = blockFrostClient.getSpecificAddress(anyString)
-        assertEquals(expectedData, result.getOrNull())
-    }
+    fun testGetSpecificAddress() =
+        runTest {
+            val resource = "src/commonTest/resources/model/specific_address.json"
+            val expectedData = resource.resourceToExpectedData<SpecificAddress>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_ADDRESSES.replace(
+                        ":address",
+                        anyString,
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificAddress(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
 }
