@@ -30,4 +30,6 @@ sealed class ResultEvent(val id: String) {
     data object GetAccountRewards : ResultEvent("GetAccountRewards")
 
     data object GetAccountWithdrawals : ResultEvent("GetAccountWithdrawals")
+
+    data object GetSpecificAddress : ResultEvent("GetSpecificAddress")
 }

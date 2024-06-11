@@ -2,6 +2,7 @@ package dev.kryptonreborn.blockfrost
 
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
 import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -17,6 +18,7 @@ class BlockFrostClient {
     private val healthApi: HealthApi
     private val metricsApi: MetricsApi
     private val cardanoAccountsApi: CardanoAccountsApi
+    private val cardanoAddressApi: CardanoAddressApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -26,6 +28,7 @@ class BlockFrostClient {
         this.healthApi = HealthApi(httpClient)
         this.metricsApi = MetricsApi(httpClient)
         this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
+        this.cardanoAddressApi = CardanoAddressApi(httpClient)
     }
 
     /**
@@ -185,6 +188,14 @@ class BlockFrostClient {
      */
     suspend fun getAccountAddressesTotal(stakeAddress: String) =
         handleApiResult { cardanoAccountsApi.getAccountAddressesTotal(stakeAddress) }
+
+    /**
+     * Obtain information about a specific address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing the specific address information.
+     */
+    suspend fun getSpecificAddress(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddress(address) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

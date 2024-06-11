@@ -22,6 +22,8 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES
+import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH_CLOCK
@@ -34,7 +36,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BlockFrostClientTest {
-    private val stakeAddress = "stake_address"
+    private val anyString = "anyString"
 
     @Test
     fun testGetApiRoot() =
@@ -115,12 +117,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_STAKE_ADDRESS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccount(stakeAddress)
+            val result = blockFrostClient.getAccount(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -133,12 +135,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_REWARDS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountRewards(stakeAddress)
+            val result = blockFrostClient.getAccountRewards(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -151,12 +153,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_HISTORY.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountHistory(stakeAddress)
+            val result = blockFrostClient.getAccountHistory(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -169,12 +171,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_DELEGATIONS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountDelegations(stakeAddress)
+            val result = blockFrostClient.getAccountDelegations(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -187,12 +189,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_REGISTRATIONS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountRegistrations(stakeAddress)
+            val result = blockFrostClient.getAccountRegistrations(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -205,12 +207,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_WITHDRAWALS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountWithdrawals(stakeAddress)
+            val result = blockFrostClient.getAccountWithdrawals(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -223,12 +225,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_MIRS.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountMirs(stakeAddress)
+            val result = blockFrostClient.getAccountMirs(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -241,12 +243,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_ADDRESSES.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountAddresses(stakeAddress)
+            val result = blockFrostClient.getAccountAddresses(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -259,12 +261,12 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_ADDRESSES.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountAddresses(stakeAddress)
+            val result = blockFrostClient.getAccountAddresses(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -277,12 +279,28 @@ class BlockFrostClientTest {
                 createMockHttpClient(
                     PATH_ACCOUNTS_ADDRESSES_TOTAL.replace(
                         ":stake_address",
-                        stakeAddress,
+                        anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountAddressesTotal(stakeAddress)
+            val result = blockFrostClient.getAccountAddressesTotal(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
+
+    @Test
+    fun testGetSpecificAddress() = runTest {
+        val resource = "src/commonTest/resources/model/specific_address.json"
+        val expectedData = resource.resourceToExpectedData<SpecificAddress>()
+        val httpClient = createMockHttpClient(
+            PATH_SPECIFIC_ADDRESSES.replace(
+                ":address",
+                anyString,
+            ),
+            Resource(resource).readText(),
+        )
+        val blockFrostClient = BlockFrostClient(httpClient)
+        val result = blockFrostClient.getSpecificAddress(anyString)
+        assertEquals(expectedData, result.getOrNull())
+    }
 }
