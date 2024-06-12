@@ -4,7 +4,7 @@ import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
 import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
-import dev.kryptonreborn.blockfrost.base.BaseQueryParameters
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
@@ -36,7 +36,7 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
 
     suspend fun getAddressUtxos(
         address: String,
-        queryParameters: BaseQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AddressUTXO>>(
         PATH_ADDRESS_UTXOS.replace(":address", address),
         queryParams = queryParameters.toMap(),
@@ -44,7 +44,7 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
 
     suspend fun getAddressUtxosAssets(
         address: String,
-        queryParameters: BaseQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AddressUTXO>>(
         PATH_ADDRESS_UTXOS_ASSETS.replace(":address", address),
         queryParams = queryParameters.toMap(),
@@ -52,7 +52,7 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
 
     suspend fun getAddressTransactions(
         address: String,
-        queryParameters: BaseQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AddressTransaction>>(
         PATH_ADDRESS_TRANSACTIONS.replace(":address", address),
         queryParams = queryParameters.toMap(),
@@ -60,7 +60,7 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
 
     suspend fun getAddressTxs(
         address: String,
-        queryParameters: BaseQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<String>>(
         PATH_ADDRESS_TXS.replace(":address", address),
         queryParams = queryParameters.toMap(),

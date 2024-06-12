@@ -8,8 +8,8 @@ import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.base.BadRequestException
-import dev.kryptonreborn.blockfrost.base.BaseQueryParameters
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
@@ -20,7 +20,7 @@ import kotlin.test.assertTrue
 
 class CardanoAddressesApiTest {
     private val address = "address"
-    val baseQueryParameters = BaseQueryParameters()
+    private val queryParameters = QueryParameters()
 
     @Test
     fun testGetSpecificAddressReturn200() =
@@ -144,7 +144,7 @@ class CardanoAddressesApiTest {
                     resource,
                     CardanoAddressApi.PATH_ADDRESS_UTXOS,
                 )
-            val result = api.getAddressUtxos(address, baseQueryParameters)
+            val result = api.getAddressUtxos(address, queryParameters)
             assertEquals(result, expectedData)
         }
 
@@ -155,7 +155,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_UTXOS,
                 HttpStatusCode.OK,
             ) { api ->
-                api.getAddressUtxos(address, baseQueryParameters)
+                api.getAddressUtxos(address, queryParameters)
             }
         }
 
@@ -166,7 +166,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_UTXOS,
                 HttpStatusCode.BadRequest,
             ) { api ->
-                api.getAddressUtxos(address, baseQueryParameters)
+                api.getAddressUtxos(address, queryParameters)
             }
         }
 
@@ -181,7 +181,7 @@ class CardanoAddressesApiTest {
                     resource,
                     CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
                 )
-            val result = api.getAddressUtxosAssets(address, baseQueryParameters)
+            val result = api.getAddressUtxosAssets(address, queryParameters)
             assertEquals(result, expectedData)
         }
 
@@ -192,7 +192,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
                 HttpStatusCode.OK,
             ) { api ->
-                api.getAddressUtxosAssets(address, baseQueryParameters)
+                api.getAddressUtxosAssets(address, queryParameters)
             }
         }
 
@@ -203,7 +203,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
                 HttpStatusCode.BadRequest,
             ) { api ->
-                api.getAddressUtxosAssets(address, baseQueryParameters)
+                api.getAddressUtxosAssets(address, queryParameters)
             }
         }
 
@@ -218,7 +218,7 @@ class CardanoAddressesApiTest {
                     resource,
                     CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
                 )
-            val result = api.getAddressTransactions(address, baseQueryParameters)
+            val result = api.getAddressTransactions(address, queryParameters)
             assertEquals(result, expectedData)
         }
 
@@ -229,7 +229,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
                 HttpStatusCode.OK,
             ) { api ->
-                api.getAddressTransactions(address, baseQueryParameters)
+                api.getAddressTransactions(address, queryParameters)
             }
         }
 
@@ -240,7 +240,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_TRANSACTIONS,
                 HttpStatusCode.BadRequest,
             ) { api ->
-                api.getAddressTransactions(address, baseQueryParameters)
+                api.getAddressTransactions(address, queryParameters)
             }
         }
 
@@ -255,7 +255,7 @@ class CardanoAddressesApiTest {
                     resource,
                     CardanoAddressApi.PATH_ADDRESS_TXS,
                 )
-            val result = api.getAddressTxs(address, baseQueryParameters)
+            val result = api.getAddressTxs(address, queryParameters)
             assertEquals(result, expectedData)
         }
 
@@ -266,7 +266,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_TXS,
                 HttpStatusCode.OK,
             ) { api ->
-                api.getAddressTxs(address, baseQueryParameters)
+                api.getAddressTxs(address, queryParameters)
             }
         }
 
@@ -277,7 +277,7 @@ class CardanoAddressesApiTest {
                 CardanoAddressApi.PATH_ADDRESS_TXS,
                 HttpStatusCode.BadRequest,
             ) { api ->
-                api.getAddressTxs(address, baseQueryParameters)
+                api.getAddressTxs(address, queryParameters)
             }
         }
 

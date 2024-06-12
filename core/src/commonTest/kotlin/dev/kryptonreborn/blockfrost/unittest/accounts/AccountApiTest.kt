@@ -25,8 +25,8 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
 import dev.kryptonreborn.blockfrost.base.BadRequestException
-import dev.kryptonreborn.blockfrost.base.BaseQueryParameters
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -36,7 +36,7 @@ import kotlin.test.assertTrue
 
 class AccountApiTest {
     private val stakeAddress = "stake_address"
-    private val queryParameters = BaseQueryParameters()
+    private val queryParameters = QueryParameters()
 
     @Test
     fun testApiAccountReturnCorrectData() =

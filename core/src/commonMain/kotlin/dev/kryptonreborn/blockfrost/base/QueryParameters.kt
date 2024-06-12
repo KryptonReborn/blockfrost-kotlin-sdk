@@ -1,13 +1,13 @@
 package dev.kryptonreborn.blockfrost.base
 
 /**
- * The `BaseQueryParameters` class represents the query parameters for an account.
+ * The `QueryParameters` data class represents the query parameters to use when making a request.
  *
  * @property count The number of items to return.
  * @property page The page number to return.
  * @property order The order in which to return the items.
  */
-data class BaseQueryParameters(
+data class QueryParameters(
     val count: Int = 100,
     val page: Int = 1,
     val order: Order = Order.ASC,
