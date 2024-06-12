@@ -32,6 +32,15 @@ class ErrorResponseTest {
     }
 
     @Test
+    fun testHandleErrorFromNullString() {
+        val exception =
+            assertFailsWith<IllegalArgumentException> {
+                handleResponseFromString<AccountContent>("null")
+            }
+        assertEquals("Unexpected JSON format", exception.message)
+    }
+
+    @Test
     fun testGetExceptionFromResponse() {
         val error101Response = ErrorResponse(101, "error", "message")
         val exception101 = getExceptionFromResponse(error101Response)
@@ -65,5 +74,6 @@ class ErrorResponseTest {
         val error500Response = ErrorResponse(500, "error", "message")
         val exception500 = getExceptionFromResponse(error500Response)
         assertTrue(exception500 is ServerException)
+        assertEquals(500, exception500.statusCode)
     }
 }
