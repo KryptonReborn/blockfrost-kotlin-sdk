@@ -4,6 +4,7 @@ import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
 import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
+import dev.kryptonreborn.blockfrost.base.BaseQueryParameters
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
@@ -33,23 +34,35 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
             PATH_ADDRESS_DETAIL.replace(":address", address),
         )
 
-    suspend fun getAddressUtxos(address: String) =
-        httpClient.fetchResource<List<AddressUTXO>>(
-            PATH_ADDRESS_UTXOS.replace(":address", address),
-        )
+    suspend fun getAddressUtxos(
+        address: String,
+        queryParameters: BaseQueryParameters,
+    ) = httpClient.fetchResource<List<AddressUTXO>>(
+        PATH_ADDRESS_UTXOS.replace(":address", address),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAddressUtxosAssets(address: String) =
-        httpClient.fetchResource<List<AddressUTXO>>(
-            PATH_ADDRESS_UTXOS_ASSETS.replace(":address", address),
-        )
+    suspend fun getAddressUtxosAssets(
+        address: String,
+        queryParameters: BaseQueryParameters,
+    ) = httpClient.fetchResource<List<AddressUTXO>>(
+        PATH_ADDRESS_UTXOS_ASSETS.replace(":address", address),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAddressTransactions(address: String) =
-        httpClient.fetchResource<List<AddressTransaction>>(
-            PATH_ADDRESS_TRANSACTIONS.replace(":address", address),
-        )
+    suspend fun getAddressTransactions(
+        address: String,
+        queryParameters: BaseQueryParameters,
+    ) = httpClient.fetchResource<List<AddressTransaction>>(
+        PATH_ADDRESS_TRANSACTIONS.replace(":address", address),
+        queryParams = queryParameters.toMap(),
+    )
 
-    suspend fun getAddressTxs(address: String) =
-        httpClient.fetchResource<List<String>>(
-            PATH_ADDRESS_TXS.replace(":address", address),
-        )
+    suspend fun getAddressTxs(
+        address: String,
+        queryParameters: BaseQueryParameters,
+    ) = httpClient.fetchResource<List<String>>(
+        PATH_ADDRESS_TXS.replace(":address", address),
+        queryParams = queryParameters.toMap(),
+    )
 }

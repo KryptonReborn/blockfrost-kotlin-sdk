@@ -418,7 +418,8 @@ class BlockFrostClientTest {
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAddressTxs(anyString)
+            val result =
+                blockFrostClient.getAddressTxs(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 }
