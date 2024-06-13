@@ -241,6 +241,7 @@ class BlockFrostClient {
      * @param address The address to query.
      * @return A [Result] containing a list of transactions.
      */
+    @Deprecated("This endpoint has been deprecated and may be removed in future versions of the API.")
     suspend fun getAddressTxs(
         address: String,
         queryParameters: QueryParameters = QueryParameters(),
