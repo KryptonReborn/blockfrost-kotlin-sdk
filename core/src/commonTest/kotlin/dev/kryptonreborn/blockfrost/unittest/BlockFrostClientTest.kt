@@ -5,6 +5,7 @@ import dev.kryptonreborn.blockfrost.BlockFrostClient
 import dev.kryptonreborn.blockfrost.TestKtorClient.createMockHttpClient
 import dev.kryptonreborn.blockfrost.TestKtorClient.resourceToExpectedData
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_ADDRESSES
+import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_ADDRESSES_ASSETS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_ADDRESSES_TOTAL
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_DELEGATIONS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_HISTORY
@@ -13,6 +14,7 @@ import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_A
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_REWARDS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_STAKE_ADDRESS
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi.Companion.PATH_ACCOUNTS_WITHDRAWALS
+import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesAsset
 import dev.kryptonreborn.blockfrost.accounts.model.AccountAddressesContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
@@ -363,30 +365,30 @@ class BlockFrostClientTest {
     @Test
     fun testGetAccountAddressesAssets() =
         runTest {
-            val resource = "src/commonTest/resources/api_account_addresses_200.json"
-            val expectedData = resource.resourceToExpectedData<List<AccountAddressesContent>>()
+            val resource = "src/commonTest/resources/api_account_addresses_assets_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AccountAddressesAsset>>()
             val httpClient =
                 createMockHttpClient(
-                    PATH_ACCOUNTS_ADDRESSES.replace(
+                    PATH_ACCOUNTS_ADDRESSES_ASSETS.replace(
                         ":stake_address",
                         anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAccountAddresses(anyString)
+            val result = blockFrostClient.getAccountAddressesAssets(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
     @Test
     fun testGetAccountAddressesAssetsFail() =
         testApiFail(
-            PATH_ACCOUNTS_ADDRESSES.replace(
+            PATH_ACCOUNTS_ADDRESSES_ASSETS.replace(
                 ":stake_address",
                 anyString,
             ),
         ) { blockFrostClient ->
-            blockFrostClient.getAccountAddresses(anyString)
+            blockFrostClient.getAccountAddressesAssets(anyString)
         }
 
     @Test
@@ -624,6 +626,9 @@ class BlockFrostClientTest {
         }
 
     @Test
+    fun testGetAssetsFail() = testApiFail(PATH_ASSETS) { blockFrostClient -> blockFrostClient.getAssets() }
+
+    @Test
     fun testGetSpecificAsset() =
         runTest {
             val asset = "asset"
@@ -638,6 +643,12 @@ class BlockFrostClientTest {
             val result = blockFrostClient.getSpecificAsset(asset)
             assertEquals(expectedData, result.getOrNull())
         }
+
+    @Test
+    fun testGetSpecificAssetFail() =
+        testApiFail(
+            PATH_SPECIFIC_ASSET.replace(":asset", anyString),
+        ) { blockFrostClient -> blockFrostClient.getSpecificAsset(anyString) }
 
     @Test
     fun testGetAssetHistory() =
@@ -656,6 +667,12 @@ class BlockFrostClientTest {
         }
 
     @Test
+    fun testGetAssetHistoryFail() =
+        testApiFail(
+            PATH_ASSET_HISTORY.replace(":asset", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAssetHistory(anyString) }
+
+    @Test
     fun testGetAssetTxs() =
         runTest {
             val resource = "src/commonTest/resources/list_string.json"
@@ -669,6 +686,12 @@ class BlockFrostClientTest {
             val result = blockFrostClient.getAssetTxs(anyString)
             assertEquals(expectedData, result.getOrNull())
         }
+
+    @Test
+    fun testGetAssetTxsFail() =
+        testApiFail(
+            PATH_ASSET_TXS.replace(":asset", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAssetTxs(anyString) }
 
     private fun testApiFail(
         path: String,
