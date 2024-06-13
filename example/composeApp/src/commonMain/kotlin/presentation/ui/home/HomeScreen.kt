@@ -61,7 +61,7 @@ fun HomeScreen(
             }
             item {
                 Text(
-                    text = "Account Api",
+                    text = "Cardano Account Api",
                     style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
                 )
             }
@@ -113,6 +113,32 @@ fun HomeScreen(
             item {
                 TextButton(onClick = { navigateToResult(ResultEvent.GetAccountWithdrawals.id) }) {
                     Text("Get Account Withdrawals")
+                }
+            }
+            item {
+                Text(
+                    text = "Cardano Address Api",
+                    style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                )
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetSpecificAddress.id) }) {
+                    Text("Get Specific Address")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetSpecificAddressExtended.id) }) {
+                    Text("Get Specific Address Extended")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAddressDetail.id) }) {
+                    Text("Get Address Detail")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAddressUtxos.id) }) {
+                    Text("Get Address Utxos")
                 }
             }
         }

@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class ResultViewModel : ViewModel() {
     private val stakeAddress = "stake1u9ylzsgxaa6xctf4juup682ar3juj85n8tx3hthnljg47zctvm3rc"
+    private val address =
+        "addr1qxqs59lphg8g6qndelq8xwqn60ag3aeyfcp33c2kdp46a09re5df3pzwwmyq946axfcejy5n4x0y99wqpgtp2gd0k09qsgy6pz"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -109,6 +111,30 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getAccountWithdrawals(stakeAddress)
                     }
                 }
+
+                is ResultEvent.GetSpecificAddress -> {
+                    getResponse {
+                        blockFrostClient.getSpecificAddress(address)
+                    }
+                }
+
+                is ResultEvent.GetSpecificAddressExtended -> {
+                    getResponse {
+                        blockFrostClient.getSpecificAddressExtended(address)
+                    }
+                }
+
+                is ResultEvent.GetAddressDetail -> {
+                    getResponse {
+                        blockFrostClient.getAddressDetail(address)
+                    }
+                }
+
+                is ResultEvent.GetAddressUtxos -> {
+                    getResponse {
+                        blockFrostClient.getAddressUtxos(address)
+                    }
+                }
             }
         }
     }
@@ -148,6 +174,10 @@ class ResultViewModel : ViewModel() {
                 "GetAccountRegistrations" to ResultEvent.GetAccountRegistrations,
                 "GetAccountRewards" to ResultEvent.GetAccountRewards,
                 "GetAccountWithdrawals" to ResultEvent.GetAccountWithdrawals,
+                "GetSpecificAddress" to ResultEvent.GetSpecificAddress,
+                "GetSpecificAddressExtended" to ResultEvent.GetSpecificAddressExtended,
+                "GetAddressDetail" to ResultEvent.GetAddressDetail,
+                "GetAddressUtxos" to ResultEvent.GetAddressUtxos,
             )
     }
 }

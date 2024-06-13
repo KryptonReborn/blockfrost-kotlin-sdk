@@ -1,7 +1,8 @@
 package dev.kryptonreborn.blockfrost
 
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
-import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -17,6 +18,7 @@ class BlockFrostClient {
     private val healthApi: HealthApi
     private val metricsApi: MetricsApi
     private val cardanoAccountsApi: CardanoAccountsApi
+    private val cardanoAddressApi: CardanoAddressApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -26,6 +28,7 @@ class BlockFrostClient {
         this.healthApi = HealthApi(httpClient)
         this.metricsApi = MetricsApi(httpClient)
         this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
+        this.cardanoAddressApi = CardanoAddressApi(httpClient)
     }
 
     /**
@@ -80,7 +83,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountRewards(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountRewards(stakeAddress, queryParameters) }
 
     /**
@@ -92,7 +95,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountHistory(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountHistory(stakeAddress, queryParameters) }
 
     /**
@@ -104,7 +107,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountDelegations(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountDelegations(stakeAddress, queryParameters) }
 
     /**
@@ -116,7 +119,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountRegistrations(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult {
         cardanoAccountsApi.getAccountRegistrations(
             stakeAddress,
@@ -133,7 +136,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountWithdrawals(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountWithdrawals(stakeAddress, queryParameters) }
 
     /**
@@ -145,7 +148,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountMirs(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountMirs(stakeAddress, queryParameters) }
 
     /**
@@ -157,7 +160,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountAddresses(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAccountsApi.getAccountAddresses(stakeAddress, queryParameters) }
 
     /**
@@ -169,7 +172,7 @@ class BlockFrostClient {
      */
     suspend fun getAccountAddressesAssets(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters = AccountQueryParameters(),
+        queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult {
         cardanoAccountsApi.getAccountAddressesAssets(
             stakeAddress,
@@ -185,6 +188,64 @@ class BlockFrostClient {
      */
     suspend fun getAccountAddressesTotal(stakeAddress: String) =
         handleApiResult { cardanoAccountsApi.getAccountAddressesTotal(stakeAddress) }
+
+    /**
+     * Obtain information about a specific address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing the specific address information.
+     */
+    suspend fun getSpecificAddress(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddress(address) }
+
+    /**
+     * Obtain extended information about a specific address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing the specific address information.
+     */
+    suspend fun getSpecificAddressExtended(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddressExtended(address) }
+
+    /**
+     * Obtain details about an address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing the detailed address information.
+     */
+    suspend fun getAddressDetail(address: String) = handleApiResult { cardanoAddressApi.getAddressDetail(address) }
+
+    /**
+     * UTXOs of the address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing a list of UTXOs.
+     */
+    suspend fun getAddressUtxos(
+        address: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAddressApi.getAddressUtxos(address, queryParameters) }
+
+    /**
+     * Transactions on the address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing a list of transactions.
+     */
+    suspend fun getAddressTransactions(
+        address: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAddressApi.getAddressTransactions(address, queryParameters) }
+
+    /**
+     * Transactions on the address.
+     *
+     * @param address The address to query.
+     * @return A [Result] containing a list of transactions.
+     */
+    @Deprecated("This endpoint has been deprecated and may be removed in future versions of the API.")
+    suspend fun getAddressTxs(
+        address: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAddressApi.getAddressTxs(address, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

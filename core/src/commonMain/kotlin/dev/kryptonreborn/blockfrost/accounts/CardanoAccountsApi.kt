@@ -7,10 +7,10 @@ import dev.kryptonreborn.blockfrost.accounts.model.AccountContentTotal
 import dev.kryptonreborn.blockfrost.accounts.model.AccountDelegationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountHistoryContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountMirContent
-import dev.kryptonreborn.blockfrost.accounts.model.AccountQueryParameters
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRegistrationContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountRewardContent
 import dev.kryptonreborn.blockfrost.accounts.model.AccountWithdrawalContent
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
@@ -53,7 +53,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountRewards(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountRewardContent>>(
         PATH_ACCOUNTS_REWARDS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -68,7 +68,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountHistory(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountHistoryContent>>(
         PATH_ACCOUNTS_HISTORY.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -83,7 +83,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountDelegations(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountDelegationContent>>(
         PATH_ACCOUNTS_DELEGATIONS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -98,7 +98,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountRegistrations(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountRegistrationContent>>(
         PATH_ACCOUNTS_REGISTRATIONS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -113,7 +113,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountWithdrawals(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountWithdrawalContent>>(
         PATH_ACCOUNTS_WITHDRAWALS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -128,7 +128,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountMirs(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountMirContent>>(
         PATH_ACCOUNTS_MIRS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -143,7 +143,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountAddresses(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountAddressesContent>>(
         PATH_ACCOUNTS_ADDRESSES.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),
@@ -158,7 +158,7 @@ internal class CardanoAccountsApi(private val httpClient: HttpClient) {
      */
     suspend fun getAccountAddressesAssets(
         stakeAddress: String,
-        queryParameters: AccountQueryParameters,
+        queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AccountAddressesAsset>>(
         PATH_ACCOUNTS_ADDRESSES_ASSETS.replace(":stake_address", stakeAddress),
         queryParams = queryParameters.toMap(),

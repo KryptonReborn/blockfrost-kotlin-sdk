@@ -16,8 +16,7 @@ open class BlockfrostException(
 ) : Exception(message)
 
 open class ClientException(
-    @SerialName("status_code")
-    val statusCode: Int,
+    @SerialName("status_code") val statusCode: Int,
     override val message: String,
     override val error: String,
 ) : BlockfrostException(message, error)
