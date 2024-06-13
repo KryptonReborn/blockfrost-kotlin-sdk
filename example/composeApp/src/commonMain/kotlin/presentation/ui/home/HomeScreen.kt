@@ -162,6 +162,26 @@ fun HomeScreen(
                     Text("Get Asset History")
                 }
             }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssetTxs.id) }) {
+                    Text("Get Asset Txs")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssetTransactions.id) }) {
+                    Text("Get Asset Transactions")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssetAddresses.id) }) {
+                    Text("Get Asset Addresses")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssetPolicy.id) }) {
+                    Text("Get Asset Policy")
+                }
+            }
         }
     }
 }

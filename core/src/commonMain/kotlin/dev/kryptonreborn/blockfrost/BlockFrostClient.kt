@@ -288,6 +288,35 @@ class BlockFrostClient {
     ) = handleApiResult { cardanoAssetsApi.getAssetTxs(asset, queryParameters) }
 
     /**
+     * List of a specific asset transactions
+     *
+     * @param asset The asset to query.
+     * @param queryParameters The query parameters to apply.
+     */
+    suspend fun getAssetTransactions(
+        asset: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAssetsApi.getAssetTransactions(asset, queryParameters) }
+
+    /**
+     * List of addresses containing a specific asset
+     *
+     * @param asset The asset to query.
+     * @param queryParameters The query parameters to apply.
+     */
+    suspend fun getAssetAddresses(
+        asset: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAssetsApi.getAssetAddresses(asset, queryParameters) }
+
+    /**
+     * List of asset minted under a specific policy
+     *
+     * @param policyId The policy ID to query.
+     */
+    suspend fun getAssetPolicy(policyId: String) = handleApiResult { cardanoAssetsApi.getAssetPolicy(policyId) }
+
+    /**
      * Handles the result of an API call, wrapping it in a [Result] object.
      *
      * @param block The API call to be executed.

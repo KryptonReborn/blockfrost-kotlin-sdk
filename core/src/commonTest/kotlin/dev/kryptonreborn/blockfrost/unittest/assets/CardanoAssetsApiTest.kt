@@ -5,7 +5,9 @@ import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.TestKtorClient.resourceToExpectedData
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi
 import dev.kryptonreborn.blockfrost.assets.model.Asset
+import dev.kryptonreborn.blockfrost.assets.model.AssetAddress
 import dev.kryptonreborn.blockfrost.assets.model.AssetHistory
+import dev.kryptonreborn.blockfrost.assets.model.AssetTransaction
 import dev.kryptonreborn.blockfrost.assets.model.SpecificAsset
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
@@ -131,6 +133,94 @@ class CardanoAssetsApiTest {
                 CardanoAssetsApi.PATH_ASSET_TXS,
                 HttpStatusCode.BadRequest,
             ) { it.getAssetTxs(anyString, queryParameters) }
+        }
+
+    @Test
+    fun testGetAssetTransactionsReturn200Correct() =
+        runTest {
+            val resource = "src/commonTest/resources/api_asset_transactions_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AssetTransaction>>()
+            val api = createAssetsApi(resource, CardanoAssetsApi.PATH_ASSET_TRANSACTION)
+            val response = api.getAssetTransactions(anyString, queryParameters)
+            assertEquals(expectedData, response)
+        }
+
+    @Test
+    fun testGetAssetTransactionsReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_TRANSACTION,
+                HttpStatusCode.OK,
+            ) { it.getAssetTransactions(anyString, queryParameters) }
+        }
+
+    @Test
+    fun testGetAssetTransactionsReturn400Error() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_TRANSACTION,
+                HttpStatusCode.BadRequest,
+            ) { it.getAssetTransactions(anyString, queryParameters) }
+        }
+
+    @Test
+    fun testGetAssetAddressesReturn200Correct() =
+        runTest {
+            val resource = "src/commonTest/resources/api_asset_addresses_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AssetAddress>>()
+            val api = createAssetsApi(resource, CardanoAssetsApi.PATH_ASSET_ADDRESSES)
+            val response = api.getAssetAddresses(anyString, queryParameters)
+            assertEquals(expectedData, response)
+        }
+
+    @Test
+    fun testGetAssetAddressesReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_ADDRESSES,
+                HttpStatusCode.OK,
+            ) { it.getAssetAddresses(anyString, queryParameters) }
+        }
+
+    @Test
+    fun testGetAssetAddressesReturn400Error() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_ADDRESSES,
+                HttpStatusCode.BadRequest,
+            ) { it.getAssetAddresses(anyString, queryParameters) }
+        }
+
+    @Test
+    fun testGetAssetPolicyReturn200Correct() =
+        runTest {
+            val resource = "src/commonTest/resources/api_assets_200.json"
+            val expectedData = resource.resourceToExpectedData<List<Asset>>()
+            val api =
+                createAssetsApi(
+                    resource,
+                    CardanoAssetsApi.PATH_ASSET_POLICY.replace(":policy_id", anyString),
+                )
+            val response = api.getAssetPolicy(anyString)
+            assertEquals(expectedData, response)
+        }
+
+    @Test
+    fun testGetAssetPolicyReturn200WithFailData() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_POLICY.replace(":policy_id", anyString),
+                HttpStatusCode.OK,
+            ) { it.getAssetPolicy(anyString) }
+        }
+
+    @Test
+    fun testGetAssetPolicyReturn400Error() =
+        runTest {
+            testApiWithFailRequest(
+                CardanoAssetsApi.PATH_ASSET_POLICY.replace(":policy_id", anyString),
+                HttpStatusCode.BadRequest,
+            ) { it.getAssetPolicy(anyString) }
         }
 
     private fun createAssetsApi(

@@ -35,11 +35,16 @@ import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSETS
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_ADDRESSES
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_HISTORY
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_POLICY
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_TRANSACTION
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_TXS
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_SPECIFIC_ASSET
 import dev.kryptonreborn.blockfrost.assets.model.Asset
+import dev.kryptonreborn.blockfrost.assets.model.AssetAddress
 import dev.kryptonreborn.blockfrost.assets.model.AssetHistory
+import dev.kryptonreborn.blockfrost.assets.model.AssetTransaction
 import dev.kryptonreborn.blockfrost.assets.model.SpecificAsset
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
@@ -692,6 +697,69 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_ASSET_TXS.replace(":asset", anyString),
         ) { blockFrostClient -> blockFrostClient.getAssetTxs(anyString) }
+
+    @Test
+    fun testGetAssetTransactions() =
+        runTest {
+            val resource = "src/commonTest/resources/api_asset_transactions_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AssetTransaction>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSET_TRANSACTION.replace(":asset", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssetTransactions(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAssetTransactionsFail() =
+        testApiFail(
+            PATH_ASSET_TRANSACTION.replace(":asset", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAssetTransactions(anyString) }
+
+    @Test
+    fun testGetAssetAddresses() =
+        runTest {
+            val resource = "src/commonTest/resources/api_asset_addresses_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AssetAddress>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSET_ADDRESSES.replace(":asset", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssetAddresses(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAssetAddressesFail() =
+        testApiFail(
+            PATH_ASSET_ADDRESSES.replace(":asset", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAssetAddresses(anyString) }
+
+    @Test
+    fun testGetAssetPolicy() =
+        runTest {
+            val resource = "src/commonTest/resources/api_assets_200.json"
+            val expectedData = resource.resourceToExpectedData<List<Asset>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSET_POLICY.replace(":policy_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssetPolicy(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAssetPolicyFail() =
+        testApiFail(
+            PATH_ASSET_POLICY.replace(":policy_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAssetPolicy(anyString) }
 
     private fun testApiFail(
         path: String,

@@ -15,6 +15,7 @@ class ResultViewModel : ViewModel() {
     private val address =
         "addr1qxqs59lphg8g6qndelq8xwqn60ag3aeyfcp33c2kdp46a09re5df3pzwwmyq946axfcejy5n4x0y99wqpgtp2gd0k09qsgy6pz"
     private val asset = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e"
+    private val policyId = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -113,25 +114,25 @@ class ResultViewModel : ViewModel() {
                     }
                 }
 
-                is ResultEvent.GetSpecificAddress -> {
+                ResultEvent.GetSpecificAddress -> {
                     getResponse {
                         blockFrostClient.getSpecificAddress(address)
                     }
                 }
 
-                is ResultEvent.GetSpecificAddressExtended -> {
+                ResultEvent.GetSpecificAddressExtended -> {
                     getResponse {
                         blockFrostClient.getSpecificAddressExtended(address)
                     }
                 }
 
-                is ResultEvent.GetAddressDetail -> {
+                ResultEvent.GetAddressDetail -> {
                     getResponse {
                         blockFrostClient.getAddressDetail(address)
                     }
                 }
 
-                is ResultEvent.GetAddressUtxos -> {
+                ResultEvent.GetAddressUtxos -> {
                     getResponse {
                         blockFrostClient.getAddressUtxos(address)
                     }
@@ -152,6 +153,30 @@ class ResultViewModel : ViewModel() {
                 ResultEvent.GetAssetHistory -> {
                     getResponse {
                         blockFrostClient.getAssetHistory(asset)
+                    }
+                }
+
+                ResultEvent.GetAssetTxs -> {
+                    getResponse {
+                        blockFrostClient.getAssetTxs(asset)
+                    }
+                }
+
+                ResultEvent.GetAssetTransactions -> {
+                    getResponse {
+                        blockFrostClient.getAssetTransactions(asset)
+                    }
+                }
+
+                ResultEvent.GetAssetAddresses -> {
+                    getResponse {
+                        blockFrostClient.getAssetAddresses(asset)
+                    }
+                }
+
+                ResultEvent.GetAssetPolicy -> {
+                    getResponse {
+                        blockFrostClient.getAssetPolicy(policyId)
                     }
                 }
             }
@@ -200,6 +225,10 @@ class ResultViewModel : ViewModel() {
                 "GetAssets" to ResultEvent.GetAssets,
                 "GetSpecificAsset" to ResultEvent.GetSpecificAsset,
                 "GetAssetHistory" to ResultEvent.GetAssetHistory,
+                "GetAssetTxs" to ResultEvent.GetAssetTxs,
+                "GetAssetTransactions" to ResultEvent.GetAssetTransactions,
+                "GetAssetAddresses" to ResultEvent.GetAssetAddresses,
+                "GetAssetPolicy" to ResultEvent.GetAssetPolicy,
             )
     }
 }
