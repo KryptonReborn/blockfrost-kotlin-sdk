@@ -14,6 +14,7 @@ class ResultViewModel : ViewModel() {
     private val stakeAddress = "stake1u9ylzsgxaa6xctf4juup682ar3juj85n8tx3hthnljg47zctvm3rc"
     private val address =
         "addr1qxqs59lphg8g6qndelq8xwqn60ag3aeyfcp33c2kdp46a09re5df3pzwwmyq946axfcejy5n4x0y99wqpgtp2gd0k09qsgy6pz"
+    private val asset = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -27,7 +28,7 @@ class ResultViewModel : ViewModel() {
     fun onTriggerEvent(event: ResultEvent) {
         viewModelScope.launch {
             when (event) {
-                is ResultEvent.GetApiRoot ->
+                ResultEvent.GetApiRoot ->
                     getResponse {
                         blockFrostClient.getApiRoot()
                     }
@@ -135,6 +136,24 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getAddressUtxos(address)
                     }
                 }
+
+                ResultEvent.GetAssets -> {
+                    getResponse {
+                        blockFrostClient.getAssets()
+                    }
+                }
+
+                ResultEvent.GetSpecificAsset -> {
+                    getResponse {
+                        blockFrostClient.getSpecificAsset(asset)
+                    }
+                }
+
+                ResultEvent.GetAssetHistory -> {
+                    getResponse {
+                        blockFrostClient.getAssetHistory(asset)
+                    }
+                }
             }
         }
     }
@@ -178,6 +197,9 @@ class ResultViewModel : ViewModel() {
                 "GetSpecificAddressExtended" to ResultEvent.GetSpecificAddressExtended,
                 "GetAddressDetail" to ResultEvent.GetAddressDetail,
                 "GetAddressUtxos" to ResultEvent.GetAddressUtxos,
+                "GetAssets" to ResultEvent.GetAssets,
+                "GetSpecificAsset" to ResultEvent.GetSpecificAsset,
+                "GetAssetHistory" to ResultEvent.GetAssetHistory,
             )
     }
 }

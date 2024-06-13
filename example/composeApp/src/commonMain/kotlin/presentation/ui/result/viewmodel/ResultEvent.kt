@@ -38,4 +38,10 @@ sealed class ResultEvent(val id: String) {
     data object GetAddressDetail : ResultEvent("GetAddressDetail")
 
     data object GetAddressUtxos : ResultEvent("GetAddressUtxos")
+
+    data object GetAssets : ResultEvent("GetAssets")
+
+    data object GetSpecificAsset : ResultEvent("GetSpecificAsset")
+
+    data object GetAssetHistory : ResultEvent("GetAssetHistory")
 }

@@ -2,6 +2,7 @@ package dev.kryptonreborn.blockfrost
 
 import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi
 import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
@@ -19,6 +20,7 @@ class BlockFrostClient {
     private val metricsApi: MetricsApi
     private val cardanoAccountsApi: CardanoAccountsApi
     private val cardanoAddressApi: CardanoAddressApi
+    private val cardanoAssetsApi: CardanoAssetsApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -29,6 +31,7 @@ class BlockFrostClient {
         this.metricsApi = MetricsApi(httpClient)
         this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
         this.cardanoAddressApi = CardanoAddressApi(httpClient)
+        this.cardanoAssetsApi = CardanoAssetsApi(httpClient)
     }
 
     /**
@@ -246,6 +249,43 @@ class BlockFrostClient {
         address: String,
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAddressApi.getAddressTxs(address, queryParameters) }
+
+    /**
+     * List of assets. If an asset is completely burned, it will stay on the list with quantity 0 (order of assets is immutable).
+     *
+     * @param queryParameters The query parameters to apply.
+     */
+    suspend fun getAssets(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoAssetsApi.getAssets(queryParameters) }
+
+    /**
+     * Information about a specific asset
+     *
+     * @param asset The asset to query.
+     */
+    suspend fun getSpecificAsset(asset: String) = handleApiResult { cardanoAssetsApi.getSpecificAsset(asset) }
+
+    /**
+     * History of a specific asset
+     *
+     * @param asset The asset to query.
+     * @param queryParameters The query parameters to apply.
+     */
+    suspend fun getAssetHistory(
+        asset: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAssetsApi.getAssetHistory(asset, queryParameters) }
+
+    /**
+     * List of a specific asset transactions
+     *
+     * @param asset The asset to query.
+     * @param queryParameters The query parameters to apply.
+     */
+    suspend fun getAssetTxs(
+        asset: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAssetsApi.getAssetTxs(asset, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

@@ -141,6 +141,27 @@ fun HomeScreen(
                     Text("Get Address Utxos")
                 }
             }
+            item {
+                Text(
+                    text = "Assets Api",
+                    style = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold),
+                )
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssets.id) }) {
+                    Text("Get Assets")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetSpecificAsset.id) }) {
+                    Text("Get Specific Asset")
+                }
+            }
+            item {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetAssetHistory.id) }) {
+                    Text("Get Asset History")
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
 data class AccountContent(
     @SerialName("stake_address") val stakeAddress: String,
     @SerialName("active") val active: Boolean,
-    @SerialName("active_epoch") val activeEpoch: Int,
+    @SerialName("active_epoch") val activeEpoch: Int?,
     @SerialName("controlled_amount") val controlledAmount: String,
     @SerialName("rewards_sum") val rewardsSum: String,
     @SerialName("withdrawals_sum") val withdrawalsSum: String,

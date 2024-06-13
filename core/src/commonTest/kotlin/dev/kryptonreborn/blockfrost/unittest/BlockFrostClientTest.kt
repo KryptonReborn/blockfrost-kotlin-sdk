@@ -32,6 +32,13 @@ import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
 import dev.kryptonreborn.blockfrost.addresses.model.AddressTransaction
 import dev.kryptonreborn.blockfrost.addresses.model.AddressUTXO
 import dev.kryptonreborn.blockfrost.addresses.model.SpecificAddress
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSETS
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_HISTORY
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_ASSET_TXS
+import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi.Companion.PATH_SPECIFIC_ASSET
+import dev.kryptonreborn.blockfrost.assets.model.Asset
+import dev.kryptonreborn.blockfrost.assets.model.AssetHistory
+import dev.kryptonreborn.blockfrost.assets.model.SpecificAsset
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
@@ -600,6 +607,68 @@ class BlockFrostClientTest {
                 anyString,
             ),
         ) { blockFrostClient -> blockFrostClient.getAddressTxs(anyString) }
+
+    @Test
+    fun testGetAssets() =
+        runTest {
+            val resource = "src/commonTest/resources/api_assets_200.json"
+            val expectedData = resource.resourceToExpectedData<List<Asset>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSETS,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssets()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificAsset() =
+        runTest {
+            val asset = "asset"
+            val resource = "src/commonTest/resources/model/specific_asset.json"
+            val expectedData = resource.resourceToExpectedData<SpecificAsset>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_ASSET.replace(":asset", asset),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificAsset(asset)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAssetHistory() =
+        runTest {
+            val asset = "asset"
+            val resource = "src/commonTest/resources/api_asset_histories_200.json"
+            val expectedData = resource.resourceToExpectedData<List<AssetHistory>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSET_HISTORY.replace(":asset", asset),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssetHistory(asset)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAssetTxs() =
+        runTest {
+            val resource = "src/commonTest/resources/list_string.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ASSET_TXS.replace(":asset", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAssetTxs(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
 
     private fun testApiFail(
         path: String,
