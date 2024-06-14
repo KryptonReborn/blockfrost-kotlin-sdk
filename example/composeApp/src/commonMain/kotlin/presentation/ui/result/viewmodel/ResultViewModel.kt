@@ -229,6 +229,8 @@ class ResultViewModel : ViewModel() {
                 "GetAssetTransactions" to ResultEvent.GetAssetTransactions,
                 "GetAssetAddresses" to ResultEvent.GetAssetAddresses,
                 "GetAssetPolicy" to ResultEvent.GetAssetPolicy,
+                "GetLatestBlock" to ResultEvent.GetLatestBlock,
+                "GetLatestBlockTxs" to ResultEvent.GetLatestBlockTxs,
             )
     }
 }

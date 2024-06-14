@@ -137,7 +137,7 @@ fun HomeScreen(
                 }
             }
             item {
-                TextButton(onClick = { navigateToResult(ResultEvent.GetAddressUtxos.id) }) {
+                TextButton(onClick = { navigateToResult(ResultEvent.GetLatestBlockTxs.id) }) {
                     Text("Get Address Utxos")
                 }
             }

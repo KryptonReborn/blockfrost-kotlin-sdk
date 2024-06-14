@@ -4,6 +4,7 @@ import dev.kryptonreborn.blockfrost.accounts.CardanoAccountsApi
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi
 import dev.kryptonreborn.blockfrost.base.QueryParameters
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -21,6 +22,7 @@ class BlockFrostClient {
     private val cardanoAccountsApi: CardanoAccountsApi
     private val cardanoAddressApi: CardanoAddressApi
     private val cardanoAssetsApi: CardanoAssetsApi
+    private val cardanoBlocksApi: CardanoBlocksApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -32,6 +34,7 @@ class BlockFrostClient {
         this.cardanoAccountsApi = CardanoAccountsApi(httpClient)
         this.cardanoAddressApi = CardanoAddressApi(httpClient)
         this.cardanoAssetsApi = CardanoAssetsApi(httpClient)
+        this.cardanoBlocksApi = CardanoBlocksApi(httpClient)
     }
 
     /**
@@ -75,7 +78,8 @@ class BlockFrostClient {
      * @param stakeAddress The stake address to query.
      * @return A [Result] containing the account information.
      */
-    suspend fun getAccount(stakeAddress: String) = handleApiResult { cardanoAccountsApi.getAccount(stakeAddress) }
+    suspend fun getAccount(stakeAddress: String) =
+        handleApiResult { cardanoAccountsApi.getAccount(stakeAddress) }
 
     /**
      * Retrieves account rewards for a given stake address.
@@ -198,7 +202,8 @@ class BlockFrostClient {
      * @param address The address to query.
      * @return A [Result] containing the specific address information.
      */
-    suspend fun getSpecificAddress(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddress(address) }
+    suspend fun getSpecificAddress(address: String) =
+        handleApiResult { cardanoAddressApi.getSpecificAddress(address) }
 
     /**
      * Obtain extended information about a specific address.
@@ -206,7 +211,8 @@ class BlockFrostClient {
      * @param address The address to query.
      * @return A [Result] containing the specific address information.
      */
-    suspend fun getSpecificAddressExtended(address: String) = handleApiResult { cardanoAddressApi.getSpecificAddressExtended(address) }
+    suspend fun getSpecificAddressExtended(address: String) =
+        handleApiResult { cardanoAddressApi.getSpecificAddressExtended(address) }
 
     /**
      * Obtain details about an address.
@@ -214,7 +220,8 @@ class BlockFrostClient {
      * @param address The address to query.
      * @return A [Result] containing the detailed address information.
      */
-    suspend fun getAddressDetail(address: String) = handleApiResult { cardanoAddressApi.getAddressDetail(address) }
+    suspend fun getAddressDetail(address: String) =
+        handleApiResult { cardanoAddressApi.getAddressDetail(address) }
 
     /**
      * UTXOs of the address.
@@ -226,6 +233,19 @@ class BlockFrostClient {
         address: String,
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoAddressApi.getAddressUtxos(address, queryParameters) }
+
+    /**
+     * UTXOs of the address.
+     *
+     * @param address The address to query.
+     * @param asset The asset to query.
+     * @return A [Result] containing a list of UTXOs.
+     */
+    suspend fun getAddressUtxosAssets(
+        address: String,
+        asset: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoAddressApi.getAddressUtxosAssets(address, asset, queryParameters) }
 
     /**
      * Transactions on the address.
@@ -315,6 +335,26 @@ class BlockFrostClient {
      * @param policyId The policy ID to query.
      */
     suspend fun getAssetPolicy(policyId: String) = handleApiResult { cardanoAssetsApi.getAssetPolicy(policyId) }
+
+    suspend fun getLatestBlock() = handleApiResult { cardanoBlocksApi.getLatestBlock() }
+
+    suspend fun getLatestBlockTxs() = handleApiResult { cardanoBlocksApi.getLatestBlockTxs() }
+
+    suspend fun getSpecificBlock(hashOrNumber: String) =
+        handleApiResult { cardanoBlocksApi.getSpecificBlock(hashOrNumber) }
+
+    suspend fun getNextBlocks(hashOrNumber: String) =
+        handleApiResult { cardanoBlocksApi.getNextBlocks(hashOrNumber) }
+
+    suspend fun getPreviousBlocks(hashOrNumber: String) =
+        handleApiResult { cardanoBlocksApi.getPreviousBlocks(hashOrNumber) }
+
+    suspend fun getBlockInSlot(slotNumber: Int) =
+        handleApiResult { cardanoBlocksApi.getBlockInSlot(slotNumber) }
+
+    suspend fun getBlockInSlotInEpoch(epochNumber: Int, slotNumber: Int) =
+        handleApiResult { cardanoBlocksApi.getBlockInSlotInEpoch(epochNumber, slotNumber) }
+
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

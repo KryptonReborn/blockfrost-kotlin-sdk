@@ -20,6 +20,7 @@ import kotlin.test.assertTrue
 
 class CardanoAddressesApiTest {
     private val address = "address"
+    private val asset = "asset"
     private val queryParameters = QueryParameters()
 
     @Test
@@ -179,9 +180,9 @@ class CardanoAddressesApiTest {
             val api =
                 createAddressApi(
                     resource,
-                    CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                    CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS.replace(":asset", asset),
                 )
-            val result = api.getAddressUtxosAssets(address, queryParameters)
+            val result = api.getAddressUtxosAssets(address, asset, queryParameters)
             assertEquals(result, expectedData)
         }
 
@@ -189,10 +190,10 @@ class CardanoAddressesApiTest {
     fun testGetAddressUtxosAssetsReturn200WithFailData() =
         runTest {
             testApiWithFailRequest(
-                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS.replace(":asset", asset),
                 HttpStatusCode.OK,
             ) { api ->
-                api.getAddressUtxosAssets(address, queryParameters)
+                api.getAddressUtxosAssets(address, asset, queryParameters)
             }
         }
 
@@ -200,10 +201,10 @@ class CardanoAddressesApiTest {
     fun testGetAddressUtxosAssetsReturnBadRequest() =
         runTest {
             testApiWithFailRequest(
-                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS,
+                CardanoAddressApi.PATH_ADDRESS_UTXOS_ASSETS.replace(":asset", asset),
                 HttpStatusCode.BadRequest,
             ) { api ->
-                api.getAddressUtxosAssets(address, queryParameters)
+                api.getAddressUtxosAssets(address, asset, queryParameters)
             }
         }
 

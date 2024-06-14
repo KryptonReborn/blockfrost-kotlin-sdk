@@ -52,4 +52,8 @@ sealed class ResultEvent(val id: String) {
     data object GetAssetAddresses : ResultEvent("GetAssetAddresses")
 
     data object GetAssetPolicy : ResultEvent("GetAssetPolicy")
+
+    data object GetLatestBlock : ResultEvent("GetLatestBlock")
+
+    data object GetLatestBlockTxs : ResultEvent("GetLatestBlockTxs")
 }
