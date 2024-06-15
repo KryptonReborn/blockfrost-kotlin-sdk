@@ -56,4 +56,18 @@ sealed class ResultEvent(val id: String) {
     data object GetLatestBlock : ResultEvent("GetLatestBlock")
 
     data object GetLatestBlockTxs : ResultEvent("GetLatestBlockTxs")
+
+    data object GetSpecificBlock : ResultEvent("GetSpecificBlock")
+
+    data object GetNextBlocks : ResultEvent("GetNextBlocks")
+
+    data object GetPreviousBlocks : ResultEvent("GetPreviousBlocks")
+
+    data object GetBlockInSlot : ResultEvent("GetBlockInSlot")
+
+    data object GetBlockInSlotInEpoch : ResultEvent("GetBlockInSlotInEpoch")
+
+    data object GetBlockTransaction : ResultEvent("GetBlockTransaction")
+
+    data object GetAddressAffectedInSpecificBlock : ResultEvent("GetAddressAffectedInSpecificBlock")
 }

@@ -14,53 +14,59 @@ class CardanoAddressApiIntegrationTest : BaseIntegrationTest() {
     private val asset = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e"
 
     @Test
-    fun testGetAddress() = runIntegrationTest {
-        val result = blockfrostClient.getSpecificAddress(address)
-        println(result.getOrNull())
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is SpecificAddress)
-    }
+    fun testGetAddress() =
+        runIntegrationTest {
+            val result = blockfrostClient.getSpecificAddress(address)
+            println(result.getOrNull())
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is SpecificAddress)
+        }
 
     @Test
-    fun testGetAddressExtended() = runIntegrationTest {
-        val result = blockfrostClient.getSpecificAddressExtended(address)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is SpecificAddress)
-    }
+    fun testGetAddressExtended() =
+        runIntegrationTest {
+            val result = blockfrostClient.getSpecificAddressExtended(address)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is SpecificAddress)
+        }
 
     @Test
-    fun testGetAddressDetail() = runIntegrationTest {
-        val result = blockfrostClient.getAddressDetail(address)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is AddressDetail)
-    }
+    fun testGetAddressDetail() =
+        runIntegrationTest {
+            val result = blockfrostClient.getAddressDetail(address)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is AddressDetail)
+        }
 
     @Test
-    fun testGetAddressUtxos() = runIntegrationTest {
-        val result = blockfrostClient.getAddressUtxos(address)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is List<AddressUTXO>)
-    }
+    fun testGetAddressUtxos() =
+        runIntegrationTest {
+            val result = blockfrostClient.getAddressUtxos(address)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is List<AddressUTXO>)
+        }
 
     @Test
-    fun testGetAddressUtxosAssets() = runIntegrationTest {
-        val result = blockfrostClient.getAddressUtxosAssets(address, asset)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is List<AddressUTXO>)
-    }
+    fun testGetAddressUtxosAssets() =
+        runIntegrationTest {
+            val result = blockfrostClient.getAddressUtxosAssets(address, asset)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is List<AddressUTXO>)
+        }
 
     @Test
-    fun testGetAddressTransactions() = runIntegrationTest {
-        val result = blockfrostClient.getAddressTransactions(address)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is List<AddressTransaction>)
-    }
+    fun testGetAddressTransactions() =
+        runIntegrationTest {
+            val result = blockfrostClient.getAddressTransactions(address)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is List<AddressTransaction>)
+        }
 
     @Test
-    fun testGetAddressTxs() = runIntegrationTest {
-        val result = blockfrostClient.getAddressTxs(address)
-        assertNotNull(result.getOrNull())
-        assertTrue(result.getOrNull() is List<String>)
-    }
-
+    fun testGetAddressTxs() =
+        runIntegrationTest {
+            val result = blockfrostClient.getAddressTxs(address)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is List<String>)
+        }
 }

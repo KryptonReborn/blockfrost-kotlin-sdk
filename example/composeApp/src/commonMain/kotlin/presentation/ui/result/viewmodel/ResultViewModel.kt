@@ -16,6 +16,8 @@ class ResultViewModel : ViewModel() {
         "addr1qxqs59lphg8g6qndelq8xwqn60ag3aeyfcp33c2kdp46a09re5df3pzwwmyq946axfcejy5n4x0y99wqpgtp2gd0k09qsgy6pz"
     private val asset = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e"
     private val policyId = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae"
+    private val hastOrNumber = "63f9730455a55c22d60f2299cb21910f65670d251a45fbc6f958213b6deaecc7"
+
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -179,6 +181,60 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getAssetPolicy(policyId)
                     }
                 }
+
+                ResultEvent.GetLatestBlock -> {
+                    getResponse {
+                        blockFrostClient.getLatestBlock()
+                    }
+                }
+
+                ResultEvent.GetLatestBlockTxs -> {
+                    getResponse {
+                        blockFrostClient.getLatestBlockTxs()
+                    }
+                }
+
+                ResultEvent.GetSpecificBlock -> {
+                    getResponse {
+                        blockFrostClient.getSpecificBlock(hastOrNumber)
+                    }
+                }
+
+                ResultEvent.GetNextBlocks -> {
+                    getResponse {
+                        blockFrostClient.getNextBlocks(hastOrNumber)
+                    }
+                }
+
+                ResultEvent.GetPreviousBlocks -> {
+                    getResponse {
+                        blockFrostClient.getPreviousBlocks(hastOrNumber)
+                    }
+                }
+
+                ResultEvent.GetBlockInSlot -> {
+                    getResponse {
+                        blockFrostClient.getBlockInSlot(0)
+                    }
+                }
+
+                ResultEvent.GetBlockInSlotInEpoch -> {
+                    getResponse {
+                        blockFrostClient.getBlockInSlotInEpoch(0, 0)
+                    }
+                }
+
+                ResultEvent.GetBlockTransaction -> {
+                    getResponse {
+                        blockFrostClient.getBlockTransaction(hastOrNumber)
+                    }
+                }
+
+                ResultEvent.GetAddressAffectedInSpecificBlock -> {
+                    getResponse {
+                        blockFrostClient.getAddressAffectedInSpecificBlock(hastOrNumber)
+                    }
+                }
             }
         }
     }
@@ -231,6 +287,13 @@ class ResultViewModel : ViewModel() {
                 "GetAssetPolicy" to ResultEvent.GetAssetPolicy,
                 "GetLatestBlock" to ResultEvent.GetLatestBlock,
                 "GetLatestBlockTxs" to ResultEvent.GetLatestBlockTxs,
+                "GetSpecificBlock" to ResultEvent.GetSpecificBlock,
+                "GetNextBlocks" to ResultEvent.GetNextBlocks,
+                "GetPreviousBlocks" to ResultEvent.GetPreviousBlocks,
+                "GetBlockInSlot" to ResultEvent.GetBlockInSlot,
+                "GetBlockInSlotInEpoch" to ResultEvent.GetBlockInSlotInEpoch,
+                "GetBlockTransaction" to ResultEvent.GetBlockTransaction,
+                "GetAddressAffectedInSpecificBlock" to ResultEvent.GetAddressAffectedInSpecificBlock,
             )
     }
 }
