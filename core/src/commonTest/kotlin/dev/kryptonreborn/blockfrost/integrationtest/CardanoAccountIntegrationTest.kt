@@ -14,7 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class AccountIntegrationTest : BaseIntegrationTest() {
+class CardanoAccountIntegrationTest : BaseIntegrationTest() {
     private val stakeAddress = "stake1u9ylzsgxaa6xctf4juup682ar3juj85n8tx3hthnljg47zctvm3rc"
 
     @Test

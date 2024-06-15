@@ -5,6 +5,7 @@ import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.TestKtorClient.resourceToExpectedData
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi
 import dev.kryptonreborn.blockfrost.blocks.model.BlockAddress
 import dev.kryptonreborn.blockfrost.blocks.model.BlockContent
@@ -18,6 +19,7 @@ import kotlin.test.assertTrue
 class CardanoBlockApiTest {
     private val anyString = "anyString"
     private val anyNumber = 1
+    private val queryParameters = QueryParameters()
 
     @Test
     fun testGetLatestBlockReturn200Correct() =
@@ -53,7 +55,7 @@ class CardanoBlockApiTest {
             val resource = "src/commonTest/resources/list_string.json"
             val expectedData = resource.resourceToExpectedData<List<String>>()
             val api = createBlockApi(resource, CardanoBlocksApi.PATH_LATEST_BLOCK_TXS)
-            val response = api.getLatestBlockTxs()
+            val response = api.getLatestBlockTxs(queryParameters)
             assertEquals(expectedData, response)
         }
 
@@ -63,7 +65,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_LATEST_BLOCK_TXS,
                 HttpStatusCode.OK,
-            ) { it.getLatestBlockTxs() }
+            ) { it.getLatestBlockTxs(queryParameters) }
         }
 
     @Test
@@ -72,7 +74,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_LATEST_BLOCK_TXS,
                 HttpStatusCode.BadRequest,
-            ) { it.getLatestBlockTxs() }
+            ) { it.getLatestBlockTxs(queryParameters) }
         }
 
     @Test
@@ -109,7 +111,7 @@ class CardanoBlockApiTest {
             val resource = "src/commonTest/resources/list_block.json"
             val expectedData = resource.resourceToExpectedData<List<BlockContent>>()
             val api = createBlockApi(resource, CardanoBlocksApi.PATH_NEXT_BLOCKS)
-            val response = api.getNextBlocks(anyString)
+            val response = api.getNextBlocks(anyString, queryParameters)
             assertEquals(expectedData, response)
         }
 
@@ -119,7 +121,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_NEXT_BLOCKS,
                 HttpStatusCode.OK,
-            ) { it.getNextBlocks(anyString) }
+            ) { it.getNextBlocks(anyString, queryParameters) }
         }
 
     @Test
@@ -128,7 +130,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_NEXT_BLOCKS,
                 HttpStatusCode.BadRequest,
-            ) { it.getNextBlocks(anyString) }
+            ) { it.getNextBlocks(anyString, queryParameters) }
         }
 
     @Test
@@ -137,7 +139,7 @@ class CardanoBlockApiTest {
             val resource = "src/commonTest/resources/list_block.json"
             val expectedData = resource.resourceToExpectedData<List<BlockContent>>()
             val api = createBlockApi(resource, CardanoBlocksApi.PATH_PREVIOUS_BLOCKS)
-            val response = api.getPreviousBlocks(anyString)
+            val response = api.getPreviousBlocks(anyString, queryParameters)
             assertEquals(expectedData, response)
         }
 
@@ -147,7 +149,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_PREVIOUS_BLOCKS,
                 HttpStatusCode.OK,
-            ) { it.getPreviousBlocks(anyString) }
+            ) { it.getPreviousBlocks(anyString, queryParameters) }
         }
 
     @Test
@@ -156,7 +158,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_PREVIOUS_BLOCKS,
                 HttpStatusCode.BadRequest,
-            ) { it.getPreviousBlocks(anyString) }
+            ) { it.getPreviousBlocks(anyString, queryParameters) }
         }
 
     @Test
@@ -221,7 +223,7 @@ class CardanoBlockApiTest {
             val resource = "src/commonTest/resources/list_string.json"
             val expectedData = resource.resourceToExpectedData<List<String>>()
             val api = createBlockApi(resource, CardanoBlocksApi.PATH_BLOCK_TRANSACTION)
-            val response = api.getBlockTransaction(anyString)
+            val response = api.getBlockTransaction(anyString, queryParameters)
             assertEquals(expectedData, response)
         }
 
@@ -231,7 +233,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_BLOCK_TRANSACTION,
                 HttpStatusCode.OK,
-            ) { it.getBlockTransaction(anyString) }
+            ) { it.getBlockTransaction(anyString, queryParameters) }
         }
 
     @Test
@@ -240,7 +242,7 @@ class CardanoBlockApiTest {
             testApiWithFailRequest(
                 CardanoBlocksApi.PATH_BLOCK_TRANSACTION,
                 HttpStatusCode.BadRequest,
-            ) { it.getBlockTransaction(anyString) }
+            ) { it.getBlockTransaction(anyString, queryParameters) }
         }
 
     @Test
