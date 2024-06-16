@@ -13,7 +13,6 @@ class CardanoBlockApiIntegrationTest : BaseIntegrationTest() {
     fun testGetLatestBlock() =
         runIntegrationTest {
             val result = blockfrostClient.getLatestBlock()
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is BlockContent)
         }
@@ -22,7 +21,6 @@ class CardanoBlockApiIntegrationTest : BaseIntegrationTest() {
     fun testGetLatestBlockTxs() =
         runIntegrationTest {
             val result = blockfrostClient.getLatestBlockTxs()
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is List<String>)
         }

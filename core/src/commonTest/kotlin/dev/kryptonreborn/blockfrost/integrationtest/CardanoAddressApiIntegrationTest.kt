@@ -17,7 +17,6 @@ class CardanoAddressApiIntegrationTest : BaseIntegrationTest() {
     fun testGetAddress() =
         runIntegrationTest {
             val result = blockfrostClient.getSpecificAddress(address)
-            println(result.getOrNull())
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is SpecificAddress)
         }

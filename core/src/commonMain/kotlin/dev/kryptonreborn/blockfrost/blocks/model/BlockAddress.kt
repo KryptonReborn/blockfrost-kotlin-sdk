@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class BlockAddress(
-    @SerialName("address") val address: String,
-    @SerialName("transactions") val transactions: List<Transaction>,
+    val address: String,
+    val transactions: List<Transaction>,
 ) {
     @Serializable
     data class Transaction(
