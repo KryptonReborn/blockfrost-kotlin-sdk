@@ -14,7 +14,7 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
         const val PATH_SPECIFIC_ADDRESSES_EXTENDED = "/api/v0/addresses/:address/extended"
         const val PATH_ADDRESS_DETAIL = "/api/v0/addresses/:address/total"
         const val PATH_ADDRESS_UTXOS = "/api/v0/addresses/:address/utxos"
-        const val PATH_ADDRESS_UTXOS_ASSETS = "/api/v0/addresses/:address/assets"
+        const val PATH_ADDRESS_UTXOS_ASSETS = "/api/v0/addresses/:address/utxos/:asset"
         const val PATH_ADDRESS_TRANSACTIONS = "/api/v0/addresses/:address/transactions"
         const val PATH_ADDRESS_TXS = "/api/v0/addresses/:address/txs"
     }
@@ -44,9 +44,12 @@ internal class CardanoAddressApi(private val httpClient: HttpClient) {
 
     suspend fun getAddressUtxosAssets(
         address: String,
+        asset: String,
         queryParameters: QueryParameters,
     ) = httpClient.fetchResource<List<AddressUTXO>>(
-        PATH_ADDRESS_UTXOS_ASSETS.replace(":address", address),
+        PATH_ADDRESS_UTXOS_ASSETS
+            .replace(":address", address)
+            .replace(":asset", asset),
         queryParams = queryParameters.toMap(),
     )
 

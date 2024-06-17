@@ -9,7 +9,7 @@ import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import io.ktor.client.HttpClient
 
-class CardanoAssetsApi(private val httpClient: HttpClient) {
+internal class CardanoAssetsApi(private val httpClient: HttpClient) {
     companion object {
         const val PATH_ASSETS = "/api/v0/assets"
         const val PATH_SPECIFIC_ASSET = "/api/v0/assets/:asset"

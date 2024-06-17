@@ -9,7 +9,11 @@ class HomeViewModel : ViewModel() {
 
     fun onTriggerEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.GetApiRoot -> {
+            is HomeEvent.ToggleCardanoApi -> {
+                val items = state.value.items.toMutableMap()
+                val item = items[event.key] ?: return
+                items[event.key] = item.copy(show = !item.show)
+                state.value = state.value.copy(items = items)
             }
         }
     }
