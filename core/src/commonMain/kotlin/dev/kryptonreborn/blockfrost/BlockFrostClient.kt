@@ -5,6 +5,7 @@ import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi
 import dev.kryptonreborn.blockfrost.assets.CardanoAssetsApi
 import dev.kryptonreborn.blockfrost.base.QueryParameters
 import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
@@ -23,6 +24,7 @@ class BlockFrostClient {
     private val cardanoAddressApi: CardanoAddressApi
     private val cardanoAssetsApi: CardanoAssetsApi
     private val cardanoBlocksApi: CardanoBlocksApi
+    private val cardanoEpochsApi: CardanoEpochsApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -35,6 +37,7 @@ class BlockFrostClient {
         this.cardanoAddressApi = CardanoAddressApi(httpClient)
         this.cardanoAssetsApi = CardanoAssetsApi(httpClient)
         this.cardanoBlocksApi = CardanoBlocksApi(httpClient)
+        this.cardanoEpochsApi = CardanoEpochsApi(httpClient)
     }
 
     /**
@@ -434,9 +437,149 @@ class BlockFrostClient {
      * Return list of addresses affected in the specified block with additional information, sorted by the bech32 address, ascending.
      *
      * @param hashOrNumber The requested block hash or number.
+     * @return A [Result] containing a list of addresses affected in the specified block.
      */
     suspend fun getAddressAffectedInSpecificBlock(hashOrNumber: String) =
         handleApiResult { cardanoBlocksApi.getAddressAffectedInSpecificBlock(hashOrNumber) }
+
+    /**
+     * Return the information about the latest, therefore current, epoch.
+     *
+     * @return A [Result] containing the data about the epoch
+     */
+    suspend fun getLatestEpoch() = handleApiResult { cardanoEpochsApi.getLatestEpoch() }
+
+    /**
+     * Return the protocol parameters for the latest epoch.
+     *
+     * @return A [Result] containing the data about the epoch protocol parameters
+     */
+    suspend fun getLatestEpochProtocolParameters() = handleApiResult { cardanoEpochsApi.getLatestEpochProtocolParameters() }
+
+    /**
+     * Return the content of the requested epoch.
+     *
+     * @param number The epoch number
+     * @return A [Result] containing the data about the epoch
+     */
+    suspend fun getSpecificEpoch(number: Int) = handleApiResult { cardanoEpochsApi.getSpecificEpoch(number) }
+
+    /**
+     * Return the list of epochs following a specific epoch.
+     *
+     * @param number The epoch number
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of epochs following a specific epoch.
+     */
+
+    suspend fun getListNextEpochs(
+        number: Int,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getListNextEpochs(
+            number,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the list of epochs preceding a specific epoch.
+     *
+     * @param number The epoch number
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of epochs preceding a specific epoch.
+     */
+    suspend fun getListPreviousEpochs(
+        number: Int,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getListPreviousEpochs(
+            number,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the active stake distribution for the specified epoch.
+     *
+     * @param number The epoch number
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing the stake distribution for the epoch.
+     */
+    suspend fun getStakeDistribution(
+        number: Int,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getStakeDistribution(
+            number,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the active stake distribution for the epoch specified by stake pool.
+     *
+     * @param number The epoch number
+     * @param poolId The pool ID
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing the stake distribution for the pool in the epoch.
+     */
+    suspend fun getStakeDistributionPool(
+        number: Int,
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getStakeDistributionPool(
+            number,
+            poolId,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the blocks minted for the epoch specified.
+     *
+     * @param number The epoch number
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing the block distribution for the epoch.
+     */
+    suspend fun getBlockDistribution(
+        number: Int,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getBlockDistribution(
+            number,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the block minted for the epoch specified by stake pool.
+     *
+     * @param number The epoch number
+     * @param poolId The pool ID
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing the block distribution for the pool in the epoch.
+     */
+    suspend fun getBlockDistributionPool(
+        number: Int,
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoEpochsApi.getBlockDistributionPool(
+            number,
+            poolId,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Return the protocol parameters for the epoch specified.
+     *
+     * @param number The epoch number
+     * @return A [Result] containing the protocol parameters for the epoch.
+     */
+    suspend fun getProtocolParameters(number: Int) = handleApiResult { cardanoEpochsApi.getProtocolParameters(number) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

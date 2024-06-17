@@ -1,8 +1,8 @@
 package dev.kryptonreborn.blockfrost.assets.model
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  *
@@ -25,6 +25,6 @@ data class SpecificAsset(
     @SerialName("quantity") var quantity: String,
     @SerialName("initial_mint_tx_hash") var initialMintTxHash: String,
     @SerialName("mint_or_burn_count") var mintOrBurnCount: Int,
-    @SerialName("onchain_metadata") var onchainMetadata: Map<String, @Contextual Any>?,
+    @SerialName("onchain_metadata") var onchainMetadata: Map<String, JsonElement>?,
     var metadata: Metadata?,
 )

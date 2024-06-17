@@ -17,7 +17,8 @@ class ResultViewModel : ViewModel() {
     private val asset = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e"
     private val policyId = "00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae"
     private val hastOrNumber = "63f9730455a55c22d60f2299cb21910f65670d251a45fbc6f958213b6deaecc7"
-
+    private val poolId = "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy"
+    private val epoch = 491
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -235,6 +236,66 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getAddressAffectedInSpecificBlock(hastOrNumber)
                     }
                 }
+
+                ResultEvent.GetLatestEpoch -> {
+                    getResponse {
+                        blockFrostClient.getLatestEpoch()
+                    }
+                }
+
+                ResultEvent.GetLatestEpochProtocolParameters -> {
+                    getResponse {
+                        blockFrostClient.getLatestEpochProtocolParameters()
+                    }
+                }
+
+                ResultEvent.GetSpecificEpoch -> {
+                    getResponse {
+                        blockFrostClient.getSpecificEpoch(epoch)
+                    }
+                }
+
+                ResultEvent.GetListNextEpochs -> {
+                    getResponse {
+                        blockFrostClient.getListNextEpochs(epoch)
+                    }
+                }
+
+                ResultEvent.GetListPreviousEpochs -> {
+                    getResponse {
+                        blockFrostClient.getListPreviousEpochs(epoch)
+                    }
+                }
+
+                ResultEvent.GetStakeDistribution -> {
+                    getResponse {
+                        blockFrostClient.getStakeDistribution(epoch)
+                    }
+                }
+
+                ResultEvent.GetStakeDistributionPool -> {
+                    getResponse {
+                        blockFrostClient.getStakeDistributionPool(epoch, poolId)
+                    }
+                }
+
+                ResultEvent.GetBlockDistribution -> {
+                    getResponse {
+                        blockFrostClient.getBlockDistribution(epoch)
+                    }
+                }
+
+                ResultEvent.GetBlockDistributionPool -> {
+                    getResponse {
+                        blockFrostClient.getBlockDistributionPool(epoch, poolId)
+                    }
+                }
+
+                ResultEvent.GetProtocolParameters -> {
+                    getResponse {
+                        blockFrostClient.getProtocolParameters(epoch)
+                    }
+                }
             }
         }
     }
@@ -294,6 +355,16 @@ class ResultViewModel : ViewModel() {
                 "GetBlockInSlotInEpoch" to ResultEvent.GetBlockInSlotInEpoch,
                 "GetBlockTransaction" to ResultEvent.GetBlockTransaction,
                 "GetAddressAffectedInSpecificBlock" to ResultEvent.GetAddressAffectedInSpecificBlock,
+                "GetLatestEpoch" to ResultEvent.GetLatestEpoch,
+                "GetLatestEpochProtocolParameters" to ResultEvent.GetLatestEpochProtocolParameters,
+                "GetSpecificEpoch" to ResultEvent.GetSpecificEpoch,
+                "GetListNextEpochs" to ResultEvent.GetListNextEpochs,
+                "GetListPreviousEpochs" to ResultEvent.GetListPreviousEpochs,
+                "GetStakeDistribution" to ResultEvent.GetStakeDistribution,
+                "GetStakeDistributionPool" to ResultEvent.GetStakeDistributionPool,
+                "GetBlockDistribution" to ResultEvent.GetBlockDistribution,
+                "GetBlockDistributionPool" to ResultEvent.GetBlockDistributionPool,
+                "GetProtocolParameters" to ResultEvent.GetProtocolParameters,
             )
     }
 }
