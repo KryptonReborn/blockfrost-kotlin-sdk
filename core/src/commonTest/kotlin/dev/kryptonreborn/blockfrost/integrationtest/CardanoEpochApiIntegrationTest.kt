@@ -22,7 +22,6 @@ class CardanoEpochApiIntegrationTest : BaseIntegrationTest() {
     fun testGetLatestEpochProtocolParameters() =
         runIntegrationTest {
             val result = blockfrostClient.getLatestEpochProtocolParameters()
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is EpochProtocolParameters)
         }
@@ -63,7 +62,6 @@ class CardanoEpochApiIntegrationTest : BaseIntegrationTest() {
     fun testGetStakeDistributionPool() =
         runIntegrationTest {
             val result = blockfrostClient.getStakeDistributionPool(0, poolId)
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is List<StakeInfo>)
         }
