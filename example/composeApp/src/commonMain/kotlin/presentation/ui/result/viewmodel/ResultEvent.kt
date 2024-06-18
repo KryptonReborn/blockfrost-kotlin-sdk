@@ -70,4 +70,24 @@ sealed class ResultEvent(val id: String) {
     data object GetBlockTransaction : ResultEvent("GetBlockTransaction")
 
     data object GetAddressAffectedInSpecificBlock : ResultEvent("GetAddressAffectedInSpecificBlock")
+
+    data object GetLatestEpoch : ResultEvent("GetLatestEpoch")
+
+    data object GetLatestEpochProtocolParameters : ResultEvent("GetLatestEpochProtocolParameters")
+
+    data object GetSpecificEpoch : ResultEvent("GetSpecificEpoch")
+
+    data object GetListNextEpochs : ResultEvent("GetListNextEpochs")
+
+    data object GetListPreviousEpochs : ResultEvent("GetListPreviousEpochs")
+
+    data object GetStakeDistribution : ResultEvent("GetStakeDistribution")
+
+    data object GetStakeDistributionPool : ResultEvent("GetStakeDistributionPool")
+
+    data object GetBlockDistribution : ResultEvent("GetBlockDistribution")
+
+    data object GetBlockDistributionPool : ResultEvent("GetBlockDistributionPool")
+
+    data object GetProtocolParameters : ResultEvent("GetProtocolParameters")
 }

@@ -82,6 +82,23 @@ data class HomeState(
                             "GetAddressAffectedInSpecificBlock",
                         ),
                 ),
+            "Cardano Epoch Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetLatestEpoch",
+                            "GetLatestEpochProtocolParameters",
+                            "GetSpecificEpoch",
+                            "GetListNextEpochs",
+                            "GetListPreviousEpochs",
+                            "GetStakeDistribution",
+                            "GetStakeDistributionPool",
+                            "GetBlockDistribution",
+                            "GetBlockDistributionPool",
+                            "GetProtocolParameters",
+                        ),
+                ),
         ),
 )
 

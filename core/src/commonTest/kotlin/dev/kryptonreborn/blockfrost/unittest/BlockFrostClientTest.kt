@@ -47,6 +47,18 @@ import dev.kryptonreborn.blockfrost.assets.model.AssetHistory
 import dev.kryptonreborn.blockfrost.assets.model.AssetTransaction
 import dev.kryptonreborn.blockfrost.assets.model.SpecificAsset
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_BLOCK_DISTRIBUTION
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_BLOCK_DISTRIBUTION_POOL
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LATEST_EPOCH
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LATEST_EPOCH_PROTOCOL_PARAMETERS
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LIST_NEXT_EPOCHS
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_PROTOCOL_PARAMETERS
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_SPECIFIC_EPOCH
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_STAKE_DISTRIBUTION
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_STAKE_DISTRIBUTION_POOL
+import dev.kryptonreborn.blockfrost.epochs.model.Epoch
+import dev.kryptonreborn.blockfrost.epochs.model.EpochProtocolParameters
+import dev.kryptonreborn.blockfrost.epochs.model.StakeInfo
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH_CLOCK
@@ -760,6 +772,228 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_ASSET_POLICY.replace(":policy_id", anyString),
         ) { blockFrostClient -> blockFrostClient.getAssetPolicy(anyString) }
+
+    @Test
+    fun testGetLatestEpoch() =
+        runTest {
+            val resource = "src/commonTest/resources/model/epoch.json"
+            val expectedData = resource.resourceToExpectedData<Epoch>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LATEST_EPOCH,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getLatestEpoch()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetLatestEpochFail() = testApiFail(PATH_LATEST_EPOCH) { blockFrostClient -> blockFrostClient.getLatestEpoch() }
+
+    @Test
+    fun testGetLatestEpochProtocolParameters() =
+        runTest {
+            val resource = "src/commonTest/resources/model/protocol_parameters.json"
+            val expectedData = resource.resourceToExpectedData<EpochProtocolParameters>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LATEST_EPOCH_PROTOCOL_PARAMETERS,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getLatestEpochProtocolParameters()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetLatestEpochProtocolParametersFail() =
+        testApiFail(PATH_LATEST_EPOCH_PROTOCOL_PARAMETERS) { blockFrostClient -> blockFrostClient.getLatestEpochProtocolParameters() }
+
+    @Test
+    fun testGetSpecificEpoch() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/model/epoch.json"
+            val expectedData = resource.resourceToExpectedData<Epoch>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_EPOCH.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificEpoch(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificEpochFail() =
+        testApiFail(
+            PATH_SPECIFIC_EPOCH.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getSpecificEpoch(1) }
+
+    @Test
+    fun testGetListNextEpochs() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/list_epochs.json"
+            val expectedData = resource.resourceToExpectedData<List<Epoch>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LIST_NEXT_EPOCHS.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListNextEpochs(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListNextEpochsFail() =
+        testApiFail(
+            PATH_LIST_NEXT_EPOCHS.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getListNextEpochs(1) }
+
+    @Test
+    fun testGetListPreviousEpochs() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/list_epochs.json"
+            val expectedData = resource.resourceToExpectedData<List<Epoch>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LIST_NEXT_EPOCHS.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListNextEpochs(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListPreviousEpochsFail() =
+        testApiFail(
+            PATH_LIST_NEXT_EPOCHS.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getListNextEpochs(1) }
+
+    @Test
+    fun testGetStakeDistribution() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/list_stake_info.json"
+            val expectedData = resource.resourceToExpectedData<List<StakeInfo>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_STAKE_DISTRIBUTION.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getStakeDistribution(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetStakeDistributionFail() =
+        testApiFail(
+            PATH_STAKE_DISTRIBUTION.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getStakeDistribution(1) }
+
+    @Test
+    fun testGetStakeDistributionPool() =
+        runTest {
+            val number = 1
+            val pool = "pool"
+            val resource = "src/commonTest/resources/list_stake_info.json"
+            val expectedData = resource.resourceToExpectedData<List<StakeInfo>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_STAKE_DISTRIBUTION_POOL
+                        .replace(":number", number.toString())
+                        .replace(":pool_id", pool),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getStakeDistributionPool(number, pool)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetStakeDistributionPoolFail() =
+        testApiFail(
+            PATH_STAKE_DISTRIBUTION_POOL
+                .replace(":number", "1")
+                .replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getStakeDistributionPool(1, anyString) }
+
+    @Test
+    fun testGetBlockDistribution() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/list_string.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCK_DISTRIBUTION.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockDistribution(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockDistributionFail() =
+        testApiFail(
+            PATH_BLOCK_DISTRIBUTION.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getBlockDistribution(1) }
+
+    @Test
+    fun testGetBlockDistributionPool() =
+        runTest {
+            val number = 1
+            val resource = "src/commonTest/resources/list_string.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCK_DISTRIBUTION_POOL
+                        .replace(":number", number.toString())
+                        .replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockDistributionPool(number, anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockDistributionPoolFail() =
+        testApiFail(
+            PATH_BLOCK_DISTRIBUTION_POOL
+                .replace(":number", "1")
+                .replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getBlockDistributionPool(1, anyString) }
+
+    @Test
+    fun testGetProtocolParameters() =
+        runTest {
+            val epoch = 1
+            val resource = "src/commonTest/resources/model/protocol_parameters.json"
+            val expectedData = resource.resourceToExpectedData<EpochProtocolParameters>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_PROTOCOL_PARAMETERS.replace(":number", epoch.toString()),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getProtocolParameters(epoch)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetProtocolParametersFail() =
+        testApiFail(
+            PATH_PROTOCOL_PARAMETERS.replace(":number", "1"),
+        ) { blockFrostClient -> blockFrostClient.getProtocolParameters(1) }
 
     private fun testApiFail(
         path: String,
