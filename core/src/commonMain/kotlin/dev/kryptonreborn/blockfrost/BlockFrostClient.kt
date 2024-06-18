@@ -10,6 +10,7 @@ import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
+import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
 /**
@@ -27,6 +28,7 @@ class BlockFrostClient {
     private val cardanoBlocksApi: CardanoBlocksApi
     private val cardanoEpochsApi: CardanoEpochsApi
     private val cardanoLedgerApi: CardanoLedgerApi
+    private val cardanoUtilitiesApi: CardanoUtilitiesApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -41,6 +43,7 @@ class BlockFrostClient {
         this.cardanoBlocksApi = CardanoBlocksApi(httpClient)
         this.cardanoEpochsApi = CardanoEpochsApi(httpClient)
         this.cardanoLedgerApi = CardanoLedgerApi(httpClient)
+        this.cardanoUtilitiesApi = CardanoUtilitiesApi(httpClient)
     }
 
     /**
@@ -591,6 +594,12 @@ class BlockFrostClient {
      */
 
     suspend fun getBlockchainGenesis() = handleApiResult { cardanoLedgerApi.getBlockchainGenesis() }
+
+    suspend fun getDerivedAddress(
+        xpub: String,
+        role: Int,
+        index: Int,
+    ) = handleApiResult { cardanoUtilitiesApi.getDerivedAddress(xpub, role, index) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
