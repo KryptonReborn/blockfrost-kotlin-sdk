@@ -62,6 +62,8 @@ import dev.kryptonreborn.blockfrost.epochs.model.StakeInfo
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_API_ROOT
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH_CLOCK
+import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi.Companion.PATH_BLOCKCHAIN_GENESIS
+import dev.kryptonreborn.blockfrost.ledger.model.BlockchainGenesis
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRICS
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRIC_ENDPOINTS
 import dev.kryptonreborn.blockfrost.metrics.model.Metric
@@ -994,6 +996,21 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_PROTOCOL_PARAMETERS.replace(":number", "1"),
         ) { blockFrostClient -> blockFrostClient.getProtocolParameters(1) }
+
+    @Test
+    fun testGetBlockchainGenesis() =
+        runTest {
+            val resource = "src/commonTest/resources/model/blockchain_genesis.json"
+            val expectedData = resource.resourceToExpectedData<BlockchainGenesis>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCKCHAIN_GENESIS,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockchainGenesis()
+            assertEquals(expectedData, result.getOrNull())
+        }
 
     private fun testApiFail(
         path: String,

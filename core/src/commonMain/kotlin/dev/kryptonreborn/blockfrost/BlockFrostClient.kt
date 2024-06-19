@@ -8,6 +8,7 @@ import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
+import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import io.ktor.client.HttpClient
 
@@ -25,6 +26,7 @@ class BlockFrostClient {
     private val cardanoAssetsApi: CardanoAssetsApi
     private val cardanoBlocksApi: CardanoBlocksApi
     private val cardanoEpochsApi: CardanoEpochsApi
+    private val cardanoLedgerApi: CardanoLedgerApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -38,6 +40,7 @@ class BlockFrostClient {
         this.cardanoAssetsApi = CardanoAssetsApi(httpClient)
         this.cardanoBlocksApi = CardanoBlocksApi(httpClient)
         this.cardanoEpochsApi = CardanoEpochsApi(httpClient)
+        this.cardanoLedgerApi = CardanoLedgerApi(httpClient)
     }
 
     /**
@@ -580,6 +583,14 @@ class BlockFrostClient {
      * @return A [Result] containing the protocol parameters for the epoch.
      */
     suspend fun getProtocolParameters(number: Int) = handleApiResult { cardanoEpochsApi.getProtocolParameters(number) }
+
+    /**
+     * Return the information about blockchain genesis.
+     *
+     * @return A [Result] containing the genesis information of the blockchain.
+     */
+
+    suspend fun getBlockchainGenesis() = handleApiResult { cardanoLedgerApi.getBlockchainGenesis() }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

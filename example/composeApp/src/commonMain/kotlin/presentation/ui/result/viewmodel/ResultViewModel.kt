@@ -296,6 +296,12 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getProtocolParameters(epoch)
                     }
                 }
+
+                ResultEvent.GetBlockchainGenesis -> {
+                    getResponse {
+                        blockFrostClient.getBlockchainGenesis()
+                    }
+                }
             }
         }
     }
@@ -365,6 +371,7 @@ class ResultViewModel : ViewModel() {
                 "GetBlockDistribution" to ResultEvent.GetBlockDistribution,
                 "GetBlockDistributionPool" to ResultEvent.GetBlockDistributionPool,
                 "GetProtocolParameters" to ResultEvent.GetProtocolParameters,
+                "GetBlockchainGenesis" to ResultEvent.GetBlockchainGenesis,
             )
     }
 }

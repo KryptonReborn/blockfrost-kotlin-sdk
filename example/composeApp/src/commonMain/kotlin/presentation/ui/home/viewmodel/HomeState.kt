@@ -99,6 +99,14 @@ data class HomeState(
                             "GetProtocolParameters",
                         ),
                 ),
+            "Cardano Ledger Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetBlockchainGenesis",
+                        ),
+                ),
         ),
 )
 
