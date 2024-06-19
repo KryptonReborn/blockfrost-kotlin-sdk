@@ -1,6 +1,11 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
+import dev.kryptonreborn.blockfrost.utilities.model.TxIn
+import dev.kryptonreborn.blockfrost.utilities.model.TxOut
+import dev.kryptonreborn.blockfrost.utilities.model.TxOutValue
+import kotlinx.serialization.json.JsonObject
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -20,5 +25,41 @@ class CardanoUtilitiesApiIntegrationTest : BaseIntegrationTest() {
                 )
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is DerivedAddress)
+        }
+
+    @Test
+    fun testSubmitTransactionForExecutionUnitsEvaluation() =
+        runIntegrationTest {
+            val result =
+                blockfrostClient.submitTransactionForExecutionUnitsEvaluation("")
+            println(result)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is JsonObject)
+        }
+
+    @Test
+    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxos() =
+        runIntegrationTest {
+            val result =
+                blockfrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
+                    TransactionPayload(
+                        "string",
+                        listOf(
+                            listOf(
+                                TxIn("string", 0),
+                                TxOut(
+                                    "string",
+                                    TxOutValue(0, emptyMap()),
+                                    "string",
+                                    emptyMap(),
+                                    emptyMap(),
+                                ),
+                            ),
+                        ),
+                    ),
+                )
+            println(result)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.getOrNull() is JsonObject)
         }
 }

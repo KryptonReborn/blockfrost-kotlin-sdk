@@ -11,6 +11,7 @@ import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
 import io.ktor.client.HttpClient
 
 /**
@@ -600,6 +601,16 @@ class BlockFrostClient {
         role: Int,
         index: Int,
     ) = handleApiResult { cardanoUtilitiesApi.getDerivedAddress(xpub, role, index) }
+
+    suspend fun submitTransactionForExecutionUnitsEvaluation(transaction: String) =
+        handleApiResult {
+            cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluation(transaction)
+        }
+
+    suspend fun submitTransactionForExecutionUnitsEvaluationWithUtxos(request: TransactionPayload) =
+        handleApiResult {
+            cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluationWithUtxos(request)
+        }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

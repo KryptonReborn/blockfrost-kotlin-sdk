@@ -2,7 +2,6 @@ package dev.kryptonreborn.blockfrost.unittest.utilities.model
 
 import com.goncalossilva.resources.Resource
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals

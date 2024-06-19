@@ -13,6 +13,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.header
 import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
@@ -21,7 +22,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.util.InternalAPI
 import kotlinx.serialization.json.Json
 
 internal object Ktor {
@@ -71,11 +71,11 @@ private fun createHttpClient(blockfrostConfig: BlockfrostConfig): HttpClient {
     }
 }
 
-@OptIn(InternalAPI::class)
 internal suspend inline fun <reified T> HttpClient.fetchResource(
     path: String,
     method: HttpMethod = HttpMethod.Get,
     requestBody: Any? = null,
+    contentType: ContentType = ContentType.Application.Json,
     queryParams: Map<String, String> = emptyMap(),
 ): T {
     val response: HttpResponse =
@@ -87,9 +87,9 @@ internal suspend inline fun <reified T> HttpClient.fetchResource(
                 }
             }
             this.method = method
-            contentType(ContentType.Application.Json)
+            contentType(contentType)
             requestBody?.let {
-                body = requestBody
+                setBody(requestBody)
             }
         }
 
