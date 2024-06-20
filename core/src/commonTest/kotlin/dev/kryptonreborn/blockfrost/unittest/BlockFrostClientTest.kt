@@ -28,6 +28,7 @@ import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_A
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_TRANSACTIONS
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_TXS
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_UTXOS
+import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_ADDRESS_UTXOS_ASSETS
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES
 import dev.kryptonreborn.blockfrost.addresses.CardanoAddressApi.Companion.PATH_SPECIFIC_ADDRESSES_EXTENDED
 import dev.kryptonreborn.blockfrost.addresses.model.AddressDetail
@@ -47,11 +48,23 @@ import dev.kryptonreborn.blockfrost.assets.model.AssetHistory
 import dev.kryptonreborn.blockfrost.assets.model.AssetTransaction
 import dev.kryptonreborn.blockfrost.assets.model.SpecificAsset
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_ADDRESS_AFFECTED
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_BLOCK_IN_SLOT
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_BLOCK_IN_SLOT_IN_EPOCH
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_BLOCK_TRANSACTION
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_LATEST_BLOCK
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_LATEST_BLOCK_TXS
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_NEXT_BLOCKS
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_PREVIOUS_BLOCKS
+import dev.kryptonreborn.blockfrost.blocks.CardanoBlocksApi.Companion.PATH_SPECIFIC_BLOCK
+import dev.kryptonreborn.blockfrost.blocks.model.BlockAddress
+import dev.kryptonreborn.blockfrost.blocks.model.BlockContent
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_BLOCK_DISTRIBUTION
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_BLOCK_DISTRIBUTION_POOL
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LATEST_EPOCH
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LATEST_EPOCH_PROTOCOL_PARAMETERS
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LIST_NEXT_EPOCHS
+import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_LIST_PREVIOUS_EPOCHS
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_PROTOCOL_PARAMETERS
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_SPECIFIC_EPOCH
 import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi.Companion.PATH_STAKE_DISTRIBUTION
@@ -554,14 +567,17 @@ class BlockFrostClientTest {
             val expectedData = resource.resourceToExpectedData<List<AddressUTXO>>()
             val httpClient =
                 createMockHttpClient(
-                    PATH_ADDRESS_UTXOS.replace(
+                    PATH_ADDRESS_UTXOS_ASSETS.replace(
                         ":address",
+                        anyString,
+                    ).replace(
+                        ":asset",
                         anyString,
                     ),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getAddressUtxos(anyString)
+            val result = blockFrostClient.getAddressUtxosAssets(anyString, anyString)
             assertEquals(expectedData, result.getOrNull())
         }
 
@@ -776,6 +792,191 @@ class BlockFrostClientTest {
         ) { blockFrostClient -> blockFrostClient.getAssetPolicy(anyString) }
 
     @Test
+    fun testGetLatestBlock() =
+        runTest {
+            val resource = "src/commonTest/resources/model/block.json"
+            val expectedData = resource.resourceToExpectedData<BlockContent>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LATEST_BLOCK,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getLatestBlock()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetLatestBlockFail() = testApiFail(PATH_LATEST_BLOCK) { blockFrostClient -> blockFrostClient.getLatestBlock() }
+
+    @Test
+    fun testGetLatestBlockTxs() =
+        runTest {
+            val resource = "src/commonTest/resources/list_string.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LATEST_BLOCK_TXS,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getLatestBlockTxs()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetLatestBlockTxsFail() = testApiFail(PATH_LATEST_BLOCK_TXS) { blockFrostClient -> blockFrostClient.getLatestBlockTxs() }
+
+    @Test
+    fun testGetSpecificBlock() =
+        runTest {
+            val resource = "src/commonTest/resources/model/block.json"
+            val expectedData = resource.resourceToExpectedData<BlockContent>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_BLOCK.replace(":hash_or_number", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificBlock(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificBlockFail() =
+        testApiFail(
+            PATH_SPECIFIC_BLOCK.replace(":hash_or_number", anyString),
+        ) { blockFrostClient -> blockFrostClient.getSpecificBlock(anyString) }
+
+    @Test
+    fun testGetNextBlocks() =
+        runTest {
+            val resource = "src/commonTest/resources/list_block.json"
+            val expectedData = resource.resourceToExpectedData<List<BlockContent>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_NEXT_BLOCKS.replace(":hash_or_number", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNextBlocks(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetNextBlocksFail() =
+        testApiFail(
+            PATH_NEXT_BLOCKS.replace(":hash_or_number", anyString),
+        ) { blockFrostClient -> blockFrostClient.getNextBlocks(anyString) }
+
+    @Test
+    fun testGetPreviousBlocks() =
+        runTest {
+            val resource = "src/commonTest/resources/list_block.json"
+            val expectedData = resource.resourceToExpectedData<List<BlockContent>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_PREVIOUS_BLOCKS.replace(":hash_or_number", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getPreviousBlocks(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetPreviousBlocksFail() =
+        testApiFail(
+            PATH_PREVIOUS_BLOCKS.replace(":hash_or_number", anyString),
+        ) { blockFrostClient -> blockFrostClient.getPreviousBlocks(anyString) }
+
+    @Test
+    fun testGetBlockInSlot() =
+        runTest {
+            val resource = "src/commonTest/resources/model/block.json"
+            val expectedData = resource.resourceToExpectedData<BlockContent>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCK_IN_SLOT.replace(":slot_number", "0"),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockInSlot(0)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockInSlotFail() =
+        testApiFail(
+            PATH_BLOCK_IN_SLOT.replace(":slot_number", "0"),
+        ) { blockFrostClient -> blockFrostClient.getBlockInSlot(0) }
+
+    @Test
+    fun testGetBlockInSlotInEpoch() =
+        runTest {
+            val resource = "src/commonTest/resources/model/block.json"
+            val expectedData = resource.resourceToExpectedData<BlockContent>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCK_IN_SLOT_IN_EPOCH.replace(":epoch_number", "0")
+                        .replace(":slot_number", "0"),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockInSlotInEpoch(0, 0)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockInSlotInEpochFail() =
+        testApiFail(
+            PATH_BLOCK_IN_SLOT_IN_EPOCH.replace(":epoch_number", "0")
+                .replace(":slot_number", "0"),
+        ) { blockFrostClient -> blockFrostClient.getBlockInSlotInEpoch(0, 0) }
+
+    @Test
+    fun testGetBlockTransaction() =
+        runTest {
+            val resource = "src/commonTest/resources/list_string.json"
+            val expectedData = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_BLOCK_TRANSACTION.replace(":hash_or_number", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getBlockTransaction(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockTransactionFail() =
+        testApiFail(
+            PATH_BLOCK_TRANSACTION.replace(":hash_or_number", anyString),
+        ) { blockFrostClient -> blockFrostClient.getBlockTransaction(anyString) }
+
+    @Test
+    fun testGetAddressAffectedInSpecificBlock() =
+        runTest {
+            val resource = "src/commonTest/resources/list_block_addresses.json"
+            val expectedData = resource.resourceToExpectedData<List<BlockAddress>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_ADDRESS_AFFECTED.replace(":hash_or_number", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getAddressAffectedInSpecificBlock(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAddressAffectedInSpecificBlockFail() =
+        testApiFail(
+            PATH_ADDRESS_AFFECTED.replace(":hash_or_number", anyString),
+        ) { blockFrostClient -> blockFrostClient.getAddressAffectedInSpecificBlock(anyString) }
+
+    @Test
     fun testGetLatestEpoch() =
         runTest {
             val resource = "src/commonTest/resources/model/epoch.json"
@@ -864,11 +1065,11 @@ class BlockFrostClientTest {
             val expectedData = resource.resourceToExpectedData<List<Epoch>>()
             val httpClient =
                 createMockHttpClient(
-                    PATH_LIST_NEXT_EPOCHS.replace(":number", epoch.toString()),
+                    PATH_LIST_PREVIOUS_EPOCHS.replace(":number", epoch.toString()),
                     Resource(resource).readText(),
                 )
             val blockFrostClient = BlockFrostClient(httpClient)
-            val result = blockFrostClient.getListNextEpochs(epoch)
+            val result = blockFrostClient.getListPreviousEpochs(epoch)
             assertEquals(expectedData, result.getOrNull())
         }
 
