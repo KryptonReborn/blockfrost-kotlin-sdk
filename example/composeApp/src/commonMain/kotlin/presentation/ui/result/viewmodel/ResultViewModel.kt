@@ -8,6 +8,7 @@ import dev.kryptonreborn.blockfrost.BlockFrostClient
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
 import kotlinx.coroutines.launch
 
 class ResultViewModel : ViewModel() {
@@ -19,6 +20,9 @@ class ResultViewModel : ViewModel() {
     private val hastOrNumber = "63f9730455a55c22d60f2299cb21910f65670d251a45fbc6f958213b6deaecc7"
     private val poolId = "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy"
     private val epoch = 491
+    private val xpub =
+        "d507c8f866691bd96e131334c355188b1a1d0b2fa0ab11545075aab332d77d9eb19657ad13ee581b56b0f8d744d66ca356b93d42fe176b3de007d53e9c4c4e7a"
+
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -302,6 +306,31 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getBlockchainGenesis()
                     }
                 }
+
+                ResultEvent.GetDeriveAddress -> {
+                    getResponse {
+                        blockFrostClient.getDerivedAddress(
+                            xpub,
+                            0,
+                            0,
+                        )
+                    }
+                }
+                ResultEvent.SubmitTransaction -> {
+                    getResponse {
+                        blockFrostClient.submitTransactionForExecutionUnitsEvaluation("")
+                    }
+                }
+                ResultEvent.SubmitTransactionWithUtxos -> {
+                    getResponse {
+                        blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
+                            TransactionPayload(
+                                "string",
+                                emptyList(),
+                            ),
+                        )
+                    }
+                }
             }
         }
     }
@@ -372,6 +401,9 @@ class ResultViewModel : ViewModel() {
                 "GetBlockDistributionPool" to ResultEvent.GetBlockDistributionPool,
                 "GetProtocolParameters" to ResultEvent.GetProtocolParameters,
                 "GetBlockchainGenesis" to ResultEvent.GetBlockchainGenesis,
+                "GetDeriveAddress" to ResultEvent.GetDeriveAddress,
+                "SubmitTransaction" to ResultEvent.SubmitTransaction,
+                "SubmitTransactionWithUtxos" to ResultEvent.SubmitTransactionWithUtxos,
             )
     }
 }

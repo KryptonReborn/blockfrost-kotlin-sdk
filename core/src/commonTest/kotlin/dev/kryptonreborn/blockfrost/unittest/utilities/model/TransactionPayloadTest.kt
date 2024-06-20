@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 class TransactionPayloadTest {
     @Test
     fun testDeserialization() {
-        val json = Resource("src/commonTest/resources/model/evaluate_tx_request.json").readText()
+        val json = Resource("src/commonTest/resources/model/transaction_payload.json").readText()
         val content = Ktor.json.decodeFromString<TransactionPayload>(json)
         assertEquals("string", content.cbor)
         val utxo = content.additionalUtxoSet[0][0]

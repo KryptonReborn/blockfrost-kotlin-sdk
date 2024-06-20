@@ -107,6 +107,16 @@ data class HomeState(
                             "GetBlockchainGenesis",
                         ),
                 ),
+            "Cardano Utilities Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetDeriveAddress",
+                            "SubmitTransaction",
+                            "SubmitTransactionWithUtxos",
+                        ),
+                ),
         ),
 )
 

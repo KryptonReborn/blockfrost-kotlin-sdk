@@ -593,20 +593,39 @@ class BlockFrostClient {
      *
      * @return A [Result] containing the genesis information of the blockchain.
      */
-
     suspend fun getBlockchainGenesis() = handleApiResult { cardanoLedgerApi.getBlockchainGenesis() }
 
+    /**
+     * Derive Shelley address from an xpub
+     *
+     * @param xpub Hex xpub
+     * @param role Account role
+     * @param index Address index
+     * @return A [Result] containing the derived address
+     */
     suspend fun getDerivedAddress(
         xpub: String,
         role: Int,
         index: Int,
     ) = handleApiResult { cardanoUtilitiesApi.getDerivedAddress(xpub, role, index) }
 
+    /**
+     * Submit an already serialized transaction to evaluate how much execution units it requires.
+     *
+     * @param transaction The transaction to submit, serialized in CBOR.
+     * @return A [Result] containing the result of the transaction submission
+     */
     suspend fun submitTransactionForExecutionUnitsEvaluation(transaction: String) =
         handleApiResult {
             cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluation(transaction)
         }
 
+    /**
+     * Submit a JSON payload with transaction CBOR and additional UTXO set to evaluate how much execution units it requires.
+     *
+     * @param request JSON payload with transaction CBOR and Additional UTXO as an array of tuples [TxIn, TxOut]. See https://ogmios.dev/mini-protocols/local-tx-submission/#additional-utxo-set.
+     * @return A [Result] containing the result of the transaction submission
+     */
     suspend fun submitTransactionForExecutionUnitsEvaluationWithUtxos(request: TransactionPayload) =
         handleApiResult {
             cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluationWithUtxos(request)
