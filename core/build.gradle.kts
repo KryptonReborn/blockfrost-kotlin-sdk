@@ -36,6 +36,7 @@ kotlin {
                 implementation(libs.ktorSerialization)
                 implementation(libs.kotlinxCoroutinesCore)
                 implementation(libs.kotlinxSerializationJson)
+                implementation(libs.kotlinBigNum)
                 implementation(libs.kermit)
             }
         }

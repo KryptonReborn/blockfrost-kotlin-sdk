@@ -3,6 +3,7 @@ package dev.kryptonreborn.blockfrost.utilities
 import dev.kryptonreborn.blockfrost.ktor.fetchResource
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
 import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
+import dev.kryptonreborn.blockfrost.utilities.model.toPayload
 import io.ktor.client.HttpClient
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
@@ -37,6 +38,6 @@ internal class CardanoUtilitiesApi(private val client: HttpClient) {
         client.fetchResource<JsonObject>(
             path = PATH_SUBMIT_TRANSACTION_ADD_UTXO,
             method = HttpMethod.Post,
-            requestBody = request,
+            requestBody = request.toPayload(),
         )
 }

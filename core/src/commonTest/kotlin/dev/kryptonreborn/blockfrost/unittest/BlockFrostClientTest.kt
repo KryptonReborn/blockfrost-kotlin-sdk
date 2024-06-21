@@ -1302,7 +1302,7 @@ class BlockFrostClientTest {
             val blockFrostClient = BlockFrostClient(httpClient)
             val result =
                 blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                    TransactionPayload("", emptyList()),
+                    TransactionPayload(""),
                 )
             assertEquals(expectedData, result.getOrNull())
         }
@@ -1313,7 +1313,7 @@ class BlockFrostClientTest {
             PATH_SUBMIT_TRANSACTION_ADD_UTXO,
         ) { blockFrostClient ->
             blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                TransactionPayload("", emptyList()),
+                TransactionPayload(""),
             )
         }
 

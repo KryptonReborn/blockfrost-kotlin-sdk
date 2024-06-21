@@ -1,20 +1,15 @@
 package dev.kryptonreborn.blockfrost.utilities.model
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonDecoder
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 
-sealed interface UtxoTuple
+data class UTxO(
+    val input: TransactionInput,
+    val output: TransactionOutput
+)
 
 /**
  * Transaction Input
@@ -22,11 +17,10 @@ sealed interface UtxoTuple
  * @property txId Transaction ID
  * @property index Index
  */
-@Serializable
-data class TxIn(
+data class TransactionInput(
     val txId: String,
     val index: Int,
-) : UtxoTuple
+)
 
 /**
  * Transaction Output
@@ -37,15 +31,13 @@ data class TxIn(
  * @property datum Datum
  * @property script Script
  */
-@Serializable
-data class TxOut(
+data class TransactionOutput(
     val address: String,
-    val value: TxOutValue,
-    @SerialName("datum_hash")
+    val value: TransactionOutputValue,
     val datumHash: String,
     val datum: Map<String, JsonElement>,
     val script: Map<String, JsonElement>,
-) : UtxoTuple
+)
 
 /**
  * TxOutValue
@@ -53,60 +45,55 @@ data class TxOut(
  * @property coins Coins
  * @property assets Assets
  */
-@Serializable
-data class TxOutValue(
-    val coins: Int,
-    val assets: Map<String, Int>,
+data class TransactionOutputValue(
+    val coins: BigInteger,
+    val assets: Map<String, BigInteger>,
 )
 
-@Serializable
 data class TransactionPayload(
     val cbor: String,
-    @Serializable(with = UtxoTupleListSerializer::class)
-    val additionalUtxoSet: List<List<UtxoTuple>>,
+    val uTxO: UTxO? = null,
 )
 
-object UtxoTupleListSerializer : KSerializer<List<List<UtxoTuple>>> {
-    override val descriptor: SerialDescriptor = ListSerializer(ListSerializer(UtxoTupleSerializer)).descriptor
-
-    override fun serialize(
-        encoder: Encoder,
-        value: List<List<UtxoTuple>>,
-    ) {
-        ListSerializer(ListSerializer(UtxoTupleSerializer)).serialize(encoder, value)
-    }
-
-    override fun deserialize(decoder: Decoder): List<List<UtxoTuple>> {
-        return ListSerializer(ListSerializer(UtxoTupleSerializer)).deserialize(decoder)
-    }
-}
-
-object UtxoTupleSerializer : KSerializer<UtxoTuple> {
-    override val descriptor: SerialDescriptor =
-        buildClassSerialDescriptor("UtxoItem") {
-            element<String>("txId", isOptional = true)
-            element<String>("address", isOptional = true)
-        }
-
-    override fun serialize(
-        encoder: Encoder,
-        value: UtxoTuple,
-    ) {
-        when (value) {
-            is TxIn -> encoder.encodeSerializableValue(TxIn.serializer(), value)
-            is TxOut -> encoder.encodeSerializableValue(TxOut.serializer(), value)
-        }
-    }
-
-    override fun deserialize(decoder: Decoder): UtxoTuple {
-        val jsonDecoder = decoder as? JsonDecoder ?: throw SerializationException("This class can be loaded only by JSON")
-        val jsonElement = jsonDecoder.decodeJsonElement()
-        val jsonObject = jsonElement as? JsonObject ?: throw SerializationException("Expected JsonObject")
-
-        return when {
-            "txId" in jsonObject -> jsonDecoder.json.decodeFromJsonElement(TxIn.serializer(), jsonElement)
-            "address" in jsonObject -> jsonDecoder.json.decodeFromJsonElement(TxOut.serializer(), jsonElement)
-            else -> throw SerializationException("Unknown type")
+fun TransactionPayload.toPayload() = JsonObject(
+    mutableMapOf<String, JsonElement>(
+        "cbor" to JsonPrimitive(cbor),
+    ).apply {
+        uTxO?.let {
+            put("additionalUtxoSet", JsonArray(
+                listOf(
+                    JsonArray(
+                        listOf(
+                            JsonObject(
+                                mapOf(
+                                    "txId" to JsonPrimitive(uTxO.input.txId),
+                                    "index" to JsonPrimitive(uTxO.input.index),
+                                )
+                            ),
+                            JsonObject(
+                                mapOf(
+                                    "address" to JsonPrimitive(uTxO.output.address),
+                                    "value" to JsonObject(
+                                        mapOf(
+                                            "coins" to JsonPrimitive(uTxO.output.value.coins.toString()),
+                                            "assets" to JsonObject(
+                                                uTxO.output.value.assets.mapValues {
+                                                    JsonPrimitive(
+                                                        it.value.toString()
+                                                    )
+                                                }
+                                            )
+                                        )
+                                    ),
+                                    "datum_hash" to JsonPrimitive(uTxO.output.datumHash),
+                                    "datum" to JsonObject(uTxO.output.datum),
+                                    "script" to JsonObject(uTxO.output.script),
+                                )
+                            )
+                        )
+                    )
+                )
+            ))
         }
     }
-}
+)

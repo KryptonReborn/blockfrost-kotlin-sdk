@@ -20,7 +20,6 @@ class CardanoUtilitiesApiTest {
     private val transactionPayload =
         TransactionPayload(
             "string",
-            listOf(),
         )
 
     @Test

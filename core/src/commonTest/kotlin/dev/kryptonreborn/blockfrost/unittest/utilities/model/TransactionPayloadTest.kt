@@ -1,52 +1,39 @@
 package dev.kryptonreborn.blockfrost.unittest.utilities.model
 
 import com.goncalossilva.resources.Resource
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
-import dev.kryptonreborn.blockfrost.utilities.model.TxIn
-import dev.kryptonreborn.blockfrost.utilities.model.TxOut
-import dev.kryptonreborn.blockfrost.utilities.model.TxOutValue
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionInput
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutput
+import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutputValue
+import dev.kryptonreborn.blockfrost.utilities.model.UTxO
+import dev.kryptonreborn.blockfrost.utilities.model.toPayload
+import kotlinx.serialization.encodeToString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TransactionPayloadTest {
     @Test
-    fun testDeserialization() {
+    fun testToPayload() {
         val json = Resource("src/commonTest/resources/model/transaction_payload.json").readText()
-        val content = Ktor.json.decodeFromString<TransactionPayload>(json)
-        assertEquals("string", content.cbor)
-        val utxo = content.additionalUtxoSet[0][0]
-        assertTrue(utxo is TxIn)
-        assertEquals("string", utxo.txId)
-        assertEquals(0, utxo.index)
-        val additionalUtxoSet = content.additionalUtxoSet[0][1]
-        assertTrue(additionalUtxoSet is TxOut)
-        assertEquals("string", additionalUtxoSet.address)
-        assertEquals(0, additionalUtxoSet.value.coins)
-        assertEquals(emptyMap(), additionalUtxoSet.value.assets)
-        assertEquals("string", additionalUtxoSet.datumHash)
-    }
-
-    @Test
-    fun testEncoding() {
         val content =
             TransactionPayload(
-                "string",
-                listOf(
-                    listOf(
-                        TxIn("string", 0),
-                        TxOut(
-                            "string",
-                            TxOutValue(0, emptyMap()),
-                            "string",
-                            emptyMap(),
-                            emptyMap(),
-                        ),
+                cbor = "string",
+                uTxO = UTxO(
+                    TransactionInput("string", 0),
+                    TransactionOutput(
+                        "string",
+                        TransactionOutputValue(BigInteger(0), emptyMap()),
+                        "string",
+                        emptyMap(),
+                        emptyMap(),
                     ),
-                ),
+                )
             )
-        val json = Ktor.json.encodeToString(TransactionPayload.serializer(), content)
-        println(json)
+        val payload = content.toPayload()
+        val expected = Ktor.json.encodeToString(payload)
+        assertEquals(json.replace("\\s", ""), expected.replace("\\s", ""))
     }
 }
