@@ -1,20 +1,20 @@
 {
-  "cbor": "string",
+  "cbor": "cbor",
   "additionalUtxoSet": [
     [
       {
-        "txId": "string",
+        "txId": "f9f2d84a12a1b0a3d68ef0c04b7d209fb9488b40d796f0c4cecc9155b67189b0",
         "index": 0
       },
       {
-        "address": "string",
+        "address": "addr_test1qpfn4z6j0y7kflf6rjnrhfzz27x4mpx39fgt80e08nlfth8xpvuvkjamflz5fttchsms2jpzpy602l3anedf2fd4n8xqzj4k4d",
         "value": {
-          "coins": 0,
-          "assets": {}
+          "coins": 10000000000000,
+          "assets": {
+            "asset": 10000000000000
+          }
         },
-        "datum_hash": "string",
-        "datum": {},
-        "script": {}
+        "datum_hash": "68720e1ba020fa18bfeb8862f62465b02d237d56e1de6df69e49f297d1a8afa8"
       }
     ]
   ]
