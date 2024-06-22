@@ -30,7 +30,6 @@ fun JsonElement.removeEmptyKeys(): JsonElement {
     return when (this) {
         is JsonObject -> removeEmptyKeys()
         is JsonArray -> removeEmptyKeys()
-
         else -> this
     }
 }

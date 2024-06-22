@@ -44,7 +44,6 @@ class CardanoUtilitiesApiIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result =
                 blockfrostClient.submitTransactionForExecutionUnitsEvaluation(cbor)
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is JsonObject)
         }
@@ -79,7 +78,6 @@ class CardanoUtilitiesApiIntegrationTest : BaseIntegrationTest() {
                             ),
                     ),
                 )
-            println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is JsonObject)
         }

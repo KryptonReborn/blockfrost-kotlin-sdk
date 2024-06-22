@@ -34,8 +34,6 @@ class TransactionPayloadTest {
                     ),
             )
         val payload = content.toNormalizedPayload()
-        println(payload.normalizeJsonString())
-        println(json.normalizeJsonString())
         assertEquals(json.normalizeJsonString(), payload.normalizeJsonString())
     }
 }
