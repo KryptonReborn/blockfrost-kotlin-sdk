@@ -115,7 +115,7 @@ private fun TransactionPayload.toPayload() =
         },
     )
 
-fun TransactionPayload.toNormalizedPayload() =
+internal fun TransactionPayload.toNormalizedPayload() =
     Ktor.json.encodeToString(
         JsonObject.serializer(),
         toPayload().removeEmptyKeys(),

@@ -1,3 +1,3 @@
 package dev.kryptonreborn.blockfrost.utils
 
-fun String.normalizeJsonString() = replace("\\s".toRegex(), "")
+internal fun String.normalizeJsonString() = replace("\\s".toRegex(), "")
