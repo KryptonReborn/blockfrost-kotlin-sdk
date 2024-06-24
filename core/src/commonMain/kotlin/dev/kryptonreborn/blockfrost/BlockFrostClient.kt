@@ -10,6 +10,7 @@ import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
+import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
 /**
@@ -27,6 +28,7 @@ class BlockFrostClient {
     private val cardanoBlocksApi: CardanoBlocksApi
     private val cardanoEpochsApi: CardanoEpochsApi
     private val cardanoLedgerApi: CardanoLedgerApi
+    private val cardanoUtilitiesApi: CardanoUtilitiesApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -41,6 +43,7 @@ class BlockFrostClient {
         this.cardanoBlocksApi = CardanoBlocksApi(httpClient)
         this.cardanoEpochsApi = CardanoEpochsApi(httpClient)
         this.cardanoLedgerApi = CardanoLedgerApi(httpClient)
+        this.cardanoUtilitiesApi = CardanoUtilitiesApi(httpClient)
     }
 
     /**
@@ -589,8 +592,32 @@ class BlockFrostClient {
      *
      * @return A [Result] containing the genesis information of the blockchain.
      */
-
     suspend fun getBlockchainGenesis() = handleApiResult { cardanoLedgerApi.getBlockchainGenesis() }
+
+    /**
+     * Derive Shelley address from an xpub
+     *
+     * @param xpub Hex xpub
+     * @param role Account role
+     * @param index Address index
+     * @return A [Result] containing the derived address
+     */
+    suspend fun getDerivedAddress(
+        xpub: String,
+        role: Int,
+        index: Int,
+    ) = handleApiResult { cardanoUtilitiesApi.getDerivedAddress(xpub, role, index) }
+
+    /**
+     * Submit an already serialized transaction to evaluate how much execution units it requires.
+     *
+     * @param transaction The transaction to submit, serialized in CBOR.
+     * @return A [Result] containing the result of the transaction submission
+     */
+    suspend fun submitTransactionForExecutionUnitsEvaluation(transaction: String) =
+        handleApiResult {
+            cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluation(transaction)
+        }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

@@ -19,6 +19,20 @@ class ResultViewModel : ViewModel() {
     private val hastOrNumber = "63f9730455a55c22d60f2299cb21910f65670d251a45fbc6f958213b6deaecc7"
     private val poolId = "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy"
     private val epoch = 491
+    private val xpub =
+        "d507c8f866691bd96e131334c355188b1a1d0b2fa0ab11545075aab332d77d9eb19657ad13ee581b56b0f8d744d66ca356b93d42fe176b3de007d53e9c4c4e7a"
+    private val cbor =
+        "84a500818258205d4e2439244dc018d33e0ccb7521cda8f112273a49aeb6f412675b70d88599" +
+            "cd010186825839003dd93bd0a5d1dd87b6413484b63ad1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa0" +
+            "8b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a069db9c0825839003dd93bd0a5d1dd87b6413484b63a" +
+            "d1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a6" +
+            "3339a3a825839003dd93bd0a5d1dd87b6413484b63ad1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08" +
+            "b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a319b2c5f825839003dd93bd0a5d1dd87b6413484b63ad" +
+            "1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a18" +
+            "cd9630825839003dd93bd0a5d1dd87b6413484b63ad1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b" +
+            "2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a18cd9630825839003dd93bd0a5d1dd87b6413484b63ad1" +
+            "b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a004c4b40021a0002be85031a031e00790800a0f5f6"
+
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -302,6 +316,22 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getBlockchainGenesis()
                     }
                 }
+
+                ResultEvent.GetDeriveAddress -> {
+                    getResponse {
+                        blockFrostClient.getDerivedAddress(
+                            xpub,
+                            0,
+                            0,
+                        )
+                    }
+                }
+
+                ResultEvent.SubmitTransaction -> {
+                    getResponse {
+                        blockFrostClient.submitTransactionForExecutionUnitsEvaluation("")
+                    }
+                }
             }
         }
     }
@@ -372,6 +402,9 @@ class ResultViewModel : ViewModel() {
                 "GetBlockDistributionPool" to ResultEvent.GetBlockDistributionPool,
                 "GetProtocolParameters" to ResultEvent.GetProtocolParameters,
                 "GetBlockchainGenesis" to ResultEvent.GetBlockchainGenesis,
+                "GetDeriveAddress" to ResultEvent.GetDeriveAddress,
+                "SubmitTransaction" to ResultEvent.SubmitTransaction,
+                "SubmitTransactionWithUtxos" to ResultEvent.SubmitTransactionWithUtxos,
             )
     }
 }

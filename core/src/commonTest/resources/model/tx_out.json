@@ -1,0 +1,10 @@
+{
+  "address": "string",
+  "value": {
+    "coins": 0,
+    "assets": {}
+  },
+  "datum_hash": "string",
+  "datum": {},
+  "script": {}
+}

@@ -92,4 +92,8 @@ sealed class ResultEvent(val id: String) {
     data object GetProtocolParameters : ResultEvent("GetProtocolParameters")
 
     data object GetBlockchainGenesis : ResultEvent("GetBlockchainGenesis")
+
+    data object GetDeriveAddress : ResultEvent("GetDeriveAddress")
+
+    data object SubmitTransaction : ResultEvent("SubmitTransaction")
 }

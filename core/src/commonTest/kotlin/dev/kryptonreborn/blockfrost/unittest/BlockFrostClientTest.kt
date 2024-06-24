@@ -81,7 +81,11 @@ import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRICS
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRIC_ENDPOINTS
 import dev.kryptonreborn.blockfrost.metrics.model.Metric
 import dev.kryptonreborn.blockfrost.metrics.model.MetricEndpoint
+import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
+import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
+import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.JsonObject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -1211,6 +1215,76 @@ class BlockFrostClientTest {
             val blockFrostClient = BlockFrostClient(httpClient)
             val result = blockFrostClient.getBlockchainGenesis()
             assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetBlockchainGenesisFail() =
+        testApiFail(
+            PATH_BLOCKCHAIN_GENESIS,
+        ) { blockFrostClient -> blockFrostClient.getBlockchainGenesis() }
+
+    @Test
+    fun testGetDerivedAddress() =
+        runTest {
+            val resource = "src/commonTest/resources/model/derived_address.json"
+            val expectedData = resource.resourceToExpectedData<DerivedAddress>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_DERIVE_ADDRESS.replace(
+                        ":xpub",
+                        anyString,
+                    ).replace(
+                        ":role",
+                        "0",
+                    ).replace(
+                        ":index",
+                        "0",
+                    ),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getDerivedAddress(anyString, 0, 0)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetDerivedAddressFail() =
+        testApiFail(
+            PATH_DERIVE_ADDRESS.replace(
+                ":xpub",
+                anyString,
+            ).replace(
+                ":role",
+                "0",
+            ).replace(
+                ":index",
+                "0",
+            ),
+        ) { blockFrostClient -> blockFrostClient.getDerivedAddress(anyString, 0, 0) }
+
+    @Test
+    fun testSubmitTransactionForExecutionUnitsEvaluation() =
+        runTest {
+            val resource = "src/commonTest/resources/model/any.json"
+            val expectedData = resource.resourceToExpectedData<JsonObject>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SUBMIT_TRANSACTION,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.submitTransactionForExecutionUnitsEvaluation(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testSubmitTransactionForExecutionUnitsEvaluationFail() =
+        testApiFail(
+            PATH_SUBMIT_TRANSACTION,
+        ) { blockFrostClient ->
+            blockFrostClient.submitTransactionForExecutionUnitsEvaluation(
+                anyString,
+            )
         }
 
     private fun testApiFail(
