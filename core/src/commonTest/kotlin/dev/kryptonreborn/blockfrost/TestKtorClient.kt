@@ -12,6 +12,8 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonArray
 
 object TestKtorClient {
     private fun httpClient(engine: HttpClientEngine) =
@@ -47,4 +49,10 @@ object TestKtorClient {
     }
 
     internal inline fun <reified T> String.resourceToExpectedData() = Ktor.json.decodeFromString<T>(Resource(this).readText())
+
+    internal inline fun <reified T : Any> String.parseFirstElementInArray(): T {
+        val resource = Resource(this).readText()
+        val jsonElement = Ktor.json.parseToJsonElement(resource).jsonArray.first()
+        return Ktor.json.decodeFromJsonElement(jsonElement)
+    }
 }

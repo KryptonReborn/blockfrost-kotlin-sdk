@@ -1,0 +1,74 @@
+{
+  "tx": {
+    "hash": "8f9a160aac6a32b12b1e71eb84f0455a94a01e99d0b3ef610b48d85f400d7d47",
+    "output_amount": [
+      {
+        "unit": "lovelace",
+        "quantity": "3758528"
+      },
+      {
+        "unit": "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
+        "quantity": "171482"
+      }
+    ],
+    "fees": "241472",
+    "deposit": "0",
+    "size": 1186,
+    "invalid_before": null,
+    "invalid_hereafter": "127309303",
+    "utxo_count": 2,
+    "withdrawal_count": 0,
+    "mir_cert_count": 0,
+    "delegation_count": 0,
+    "stake_cert_count": 0,
+    "pool_update_count": 0,
+    "pool_retire_count": 0,
+    "asset_mint_or_burn_count": 0,
+    "redeemer_count": 1,
+    "valid_contract": true
+  },
+  "inputs": [
+    {
+      "address": "addr1zxn9efv2f6w82hagxqtn62ju4m293tqvw0uhmdl64ch8uw6j2c79gy9l76sdg0xwhd7r0c0kna0tycz4y5s6mlenh8pq6s3z70",
+      "tx_hash": "1dce127e338ae24a9369283a7c0470ef4611d18783da12d3f0fca2f91b549768",
+      "output_index": 0,
+      "collateral": false,
+      "reference": false
+    },
+    {
+      "address": "addr1q98vmjmnxl2epge8fsetvy7hr867lkcqera8cc55scpm248r7vg0n8j87h2dxxsjdyc6h963tm0h5t2wn7z8jt05gawqjlctqr",
+      "tx_hash": "ef9aa4dec771f45763ad68e98d82524d1b8699e393d1f82f5edeb60a92e9c30b",
+      "output_index": 0,
+      "collateral": true,
+      "reference": false
+    }
+  ],
+  "outputs": [
+    {
+      "address": "addr1qxj0wyast442agname474c3sqwhy7x42xs6urqnrkut0nepqj9gj60ers45phd7mhwjrm7tu295338jgymznzh4dfhgqk0sfhq",
+      "amount": [
+        {
+          "unit": "lovelace",
+          "quantity": "3758528"
+        },
+        {
+          "unit": "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
+          "quantity": "171482"
+        }
+      ],
+      "output_index": 0,
+      "data_hash": null,
+      "inline_datum": null,
+      "collateral": false,
+      "reference_script_hash": null
+    }
+  ],
+  "redeemers": [
+    {
+      "tx_index": 0,
+      "purpose": "spend",
+      "unit_mem": "27895",
+      "unit_steps": "12682260"
+    }
+  ]
+}
