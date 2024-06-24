@@ -6,7 +6,6 @@ import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonElement
@@ -17,11 +16,6 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class CardanoUtilitiesApiTest {
-    private val transactionPayload =
-        TransactionPayload(
-            "string",
-        )
-
     @Test
     fun testGetDerivedAddressReturn200() =
         runTest {
@@ -119,40 +113,6 @@ class CardanoUtilitiesApiTest {
                 CardanoUtilitiesApi.PATH_SUBMIT_TRANSACTION,
                 HttpStatusCode.BadRequest,
             ) { it.submitTransactionForExecutionUnitsEvaluation("") }
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxosReturn200() =
-        runTest {
-            val cardanoUtilitiesApi =
-                createCardanoUtilitiesApi(
-                    "src/commonTest/resources/model/any.json",
-                    CardanoUtilitiesApi.PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-                )
-            val result =
-                cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                    transactionPayload,
-                )
-            assertEquals(result.keys.first(), "key")
-            assertEquals(result["key"]?.asString(), "anyString")
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxosReturn200WithFailData() =
-        runTest {
-            testApiWithFailRequest(
-                CardanoUtilitiesApi.PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-                HttpStatusCode.OK,
-            ) { it.submitTransactionForExecutionUnitsEvaluationWithUtxos(transactionPayload) }
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxosReturn400() =
-        runTest {
-            testApiWithFailRequest(
-                CardanoUtilitiesApi.PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-                HttpStatusCode.BadRequest,
-            ) { it.submitTransactionForExecutionUnitsEvaluationWithUtxos(transactionPayload) }
         }
 
     private fun createCardanoUtilitiesApi(

@@ -83,9 +83,7 @@ import dev.kryptonreborn.blockfrost.metrics.model.Metric
 import dev.kryptonreborn.blockfrost.metrics.model.MetricEndpoint
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
-import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION_ADD_UTXO
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.JsonObject
 import kotlin.test.Test
@@ -1286,34 +1284,6 @@ class BlockFrostClientTest {
         ) { blockFrostClient ->
             blockFrostClient.submitTransactionForExecutionUnitsEvaluation(
                 anyString,
-            )
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxos() =
-        runTest {
-            val resource = "src/commonTest/resources/model/any.json"
-            val expectedData = resource.resourceToExpectedData<JsonObject>()
-            val httpClient =
-                createMockHttpClient(
-                    PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-                    Resource(resource).readText(),
-                )
-            val blockFrostClient = BlockFrostClient(httpClient)
-            val result =
-                blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                    TransactionPayload(""),
-                )
-            assertEquals(expectedData, result.getOrNull())
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxosFail() =
-        testApiFail(
-            PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-        ) { blockFrostClient ->
-            blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                TransactionPayload(""),
             )
         }
 

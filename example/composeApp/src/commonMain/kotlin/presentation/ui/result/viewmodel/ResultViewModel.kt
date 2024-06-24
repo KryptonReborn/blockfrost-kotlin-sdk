@@ -8,11 +8,6 @@ import dev.kryptonreborn.blockfrost.BlockFrostClient
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionInput
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutput
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutputValue
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
-import dev.kryptonreborn.blockfrost.utilities.model.UTxO
 import kotlinx.coroutines.launch
 
 class ResultViewModel : ViewModel() {
@@ -335,37 +330,6 @@ class ResultViewModel : ViewModel() {
                 ResultEvent.SubmitTransaction -> {
                     getResponse {
                         blockFrostClient.submitTransactionForExecutionUnitsEvaluation("")
-                    }
-                }
-
-                ResultEvent.SubmitTransactionWithUtxos -> {
-                    getResponse {
-                        blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                            TransactionPayload(
-                                cbor,
-                                uTxO =
-                                    UTxO(
-                                        input =
-                                            TransactionInput(
-                                                "f9f2d84a12a1b0a3d68ef0c04b7d209fb9488b40d796f0c4cecc9155b67189b0",
-                                                0,
-                                            ),
-                                        output =
-                                            TransactionOutput(
-                                                "addr_test1qpfn4z6j0y7kflf6rjnrhfzz27x4mpx39fgt80e08" +
-                                                    "nlfth8xpvuvkjamflz5fttchsms2jpzpy602l3anedf2fd4n8xqzj4k4d",
-                                                value =
-                                                    TransactionOutputValue(
-                                                        coins = 100000,
-                                                        assets = emptyMap(),
-                                                    ),
-                                                datumHash = "68720e1ba020fa18bfeb8862f62465b02d237d56e1de6df69e49f297d1a8afa8",
-                                                datum = emptyMap(),
-                                                script = emptyMap(),
-                                            ),
-                                    ),
-                            ),
-                        )
                     }
                 }
             }

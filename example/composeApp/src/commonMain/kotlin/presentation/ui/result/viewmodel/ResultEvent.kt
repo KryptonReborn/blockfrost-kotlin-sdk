@@ -96,6 +96,4 @@ sealed class ResultEvent(val id: String) {
     data object GetDeriveAddress : ResultEvent("GetDeriveAddress")
 
     data object SubmitTransaction : ResultEvent("SubmitTransaction")
-
-    data object SubmitTransactionWithUtxos : ResultEvent("SubmitTransactionWithUtxos")
 }

@@ -1,11 +1,6 @@
 package dev.kryptonreborn.blockfrost.integrationtest
 
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionInput
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutput
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionOutputValue
-import dev.kryptonreborn.blockfrost.utilities.model.TransactionPayload
-import dev.kryptonreborn.blockfrost.utilities.model.UTxO
 import kotlinx.serialization.json.JsonObject
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -44,40 +39,6 @@ class CardanoUtilitiesApiIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val result =
                 blockfrostClient.submitTransactionForExecutionUnitsEvaluation(cbor)
-            assertNotNull(result.getOrNull())
-            assertTrue(result.getOrNull() is JsonObject)
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxos() =
-        runIntegrationTest {
-            val result =
-                blockfrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                    TransactionPayload(
-                        cbor,
-                        uTxO =
-                            UTxO(
-                                input =
-                                    TransactionInput(
-                                        "f9f2d84a12a1b0a3d68ef0c04b7d209fb9488b40d796f0c4cecc9155b67189b0",
-                                        0,
-                                    ),
-                                output =
-                                    TransactionOutput(
-                                        "addr_test1qpfn4z6j0y7kflf6rjnrhfzz27x4mpx39fgt80e08" +
-                                            "nlfth8xpvuvkjamflz5fttchsms2jpzpy602l3anedf2fd4n8xqzj4k4d",
-                                        value =
-                                            TransactionOutputValue(
-                                                coins = 10000000000000,
-                                                assets = emptyMap(),
-                                            ),
-                                        datumHash = "68720e1ba020fa18bfeb8862f62465b02d237d56e1de6df69e49f297d1a8afa8",
-                                        datum = emptyMap(),
-                                        script = emptyMap(),
-                                    ),
-                            ),
-                    ),
-                )
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is JsonObject)
         }
