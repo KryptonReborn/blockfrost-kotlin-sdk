@@ -623,17 +623,6 @@ class BlockFrostClient {
         }
 
     /**
-     * Submit a JSON payload with transaction CBOR and additional UTXO set to evaluate how much execution units it requires.
-     *
-     * @param request JSON payload with transaction CBOR and Additional UTXO as an array of tuples [TxIn, TxOut]. See https://ogmios.dev/mini-protocols/local-tx-submission/#additional-utxo-set.
-     * @return A [Result] containing the result of the transaction submission
-     */
-    suspend fun submitTransactionForExecutionUnitsEvaluationWithUtxos(request: TransactionPayload) =
-        handleApiResult {
-            cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluationWithUtxos(request)
-        }
-
-    /**
      * Return transactions that are currently stored in Blockfrost mempool, waiting to be included in a newly minted block. Shows only transactions submitted via Blockfrost.io.
      *
      * @param queryParameters The query parameters to apply.

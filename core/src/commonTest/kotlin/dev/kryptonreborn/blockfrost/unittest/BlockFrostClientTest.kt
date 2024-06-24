@@ -1293,34 +1293,6 @@ class BlockFrostClientTest {
         }
 
     @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxos() =
-        runTest {
-            val resource = "src/commonTest/resources/model/any.json"
-            val expectedData = resource.resourceToExpectedData<JsonObject>()
-            val httpClient =
-                createMockHttpClient(
-                    PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-                    Resource(resource).readText(),
-                )
-            val blockFrostClient = BlockFrostClient(httpClient)
-            val result =
-                blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                    TransactionPayload(""),
-                )
-            assertEquals(expectedData, result.getOrNull())
-        }
-
-    @Test
-    fun testSubmitTransactionForExecutionUnitsEvaluationWithUtxosFail() =
-        testApiFail(
-            PATH_SUBMIT_TRANSACTION_ADD_UTXO,
-        ) { blockFrostClient ->
-            blockFrostClient.submitTransactionForExecutionUnitsEvaluationWithUtxos(
-                TransactionPayload(""),
-            )
-        }
-
-    @Test
     fun testGetMempool() =
         runTest {
             val resource = "src/commonTest/resources/model/mempool_transactions.json"
