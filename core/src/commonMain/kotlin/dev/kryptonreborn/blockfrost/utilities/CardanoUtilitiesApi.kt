@@ -11,7 +11,6 @@ internal class CardanoUtilitiesApi(private val client: HttpClient) {
     companion object {
         const val PATH_DERIVE_ADDRESS = "/api/v0/utils/addresses/xpub/:xpub/:role/:index"
         const val PATH_SUBMIT_TRANSACTION = "/api/v0/utils/txs/evaluate"
-        const val PATH_SUBMIT_TRANSACTION_ADD_UTXO = "/api/v0/utils/txs/evaluate/utxos"
     }
 
     suspend fun getDerivedAddress(
