@@ -26,8 +26,8 @@ class MempoolTransactionDetailsTest {
             "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
             tx.outputAmount[1].unit,
         )
-        assertEquals("241472", tx.fees)
-        assertEquals("0", tx.deposit)
+        assertEquals(BigInteger(241472), tx.fees)
+        assertEquals(BigInteger(0), tx.deposit)
         assertEquals(1186, tx.size)
         assertNull(tx.invalidBefore)
         assertEquals("127309303", tx.invalidHereafter)
@@ -93,6 +93,6 @@ class MempoolTransactionDetailsTest {
         assertEquals(0, redeemer.txIndex)
         assertEquals("spend", redeemer.purpose)
         assertEquals(BigInteger.parseString("27895"), redeemer.unitMem)
-        assertEquals("12682260", redeemer.unitSteps)
+        assertEquals(BigInteger(12682260), redeemer.unitSteps)
     }
 }

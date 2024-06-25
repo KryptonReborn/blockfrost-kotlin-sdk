@@ -46,8 +46,8 @@ data class MempoolTransactionDetails(
 data class TransactionData(
     val hash: String,
     @SerialName("output_amount") val outputAmount: List<OutputAmount>,
-    val fees: String,
-    val deposit: String,
+    val fees: @Contextual BigInteger,
+    val deposit: @Contextual BigInteger,
     val size: Int,
     @SerialName("invalid_before") val invalidBefore: String?,
     @SerialName("invalid_hereafter") val invalidHereafter: String?,
@@ -128,5 +128,5 @@ data class Redeemer(
     @SerialName("tx_index") val txIndex: Int,
     val purpose: String,
     @SerialName("unit_mem") val unitMem: @Contextual BigInteger,
-    @SerialName("unit_steps") val unitSteps: String,
+    @SerialName("unit_steps") val unitSteps: @Contextual BigInteger,
 )
