@@ -1,8 +1,9 @@
 package dev.kryptonreborn.blockfrost.unittest.mempool.model
 
 import com.goncalossilva.resources.Resource
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransactionDetails
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -13,14 +14,14 @@ class MempoolTransactionDetailsTest {
     fun testDeserialization() {
         val json =
             Resource("src/commonTest/resources/model/mempool_transaction_details.json").readText()
-        val content = Json.decodeFromString<MempoolTransactionDetails>(json)
+        val content = Ktor.json.decodeFromString<MempoolTransactionDetails>(json)
 
         // Transaction details
         val tx = content.tx
         assertEquals("8f9a160aac6a32b12b1e71eb84f0455a94a01e99d0b3ef610b48d85f400d7d47", tx.hash)
-        assertEquals("3758528", tx.outputAmount[0].quantity)
+        assertEquals(BigInteger.parseString("3758528"), tx.outputAmount[0].quantity)
         assertEquals("lovelace", tx.outputAmount[0].unit)
-        assertEquals("171482", tx.outputAmount[1].quantity)
+        assertEquals(BigInteger.parseString("171482"), tx.outputAmount[1].quantity)
         assertEquals(
             "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
             tx.outputAmount[1].unit,
@@ -74,9 +75,9 @@ class MempoolTransactionDetailsTest {
             "addr1qxj0wyast442agname474c3sqwhy7x42xs6urqnrkut0nepqj9gj60ers45phd7mhwjrm7tu295338jgymznzh4dfhgqk0sfhq",
             output.address,
         )
-        assertEquals("3758528", output.amount[0].quantity)
+        assertEquals(BigInteger.parseString("3758528"), output.amount[0].quantity)
         assertEquals("lovelace", output.amount[0].unit)
-        assertEquals("171482", output.amount[1].quantity)
+        assertEquals(BigInteger.parseString("171482"), output.amount[1].quantity)
         assertEquals(
             "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
             output.amount[1].unit,
@@ -91,7 +92,7 @@ class MempoolTransactionDetailsTest {
         val redeemer = content.redeemers[0]
         assertEquals(0, redeemer.txIndex)
         assertEquals("spend", redeemer.purpose)
-        assertEquals("27895", redeemer.unitMem)
+        assertEquals(BigInteger.parseString("27895"), redeemer.unitMem)
         assertEquals("12682260", redeemer.unitSteps)
     }
 }

@@ -404,7 +404,6 @@ class ResultViewModel : ViewModel() {
                 "GetBlockchainGenesis" to ResultEvent.GetBlockchainGenesis,
                 "GetDeriveAddress" to ResultEvent.GetDeriveAddress,
                 "SubmitTransaction" to ResultEvent.SubmitTransaction,
-                "SubmitTransactionWithUtxos" to ResultEvent.SubmitTransactionWithUtxos,
             )
     }
 }

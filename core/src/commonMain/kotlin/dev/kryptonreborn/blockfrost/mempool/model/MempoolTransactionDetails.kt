@@ -1,5 +1,7 @@
 package dev.kryptonreborn.blockfrost.mempool.model
 
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -70,7 +72,7 @@ data class TransactionData(
 @Serializable
 data class OutputAmount(
     val unit: String,
-    val quantity: String,
+    val quantity: @Contextual BigInteger,
 )
 
 /**
@@ -125,6 +127,6 @@ data class TransactionOutput(
 data class Redeemer(
     @SerialName("tx_index") val txIndex: Int,
     val purpose: String,
-    @SerialName("unit_mem") val unitMem: String,
+    @SerialName("unit_mem") val unitMem: @Contextual BigInteger,
     @SerialName("unit_steps") val unitSteps: String,
 )

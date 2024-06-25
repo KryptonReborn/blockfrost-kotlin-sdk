@@ -1,6 +1,7 @@
 package dev.kryptonreborn.blockfrost.unittest.mempool
 
 import com.goncalossilva.resources.Resource
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import dev.kryptonreborn.blockfrost.TestKtorClient
 import dev.kryptonreborn.blockfrost.base.BadRequestException
 import dev.kryptonreborn.blockfrost.base.BlockfrostException
@@ -65,9 +66,12 @@ class CardanoMempoolApiTest {
                 "8f9a160aac6a32b12b1e71eb84f0455a94a01e99d0b3ef610b48d85f400d7d47",
                 result.tx.hash,
             )
-            assertEquals("3758528", result.tx.outputAmount[0].quantity)
+            assertEquals(
+                BigInteger.parseString("3758528"),
+                result.tx.outputAmount[0].quantity,
+            )
             assertEquals("lovelace", result.tx.outputAmount[0].unit)
-            assertEquals("171482", result.tx.outputAmount[1].quantity)
+            assertEquals(BigInteger.parseString("171482"), result.tx.outputAmount[1].quantity)
             assertEquals(
                 "c881c20e49dbaca3ff6cef365969354150983230c39520b917f5cf7c4e696b65",
                 result.tx.outputAmount[1].unit,
