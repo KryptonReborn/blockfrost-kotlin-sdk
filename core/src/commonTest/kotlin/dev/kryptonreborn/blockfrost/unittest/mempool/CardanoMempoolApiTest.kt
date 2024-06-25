@@ -79,7 +79,7 @@ class CardanoMempoolApiTest {
             assertEquals(BigInteger(241472), result.tx.fees)
             assertEquals(BigInteger(0), result.tx.deposit)
             assertEquals(1186, result.tx.size)
-            assertEquals("127309303", result.tx.invalidHereafter)
+            assertEquals(127309303L, result.tx.invalidHereafter)
             assertEquals(2, result.tx.utxoCount)
             assertEquals(0, result.tx.withdrawalCount)
             assertEquals(0, result.tx.mirCertCount)
