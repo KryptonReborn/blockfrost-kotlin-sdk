@@ -16,7 +16,7 @@ class BigIntegerSerializerTest {
 
     @Test
     fun testDeserialize() {
-        val jsonString ="100000"
+        val jsonString = "100000"
         val customObject = Ktor.json.decodeFromString<BigInteger>(jsonString)
         assertEquals(BigInteger(100000), customObject)
     }

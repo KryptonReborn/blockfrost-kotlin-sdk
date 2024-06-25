@@ -117,6 +117,16 @@ data class HomeState(
                             "SubmitTransactionWithUtxos",
                         ),
                 ),
+            "Cardano Mempool Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetMempool",
+                            "GetMempoolDetails",
+                            "GetMemPoolByAddress",
+                        ),
+                ),
         ),
 )
 
