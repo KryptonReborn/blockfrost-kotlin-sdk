@@ -18,7 +18,7 @@ data class MempoolTransactionDetails(
     val tx: TransactionData,
     val inputs: List<TransactionInput>,
     val outputs: List<TransactionOutput>,
-    val redeemers: List<Redeemer>,
+    val redeemers: List<Redeemer>? = null,
 )
 
 /**
@@ -49,8 +49,8 @@ data class TransactionData(
     val fees: @Contextual BigInteger,
     val deposit: @Contextual BigInteger,
     val size: Int,
-    @SerialName("invalid_before") val invalidBefore: String?,
-    @SerialName("invalid_hereafter") val invalidHereafter: String?,
+    @SerialName("invalid_before") val invalidBefore: Long?,
+    @SerialName("invalid_hereafter") val invalidHereafter: Long?,
     @SerialName("utxo_count") val utxoCount: Int,
     @SerialName("withdrawal_count") val withdrawalCount: Int,
     @SerialName("mir_cert_count") val mirCertCount: Int,

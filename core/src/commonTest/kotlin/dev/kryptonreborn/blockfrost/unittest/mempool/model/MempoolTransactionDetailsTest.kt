@@ -29,8 +29,8 @@ class MempoolTransactionDetailsTest {
         assertEquals(BigInteger(241472), tx.fees)
         assertEquals(BigInteger(0), tx.deposit)
         assertEquals(1186, tx.size)
-        assertNull(tx.invalidBefore)
-        assertEquals("127309303", tx.invalidHereafter)
+        assertEquals(10L, tx.invalidBefore)
+        assertEquals(127309303L, tx.invalidHereafter)
         assertEquals(2, tx.utxoCount)
         assertEquals(0, tx.withdrawalCount)
         assertEquals(0, tx.mirCertCount)
@@ -89,7 +89,7 @@ class MempoolTransactionDetailsTest {
         assertNull(output.referenceScriptHash)
 
         // Redeemers
-        val redeemer = content.redeemers[0]
+        val redeemer = content.redeemers!![0]
         assertEquals(0, redeemer.txIndex)
         assertEquals("spend", redeemer.purpose)
         assertEquals(BigInteger.parseString("27895"), redeemer.unitMem)

@@ -16,6 +16,7 @@ class CardanoMempoolApiIntegrationTest : BaseIntegrationTest() {
             result.getOrNull()?.firstOrNull()?.let {
                 val resultDetail =
                     blockfrostClient.getMempoolDetails(it.txHash)
+                println(resultDetail)
                 assertNotNull(resultDetail.getOrNull())
                 assertTrue(resultDetail.getOrNull() is MempoolTransactionDetails)
             }

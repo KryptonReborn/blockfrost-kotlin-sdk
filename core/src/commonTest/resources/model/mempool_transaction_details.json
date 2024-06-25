@@ -14,7 +14,7 @@
     "fees": "241472",
     "deposit": "0",
     "size": 1186,
-    "invalid_before": null,
+    "invalid_before": "10",
     "invalid_hereafter": "127309303",
     "utxo_count": 2,
     "withdrawal_count": 0,
