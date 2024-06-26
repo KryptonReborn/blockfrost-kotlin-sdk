@@ -332,6 +332,26 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.submitTransactionForExecutionUnitsEvaluation("")
                     }
                 }
+
+                ResultEvent.GetMempool -> {
+                    getResponse {
+                        blockFrostClient.getMempool()
+                    }
+                }
+
+                ResultEvent.GetMempoolDetails -> {
+                    blockFrostClient.getMempool().getOrNull()?.firstOrNull()?.let {
+                        getResponse {
+                            blockFrostClient.getMempoolDetails(it.txHash)
+                        }
+                    }
+                }
+
+                ResultEvent.GetMemPoolByAddress -> {
+                    getResponse {
+                        blockFrostClient.getMemPoolByAddress(address)
+                    }
+                }
             }
         }
     }
@@ -404,7 +424,9 @@ class ResultViewModel : ViewModel() {
                 "GetBlockchainGenesis" to ResultEvent.GetBlockchainGenesis,
                 "GetDeriveAddress" to ResultEvent.GetDeriveAddress,
                 "SubmitTransaction" to ResultEvent.SubmitTransaction,
-                "SubmitTransactionWithUtxos" to ResultEvent.SubmitTransactionWithUtxos,
+                "GetMempool" to ResultEvent.GetMempool,
+                "GetMempoolDetails" to ResultEvent.GetMempoolDetails,
+                "GetMemPoolByAddress" to ResultEvent.GetMemPoolByAddress,
             )
     }
 }

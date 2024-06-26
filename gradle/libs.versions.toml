@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+bignum = "0.3.9"
 kermit = "2.0.3"
 kotlin = "1.9.23"
 androidMinSdk = "24"
@@ -32,6 +33,7 @@ kover = "0.8.0"
 [libraries]
 # Kotlin and Coroutines
 androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+bignum = { module = "com.ionspin.kotlin:bignum", version.ref = "bignum" }
 kotlinGradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinTestJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

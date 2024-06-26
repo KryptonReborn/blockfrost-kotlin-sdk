@@ -9,6 +9,7 @@ import dev.kryptonreborn.blockfrost.epochs.CardanoEpochsApi
 import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
+import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
@@ -29,6 +30,7 @@ class BlockFrostClient {
     private val cardanoEpochsApi: CardanoEpochsApi
     private val cardanoLedgerApi: CardanoLedgerApi
     private val cardanoUtilitiesApi: CardanoUtilitiesApi
+    private val cardanoMempoolApi: CardanoMempoolApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -44,6 +46,7 @@ class BlockFrostClient {
         this.cardanoEpochsApi = CardanoEpochsApi(httpClient)
         this.cardanoLedgerApi = CardanoLedgerApi(httpClient)
         this.cardanoUtilitiesApi = CardanoUtilitiesApi(httpClient)
+        this.cardanoMempoolApi = CardanoMempoolApi(httpClient)
     }
 
     /**
@@ -618,6 +621,35 @@ class BlockFrostClient {
         handleApiResult {
             cardanoUtilitiesApi.submitTransactionForExecutionUnitsEvaluation(transaction)
         }
+
+    /**
+     * Return transactions that are currently stored in Blockfrost mempool, waiting to be included in a newly minted block. Shows only transactions submitted via Blockfrost.io.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of transactions in the mempool.
+     */
+    suspend fun getMempool(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoMempoolApi.getMempool(queryParameters) }
+
+    /**
+     * Return content of the requested transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the content of the requested transaction.
+     */
+    suspend fun getMempoolDetails(hash: String) = handleApiResult { cardanoMempoolApi.getMempoolDetails(hash) }
+
+    /**
+     * List of mempool transactions where at least one of the transaction inputs or outputs belongs to the address. Shows only transactions submitted via Blockfrost.io.
+     *
+     * @param address The address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of transactions in the mempool.
+     */
+    suspend fun getMemPoolByAddress(
+        address: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoMempoolApi.getMempoolByAddress(address, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

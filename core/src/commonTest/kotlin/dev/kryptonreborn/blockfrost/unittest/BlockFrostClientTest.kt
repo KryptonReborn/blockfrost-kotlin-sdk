@@ -77,6 +77,11 @@ import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH
 import dev.kryptonreborn.blockfrost.health.HealthApi.Companion.PATH_HEALTH_CLOCK
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi.Companion.PATH_BLOCKCHAIN_GENESIS
 import dev.kryptonreborn.blockfrost.ledger.model.BlockchainGenesis
+import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi.Companion.PATH_GET_MEMPOOL
+import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi.Companion.PATH_GET_MEMPOOL_BY_ADDRESS
+import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi.Companion.PATH_GET_MEMPOOL_DETAIL
+import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransaction
+import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransactionDetails
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRICS
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRIC_ENDPOINTS
 import dev.kryptonreborn.blockfrost.metrics.model.Metric
@@ -1286,6 +1291,62 @@ class BlockFrostClientTest {
                 anyString,
             )
         }
+
+    @Test
+    fun testGetMempool() =
+        runTest {
+            val resource = "src/commonTest/resources/model/mempool_transactions.json"
+            val expectedData = resource.resourceToExpectedData<List<MempoolTransaction>>()
+            val httpClient = createMockHttpClient(PATH_GET_MEMPOOL, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getMempool()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetMempoolFail() = testApiFail(PATH_GET_MEMPOOL) { blockFrostClient -> blockFrostClient.getMempool() }
+
+    @Test
+    fun testGetMempoolDetails() =
+        runTest {
+            val resource = "src/commonTest/resources/model/mempool_transaction_details.json"
+            val expectedData = resource.resourceToExpectedData<MempoolTransactionDetails>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_MEMPOOL_DETAIL.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getMempoolDetails(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetMempoolDetailsFail() =
+        testApiFail(
+            PATH_GET_MEMPOOL_DETAIL.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getMempoolDetails(anyString) }
+
+    @Test
+    fun getMempoolByAddress() =
+        runTest {
+            val resource = "src/commonTest/resources/model/mempool_transactions.json"
+            val expectedData = resource.resourceToExpectedData<List<MempoolTransaction>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_MEMPOOL_BY_ADDRESS.replace(":address", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getMemPoolByAddress(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun getMempoolByAddressFail() =
+        testApiFail(
+            PATH_GET_MEMPOOL_BY_ADDRESS.replace(":address", anyString),
+        ) { blockFrostClient -> blockFrostClient.getMemPoolByAddress(anyString) }
 
     private fun testApiFail(
         path: String,

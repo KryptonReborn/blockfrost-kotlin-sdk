@@ -37,6 +37,7 @@ kotlin {
                 implementation(libs.kotlinxCoroutinesCore)
                 implementation(libs.kotlinxSerializationJson)
                 implementation(libs.kermit)
+                implementation(libs.bignum)
             }
         }
         val commonTest by getting {

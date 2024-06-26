@@ -96,4 +96,10 @@ sealed class ResultEvent(val id: String) {
     data object GetDeriveAddress : ResultEvent("GetDeriveAddress")
 
     data object SubmitTransaction : ResultEvent("SubmitTransaction")
+
+    data object GetMempool : ResultEvent("GetMempool")
+
+    data object GetMempoolDetails : ResultEvent("GetMempoolDetails")
+
+    data object GetMemPoolByAddress : ResultEvent("GetMemPoolByAddress")
 }
