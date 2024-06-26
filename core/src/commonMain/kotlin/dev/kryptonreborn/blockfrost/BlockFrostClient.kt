@@ -10,6 +10,7 @@ import dev.kryptonreborn.blockfrost.health.HealthApi
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi
+import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
@@ -31,6 +32,7 @@ class BlockFrostClient {
     private val cardanoLedgerApi: CardanoLedgerApi
     private val cardanoUtilitiesApi: CardanoUtilitiesApi
     private val cardanoMempoolApi: CardanoMempoolApi
+    private val cardanoMetadataApi: CardanoMetadataApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -47,6 +49,7 @@ class BlockFrostClient {
         this.cardanoLedgerApi = CardanoLedgerApi(httpClient)
         this.cardanoUtilitiesApi = CardanoUtilitiesApi(httpClient)
         this.cardanoMempoolApi = CardanoMempoolApi(httpClient)
+        this.cardanoMetadataApi = CardanoMetadataApi(httpClient)
     }
 
     /**
@@ -650,6 +653,49 @@ class BlockFrostClient {
         address: String,
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoMempoolApi.getMempoolByAddress(address, queryParameters) }
+
+    /**
+     * List of all used transaction metadata labels.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of transaction metadata labels.
+     */
+    suspend fun getTransactionMetadataLabels(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoMetadataApi.getTransactionMetadataLabels(queryParameters) }
+
+    /**
+     * Transaction metadata per label.
+     *
+     * @param label The metadata label to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of transaction metadata contents.
+     */
+    suspend fun getTransactionMetadataContents(
+        label: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoMetadataApi.getTransactionMetadataContents(
+            label,
+            queryParameters,
+        )
+    }
+
+    /**
+     * Transaction metadata per label.
+     *
+     * @param label The metadata label to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of transaction metadata contents cbor.
+     */
+    suspend fun getTransactionMetadataContentCBOR(
+        label: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult {
+        cardanoMetadataApi.getTransactionMetadataContentCBOR(
+            label,
+            queryParameters,
+        )
+    }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

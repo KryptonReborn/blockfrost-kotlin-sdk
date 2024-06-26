@@ -82,6 +82,12 @@ import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi.Companion.PATH_GET
 import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi.Companion.PATH_GET_MEMPOOL_DETAIL
 import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransaction
 import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransactionDetails
+import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi.Companion.PATH_GET_TRANSACTION_METADATA_CONTENTS
+import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi.Companion.PATH_GET_TRANSACTION_METADATA_LABELS
+import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi.Companion.PATH_GET_TRANSACTION_METADATA_LABEL_CBOR
+import dev.kryptonreborn.blockfrost.metadata.model.TransactionMetadataContent
+import dev.kryptonreborn.blockfrost.metadata.model.TransactionMetadataContentCBOR
+import dev.kryptonreborn.blockfrost.metadata.model.TransactionMetadataLabel
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRICS
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRIC_ENDPOINTS
 import dev.kryptonreborn.blockfrost.metrics.model.Metric
@@ -1347,6 +1353,71 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_GET_MEMPOOL_BY_ADDRESS.replace(":address", anyString),
         ) { blockFrostClient -> blockFrostClient.getMemPoolByAddress(anyString) }
+
+    @Test
+    fun testGetTransactionMetadataLabels() =
+        runTest {
+            val resource = "src/commonTest/resources/list_metadata_label.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionMetadataLabel>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_METADATA_LABELS,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMetadataLabels()
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMetadataLabelsFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_METADATA_LABELS,
+        ) { blockFrostClient -> blockFrostClient.getTransactionMetadataLabels() }
+
+    @Test
+    fun testGetTransactionMetadataLabel() =
+        runTest {
+            val resource = "src/commonTest/resources/list_metadata_content.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionMetadataContent>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_METADATA_CONTENTS.replace(":label", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMetadataContents(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMetadataLabelFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_METADATA_CONTENTS.replace(":label", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionMetadataContents(anyString) }
+
+    @Test
+    fun testGetTransactionMetadataContentCBOR() =
+        runTest {
+            val resource = "src/commonTest/resources/list_metadata_content_cbor.json"
+            val expectedData =
+                resource.resourceToExpectedData<List<TransactionMetadataContentCBOR>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_METADATA_LABEL_CBOR
+                        .replace(":label", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMetadataContentCBOR(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMetadataContentCBORFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_METADATA_LABEL_CBOR.replace(":label", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionMetadataContentCBOR(anyString) }
 
     private fun testApiFail(
         path: String,
