@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.metadata.model
 
+import dev.kryptonreborn.blockfrost.base.normalize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -13,5 +14,8 @@ import kotlinx.serialization.json.JsonElement
 @Serializable
 data class TransactionMetadataContent(
     @SerialName("tx_hash") val txHash: String,
-    @SerialName("json_metadata") val jsonMetadata: JsonElement?,
-)
+    @SerialName("json_metadata") private val _jsonMetadata: JsonElement?,
+) {
+    val jsonMetadata: Any?
+        get() = _jsonMetadata?.normalize()
+}
