@@ -14,7 +14,6 @@ internal fun JsonObject.toMap(): Map<String, Any> {
                 is JsonObject -> value.toMap()
                 is JsonArray -> value.toList()
                 is JsonPrimitive -> value.content
-                else -> throw IllegalArgumentException("Unsupported JsonElement type")
             }
     }
 
@@ -30,7 +29,6 @@ internal fun JsonArray.toList(): List<Any> {
                 is JsonObject -> value.toMap()
                 is JsonArray -> value.toList()
                 is JsonPrimitive -> value.content
-                else -> throw IllegalArgumentException("Unsupported JsonElement type")
             },
         )
     }
@@ -43,6 +41,5 @@ internal fun JsonElement.normalize(): Any {
         is JsonObject -> this.toMap()
         is JsonArray -> this.toList()
         is JsonPrimitive -> this.content
-        else -> throw IllegalArgumentException("Unsupported JsonElement type")
     }
 }
