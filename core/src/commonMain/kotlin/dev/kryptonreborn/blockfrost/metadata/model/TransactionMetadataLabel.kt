@@ -1,6 +1,11 @@
+@file:UseSerializers(BigIntegerSerializer::class)
+
 package dev.kryptonreborn.blockfrost.metadata.model
 
+import com.ionspin.kotlin.bignum.integer.BigInteger
+import dev.kryptonreborn.blockfrost.base.BigIntegerSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 
 /**
  * Transaction Metadata Label
@@ -13,5 +18,5 @@ import kotlinx.serialization.Serializable
 data class TransactionMetadataLabel(
     val label: String,
     val cip10: String?,
-    val count: String,
+    val count: BigInteger,
 )

@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.unittest.metadata.model
 
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import dev.kryptonreborn.blockfrost.TestKtorClient.parseFirstElementInArray
 import dev.kryptonreborn.blockfrost.metadata.model.TransactionMetadataLabel
 import kotlin.test.Test
@@ -13,6 +14,6 @@ class TransactionMetadataLabelTest {
             "src/commonTest/resources/list_metadata_label.json".parseFirstElementInArray<TransactionMetadataLabel>()
         assertEquals("1990", content.label)
         assertNull(content.cip10)
-        assertEquals("1", content.count)
+        assertEquals(BigInteger(1), content.count)
     }
 }
