@@ -1,15 +1,16 @@
 package dev.kryptonreborn.blockfrost.unittest.base
 
-import dev.kryptonreborn.blockfrost.base.normalize
-import dev.kryptonreborn.blockfrost.base.toList
-import dev.kryptonreborn.blockfrost.base.toMap
+import dev.kryptonreborn.blockfrost.utils.deserializeJsonElement
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class JsonExtensionsTest {
     @Test
@@ -47,7 +48,7 @@ class JsonExtensionsTest {
                     ),
             )
 
-        assertEquals(expectedMap, jsonObject.toMap())
+        assertEquals(expectedMap, jsonObject.deserializeJsonElement())
     }
 
     @Test
@@ -55,6 +56,11 @@ class JsonExtensionsTest {
         val jsonArray =
             buildJsonArray {
                 add("value1")
+                add(1)
+                add(1.1)
+                add(1F)
+                add(1L)
+                add(true)
                 add(
                     buildJsonObject {
                         put("nestedKey", "nestedValue")
@@ -70,11 +76,15 @@ class JsonExtensionsTest {
         val expectedList =
             listOf(
                 "value1",
+                1,
+                1.1,
+                1.0,
+                1,
+                true,
                 mapOf("nestedKey" to "nestedValue"),
                 listOf("nestedArrayValue"),
             )
-
-        assertEquals(expectedList, jsonArray.toList())
+        assertEquals(expectedList.toString(), jsonArray.deserializeJsonElement().toString())
     }
 
     @Test
@@ -89,8 +99,18 @@ class JsonExtensionsTest {
             }
         val jsonPrimitive = JsonPrimitive("value")
 
-        assertEquals(mapOf("key" to "value"), jsonObject.normalize())
-        assertEquals(listOf("value"), jsonArray.normalize())
-        assertEquals("value", jsonPrimitive.normalize())
+        assertEquals(mapOf("key" to "value"), jsonObject.deserializeJsonElement())
+        assertEquals(listOf("value"), jsonArray.deserializeJsonElement())
+        assertEquals("value", jsonPrimitive.deserializeJsonElement())
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Test
+    fun testDeserializeUnknownJsonPrimitiveType() {
+        val jsonPrimitive = JsonUnquotedLiteral("unknown")
+
+        assertFailsWith<IllegalArgumentException> {
+            jsonPrimitive.deserializeJsonElement()
+        }
     }
 }

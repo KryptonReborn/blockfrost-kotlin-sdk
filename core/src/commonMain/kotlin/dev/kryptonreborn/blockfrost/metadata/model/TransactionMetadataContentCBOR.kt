@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TransactionMetadataContentCBOR(
     @SerialName("tx_hash") val txHash: String,
+    @Deprecated("Use metadata instead", ReplaceWith("metadata"))
     @SerialName("cbor_metadata") val cborMetadata: String?,
     val metadata: String?,
 )
