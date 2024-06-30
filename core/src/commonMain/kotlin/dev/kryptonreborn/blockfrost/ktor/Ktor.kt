@@ -1,8 +1,6 @@
 package dev.kryptonreborn.blockfrost.ktor
 
-import com.ionspin.kotlin.bignum.integer.BigInteger
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
-import dev.kryptonreborn.blockfrost.base.BigIntegerSerializer
 import dev.kryptonreborn.blockfrost.base.handleResponseFromString
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
@@ -25,7 +23,6 @@ import io.ktor.http.contentType
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
 
 internal object Ktor {
     val json =
@@ -35,10 +32,6 @@ internal object Ktor {
             ignoreUnknownKeys = true
             encodeDefaults = true
             coerceInputValues = true
-            serializersModule =
-                SerializersModule {
-                    contextual(BigInteger::class, BigIntegerSerializer)
-                }
         }
 
     fun httpClient(blockfrostConfig: BlockfrostConfig) = createHttpClient(blockfrostConfig)
