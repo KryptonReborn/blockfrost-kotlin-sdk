@@ -92,6 +92,10 @@ import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRICS
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi.Companion.PATH_METRIC_ENDPOINTS
 import dev.kryptonreborn.blockfrost.metrics.model.Metric
 import dev.kryptonreborn.blockfrost.metrics.model.MetricEndpoint
+import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.GET_NETWORK_INFORMATION
+import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.QUERY_SUMMARY_BLOCKCHAIN_ERAS
+import dev.kryptonreborn.blockfrost.network.model.EraSummary
+import dev.kryptonreborn.blockfrost.network.model.NetworkInformation
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
@@ -1418,6 +1422,36 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_GET_TRANSACTION_METADATA_LABEL_CBOR.replace(":label", anyString),
         ) { blockFrostClient -> blockFrostClient.getTransactionMetadataContentCBOR(anyString) }
+
+    @Test
+    fun testGetNetworkInformation() =
+        runTest {
+            val resource = "src/commonTest/resources/model/network_information.json"
+            val content = resource.resourceToExpectedData<NetworkInformation>()
+            val httpClient = createMockHttpClient(GET_NETWORK_INFORMATION, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNetworkInformation()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetNetworkInformationFail() =
+        testApiFail(GET_NETWORK_INFORMATION) { blockFrostClient -> blockFrostClient.getNetworkInformation() }
+
+    @Test
+    fun testQueryNetworkInformation() =
+        runTest {
+            val resource = "src/commonTest/resources/list_era_summary.json"
+            val content = resource.resourceToExpectedData<List<EraSummary>>()
+            val httpClient = createMockHttpClient(QUERY_SUMMARY_BLOCKCHAIN_ERAS, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.querySummaryBlockchainEras()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testQueryNetworkInformationFail() =
+        testApiFail(QUERY_SUMMARY_BLOCKCHAIN_ERAS) { blockFrostClient -> blockFrostClient.querySummaryBlockchainEras() }
 
     private fun testApiFail(
         path: String,
