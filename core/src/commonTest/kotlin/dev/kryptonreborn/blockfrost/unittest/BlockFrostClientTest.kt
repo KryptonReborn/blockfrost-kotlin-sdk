@@ -96,6 +96,25 @@ import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.GET_NETW
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.QUERY_SUMMARY_BLOCKCHAIN_ERAS
 import dev.kryptonreborn.blockfrost.network.model.EraSummary
 import dev.kryptonreborn.blockfrost.network.model.NetworkInformation
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_RETIRED_STAKE_POOLS
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_RETIRING_STAKE_POOLS
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOLS
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOLS_EXTENDED
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOL_BLOCKS
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOL_DELEGATORS
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOL_UPDATES
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_SPECIFIC_STAKE_POOL
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_STAKE_POOL_HISTORY
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_STAKE_POOL_METADATA
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_STAKE_POOL_RELAYS
+import dev.kryptonreborn.blockfrost.pool.model.StakePool
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolDelegator
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolHistory
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolInfo
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolMetadata
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolRelay
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolRetire
+import dev.kryptonreborn.blockfrost.pool.model.StakePoolUpdate
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
@@ -1428,7 +1447,8 @@ class BlockFrostClientTest {
         runTest {
             val resource = "src/commonTest/resources/model/network_information.json"
             val content = resource.resourceToExpectedData<NetworkInformation>()
-            val httpClient = createMockHttpClient(GET_NETWORK_INFORMATION, Resource(resource).readText())
+            val httpClient =
+                createMockHttpClient(GET_NETWORK_INFORMATION, Resource(resource).readText())
             val blockFrostClient = BlockFrostClient(httpClient)
             val result = blockFrostClient.getNetworkInformation()
             assertEquals(content, result.getOrNull())
@@ -1443,7 +1463,8 @@ class BlockFrostClientTest {
         runTest {
             val resource = "src/commonTest/resources/list_era_summary.json"
             val content = resource.resourceToExpectedData<List<EraSummary>>()
-            val httpClient = createMockHttpClient(QUERY_SUMMARY_BLOCKCHAIN_ERAS, Resource(resource).readText())
+            val httpClient =
+                createMockHttpClient(QUERY_SUMMARY_BLOCKCHAIN_ERAS, Resource(resource).readText())
             val blockFrostClient = BlockFrostClient(httpClient)
             val result = blockFrostClient.querySummaryBlockchainEras()
             assertEquals(content, result.getOrNull())
@@ -1452,6 +1473,216 @@ class BlockFrostClientTest {
     @Test
     fun testQueryNetworkInformationFail() =
         testApiFail(QUERY_SUMMARY_BLOCKCHAIN_ERAS) { blockFrostClient -> blockFrostClient.querySummaryBlockchainEras() }
+
+    @Test
+    fun testGetListStakePools() =
+        runTest {
+            val resource = "src/commonTest/resources/list_string.json"
+            val content = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(PATH_LIST_STAKE_POOLS, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListStakePools()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListStakePoolsFail() = testApiFail(PATH_LIST_STAKE_POOLS) { blockFrostClient -> blockFrostClient.getListStakePools() }
+
+    @Test
+    fun testGetListStakePoolsExtended() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool.json"
+            val content = resource.resourceToExpectedData<List<StakePool>>()
+            val httpClient =
+                createMockHttpClient(PATH_LIST_STAKE_POOLS_EXTENDED, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListStakePoolsExtended()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListStakePoolsExtendedFail() =
+        testApiFail(PATH_LIST_STAKE_POOLS_EXTENDED) { blockFrostClient -> blockFrostClient.getListStakePoolsExtended() }
+
+    @Test
+    fun testGetListRetiredStakePools() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_retire.json"
+            val content = resource.resourceToExpectedData<List<StakePoolRetire>>()
+            val httpClient =
+                createMockHttpClient(PATH_LIST_RETIRED_STAKE_POOLS, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListRetiredStakePools()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListRetiredStakePoolsFail() =
+        testApiFail(PATH_LIST_RETIRED_STAKE_POOLS) { blockFrostClient -> blockFrostClient.getListRetiredStakePools() }
+
+    @Test
+    fun testGetListRetiringStakePools() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_retire.json"
+            val content = resource.resourceToExpectedData<List<StakePoolRetire>>()
+            val httpClient =
+                createMockHttpClient(PATH_LIST_RETIRING_STAKE_POOLS, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListRetiringStakePools()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListRetiringStakePoolsFail() =
+        testApiFail(PATH_LIST_RETIRING_STAKE_POOLS) { blockFrostClient -> blockFrostClient.getListRetiringStakePools() }
+
+    @Test
+    fun testGetSpecificStakePool() =
+        runTest {
+            val resource = "src/commonTest/resources/model/specific_stake_pool.json"
+            val content = resource.resourceToExpectedData<StakePoolInfo>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_SPECIFIC_STAKE_POOL.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificStakePool(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificStakePoolFail() =
+        testApiFail(
+            PATH_SPECIFIC_STAKE_POOL.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getSpecificStakePool(anyString) }
+
+    @Test
+    fun testGetStakePoolHistory() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_history.json"
+            val content = resource.resourceToExpectedData<List<StakePoolHistory>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_STAKE_POOL_HISTORY.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getStakePoolHistory(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetStakePoolHistoryFail() =
+        testApiFail(
+            PATH_STAKE_POOL_HISTORY.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getStakePoolHistory(anyString) }
+
+    @Test
+    fun testGetStakePoolMetadata() =
+        runTest {
+            val resource = "src/commonTest/resources/model/stake_pool_metadata.json"
+            val content = resource.resourceToExpectedData<StakePoolMetadata>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_STAKE_POOL_METADATA.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getStakePoolMetadata(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetStakePoolMetadataFail() =
+        testApiFail(
+            PATH_STAKE_POOL_METADATA.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getStakePoolMetadata(anyString) }
+
+    @Test
+    fun testGetStakePoolRelays() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_relays.json"
+            val content = resource.resourceToExpectedData<List<StakePoolRelay>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_STAKE_POOL_RELAYS.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getStakePoolRelays(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetStakePoolRelaysFail() =
+        testApiFail(
+            PATH_STAKE_POOL_RELAYS.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getStakePoolRelays(anyString) }
+
+    @Test
+    fun testGetListStakePoolDelegators() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_delegator.json"
+            val content = resource.resourceToExpectedData<List<StakePoolDelegator>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LIST_STAKE_POOL_DELEGATORS.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListStakePoolDelegators(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListStakePoolDelegatorsFail() =
+        testApiFail(
+            PATH_LIST_STAKE_POOL_DELEGATORS.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getListStakePoolDelegators(anyString) }
+
+    @Test
+    fun testGetListStakePoolBlocks() =
+        runTest {
+            val resource = "src/commonTest/resources/list_string.json"
+            val content = resource.resourceToExpectedData<List<String>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LIST_STAKE_POOL_BLOCKS.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListStakePoolBlocks(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListStakePoolBlocksFail() =
+        testApiFail(
+            PATH_LIST_STAKE_POOL_BLOCKS.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getListStakePoolBlocks(anyString) }
+
+    @Test
+    fun testGetListStakePoolUpdates() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_update.json"
+            val content = resource.resourceToExpectedData<List<StakePoolUpdate>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_LIST_STAKE_POOL_UPDATES.replace(":pool_id", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getListStakePoolUpdates(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetListStakePoolUpdatesFail() =
+        testApiFail(
+            PATH_LIST_STAKE_POOL_UPDATES.replace(":pool_id", anyString),
+        ) { blockFrostClient -> blockFrostClient.getListStakePoolUpdates(anyString) }
 
     private fun testApiFail(
         path: String,

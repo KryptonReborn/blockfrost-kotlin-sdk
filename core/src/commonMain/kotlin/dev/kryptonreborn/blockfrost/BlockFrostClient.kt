@@ -13,6 +13,7 @@ import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi
 import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi
+import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
@@ -35,6 +36,7 @@ class BlockFrostClient {
     private val cardanoMempoolApi: CardanoMempoolApi
     private val cardanoMetadataApi: CardanoMetadataApi
     private val cardanoNetworkApi: CardanoNetworkApi
+    private val cardanoPoolApi: CardanoPoolApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -53,6 +55,7 @@ class BlockFrostClient {
         this.cardanoMempoolApi = CardanoMempoolApi(httpClient)
         this.cardanoMetadataApi = CardanoMetadataApi(httpClient)
         this.cardanoNetworkApi = CardanoNetworkApi(httpClient)
+        this.cardanoPoolApi = CardanoPoolApi(httpClient)
     }
 
     /**
@@ -713,6 +716,114 @@ class BlockFrostClient {
      * @return A [Result] containing the summary of blockchain eras.
      */
     suspend fun querySummaryBlockchainEras() = handleApiResult { cardanoNetworkApi.querySummaryBlockchainEras() }
+
+    /**
+     * List of registered stake pools.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of registered stake pools.
+     */
+    suspend fun getListStakePools(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoPoolApi.getListStakePools(queryParameters) }
+
+    /**
+     * List of registered stake pools with additional information.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of registered stake pools with additional information.
+     */
+    suspend fun getListStakePoolsExtended(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoPoolApi.getListStakePoolsExtended(queryParameters) }
+
+    /**
+     * List of already retired pools.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of already retired pools.
+     */
+    suspend fun getListRetiredStakePools(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoPoolApi.getListRetiredStakePools(queryParameters) }
+
+    /**
+     * List of stake pools retiring in the upcoming epochs
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of stake pools retiring in the upcoming epochs.
+     */
+    suspend fun getListRetiringStakePools(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoPoolApi.getListRetiringStakePools(queryParameters) }
+
+    /**
+     * Pool information.
+     *
+     * @param poolId The pool ID to query.
+     * @return A [Result] containing the pool information.
+     */
+    suspend fun getSpecificStakePool(poolId: String) = handleApiResult { cardanoPoolApi.getSpecificStakePool(poolId) }
+
+    /**
+     * History of stake pool parameters over epochs.
+     *
+     * @param poolId The pool ID to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing the history of stake pool parameters over epochs.
+     */
+    suspend fun getStakePoolHistory(
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoPoolApi.getStakePoolHistory(poolId, queryParameters) }
+
+    /**
+     * Stake pool registration metadata.
+     *
+     * @param poolId The pool ID to query.
+     * @return A [Result] containing the stake pool registration metadata.
+     */
+    suspend fun getStakePoolMetadata(poolId: String) = handleApiResult { cardanoPoolApi.getStakePoolMetadata(poolId) }
+
+    /**
+     * Relays of a stake pool.
+     *
+     * @param poolId The pool ID to query.
+     * @return A [Result] containing the relays of a stake pool.
+     */
+    suspend fun getStakePoolRelays(poolId: String) = handleApiResult { cardanoPoolApi.getStakePoolRelays(poolId) }
+
+    /**
+     * List of current stake pools delegators.
+     *
+     * @param poolId The pool ID to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of current stake pools delegators.
+     */
+    suspend fun getListStakePoolDelegators(
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoPoolApi.getListStakePoolDelegators(poolId, queryParameters) }
+
+    /**
+     * List of stake pools blocks.
+     *
+     * @param poolId The pool ID to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of stake pools blocks.
+     */
+    suspend fun getListStakePoolBlocks(
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoPoolApi.getListStakePoolBlocks(poolId, queryParameters) }
+
+    /**
+     * List of certificate updates to the stake pool.
+     *
+     * @param poolId The pool ID to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of certificate updates to the stake pool.
+     */
+    suspend fun getListStakePoolUpdates(
+        poolId: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoPoolApi.getListStakePoolUpdates(poolId, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
