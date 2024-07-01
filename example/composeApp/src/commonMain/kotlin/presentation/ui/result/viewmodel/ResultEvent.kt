@@ -102,4 +102,36 @@ sealed class ResultEvent(val id: String) {
     data object GetMempoolDetails : ResultEvent("GetMempoolDetails")
 
     data object GetMemPoolByAddress : ResultEvent("GetMemPoolByAddress")
+
+    data object GetTransactionMetadataLabels : ResultEvent("GetTransactionMetadataLabels")
+
+    data object GetTransactionMetadataContents : ResultEvent("GetTransactionMetadataContents")
+
+    data object GetTransactionMetadataContentCBOR : ResultEvent("GetTransactionMetadataContentCBOR")
+
+    data object GetNetworkInformation : ResultEvent("GetNetworkInformation")
+
+    data object QuerySummaryBlockchainEras : ResultEvent("QuerySummaryBlockchainEras")
+
+    data object GetListStakePools : ResultEvent("GetListStakePools")
+
+    data object GetListStakePoolsExtended : ResultEvent("GetListStakePoolsExtended")
+
+    data object GetListRetiredStakePools : ResultEvent("GetListRetiredStakePools")
+
+    data object GetListRetiringStakePools : ResultEvent("GetListRetiringStakePools")
+
+    data object GetSpecificStakePool : ResultEvent("GetSpecificStakePool")
+
+    data object GetStakePoolHistory : ResultEvent("GetStakePoolHistory")
+
+    data object GetStakePoolMetadata : ResultEvent("GetStakePoolMetadata")
+
+    data object GetStakePoolRelays : ResultEvent("GetStakePoolRelays")
+
+    data object GetListStakePoolDelegators : ResultEvent("GetStakePoolDelegators")
+
+    data object GetListStakePoolBlocks : ResultEvent("GetStakePoolBlocks")
+
+    data object GetListStakePoolUpdates : ResultEvent("GetStakePoolUpdates")
 }
