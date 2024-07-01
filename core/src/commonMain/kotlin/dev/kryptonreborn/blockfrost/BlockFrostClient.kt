@@ -12,6 +12,7 @@ import dev.kryptonreborn.blockfrost.ledger.CardanoLedgerApi
 import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi
 import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
+import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
@@ -33,6 +34,7 @@ class BlockFrostClient {
     private val cardanoUtilitiesApi: CardanoUtilitiesApi
     private val cardanoMempoolApi: CardanoMempoolApi
     private val cardanoMetadataApi: CardanoMetadataApi
+    private val cardanoNetworkApi: CardanoNetworkApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -50,6 +52,7 @@ class BlockFrostClient {
         this.cardanoUtilitiesApi = CardanoUtilitiesApi(httpClient)
         this.cardanoMempoolApi = CardanoMempoolApi(httpClient)
         this.cardanoMetadataApi = CardanoMetadataApi(httpClient)
+        this.cardanoNetworkApi = CardanoNetworkApi(httpClient)
     }
 
     /**
@@ -696,6 +699,20 @@ class BlockFrostClient {
             queryParameters,
         )
     }
+
+    /**
+     * Return detailed network information.
+     *
+     * @return A [Result] containing the detailed network information.
+     */
+    suspend fun getNetworkInformation() = handleApiResult { cardanoNetworkApi.getNetworkInformation() }
+
+    /**
+     * Returns start and end of each era along with parameters that can vary between hard forks.
+     *
+     * @return A [Result] containing the summary of blockchain eras.
+     */
+    suspend fun querySummaryBlockchainEras() = handleApiResult { cardanoNetworkApi.querySummaryBlockchainEras() }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
