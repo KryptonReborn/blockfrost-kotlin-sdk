@@ -352,6 +352,102 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getMemPoolByAddress(address)
                     }
                 }
+
+                ResultEvent.GetTransactionMetadataLabels -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMetadataLabels()
+                    }
+                }
+
+                ResultEvent.GetTransactionMetadataContents -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMetadataContents(cbor)
+                    }
+                }
+
+                ResultEvent.GetTransactionMetadataContentCBOR -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMetadataContentCBOR(cbor)
+                    }
+                }
+
+                ResultEvent.GetNetworkInformation -> {
+                    getResponse {
+                        blockFrostClient.getNetworkInformation()
+                    }
+                }
+
+                ResultEvent.QuerySummaryBlockchainEras -> {
+                    getResponse {
+                        blockFrostClient.querySummaryBlockchainEras()
+                    }
+                }
+
+                ResultEvent.GetListStakePools -> {
+                    getResponse {
+                        blockFrostClient.getListStakePools()
+                    }
+                }
+
+                ResultEvent.GetListStakePoolsExtended -> {
+                    getResponse {
+                        blockFrostClient.getListStakePoolsExtended()
+                    }
+                }
+
+                ResultEvent.GetSpecificStakePool -> {
+                    getResponse {
+                        blockFrostClient.getSpecificStakePool(poolId)
+                    }
+                }
+
+                ResultEvent.GetStakePoolHistory -> {
+                    getResponse {
+                        blockFrostClient.getStakePoolHistory(poolId)
+                    }
+                }
+
+                ResultEvent.GetStakePoolMetadata -> {
+                    getResponse {
+                        blockFrostClient.getStakePoolMetadata(poolId)
+                    }
+                }
+
+                ResultEvent.GetStakePoolRelays -> {
+                    getResponse {
+                        blockFrostClient.getStakePoolRelays(poolId)
+                    }
+                }
+
+                ResultEvent.GetListStakePoolDelegators -> {
+                    getResponse {
+                        blockFrostClient.getListStakePoolDelegators(poolId)
+                    }
+                }
+
+                ResultEvent.GetListStakePoolBlocks -> {
+                    getResponse {
+                        blockFrostClient.getListStakePoolBlocks(poolId)
+                    }
+                }
+
+                ResultEvent.GetListStakePoolUpdates -> {
+                    getResponse {
+                        blockFrostClient.getListStakePoolUpdates(poolId)
+                    }
+                }
+
+                ResultEvent.GetListRetiredStakePools -> {
+                    getResponse {
+                        blockFrostClient.getListRetiredStakePools()
+                    }
+                }
+
+                ResultEvent.GetListRetiringStakePools -> {
+                    getResponse {
+                        blockFrostClient.getListRetiringStakePools()
+                    }
+                }
             }
         }
     }
@@ -427,6 +523,22 @@ class ResultViewModel : ViewModel() {
                 "GetMempool" to ResultEvent.GetMempool,
                 "GetMempoolDetails" to ResultEvent.GetMempoolDetails,
                 "GetMemPoolByAddress" to ResultEvent.GetMemPoolByAddress,
+                "GetTransactionMetadataLabels" to ResultEvent.GetTransactionMetadataLabels,
+                "GetTransactionMetadataContents" to ResultEvent.GetTransactionMetadataContents,
+                "GetTransactionMetadataContentCBOR" to ResultEvent.GetTransactionMetadataContentCBOR,
+                "GetNetworkInformation" to ResultEvent.GetNetworkInformation,
+                "QuerySummaryBlockchainEras" to ResultEvent.QuerySummaryBlockchainEras,
+                "GetListStakePools" to ResultEvent.GetListStakePools,
+                "GetListStakePoolsExtended" to ResultEvent.GetListStakePoolsExtended,
+                "GetSpecificStakePool" to ResultEvent.GetSpecificStakePool,
+                "GetStakePoolHistory" to ResultEvent.GetStakePoolHistory,
+                "GetStakePoolMetadata" to ResultEvent.GetStakePoolMetadata,
+                "GetStakePoolRelays" to ResultEvent.GetStakePoolRelays,
+                "GetListStakePoolDelegators" to ResultEvent.GetListStakePoolDelegators,
+                "GetListStakePoolBlocks" to ResultEvent.GetListStakePoolBlocks,
+                "GetListStakePoolUpdates" to ResultEvent.GetListStakePoolUpdates,
+                "GetListRetiredStakePools" to ResultEvent.GetListRetiredStakePools,
+                "GetListRetiringStakePools" to ResultEvent.GetListRetiringStakePools,
             )
     }
 }

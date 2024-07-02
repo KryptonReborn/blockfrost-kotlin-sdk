@@ -127,6 +127,43 @@ data class HomeState(
                             "GetMemPoolByAddress",
                         ),
                 ),
+            "Cardano Metadata Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetTransactionMetadataLabels",
+                            "GetTransactionMetadataContents",
+                            "GetTransactionMetadataContentCBOR",
+                        ),
+                ),
+            "Cardano Network Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetNetworkInformation",
+                            "QuerySummaryBlockchainEras",
+                        ),
+                ),
+            "Cardano Pool Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetListStakePools",
+                            "GetListStakePoolsExtended",
+                            "GetListRetiredStakePools",
+                            "GetListRetiringStakePools",
+                            "GetSpecificStakePool",
+                            "GetStakePoolHistory",
+                            "GetStakePoolMetadata",
+                            "GetStakePoolRelays",
+                            "GetListStakePoolDelegators",
+                            "GetListStakePoolBlocks",
+                            "GetListStakePoolUpdates",
+                        ),
+                ),
         ),
 )
 
