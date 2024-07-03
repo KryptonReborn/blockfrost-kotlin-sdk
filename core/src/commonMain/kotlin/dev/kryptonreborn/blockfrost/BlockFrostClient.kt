@@ -14,6 +14,7 @@ import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
@@ -37,6 +38,7 @@ class BlockFrostClient {
     private val cardanoMetadataApi: CardanoMetadataApi
     private val cardanoNetworkApi: CardanoNetworkApi
     private val cardanoPoolApi: CardanoPoolApi
+    private val cardanoScriptsApi: CardanoScriptsApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -56,6 +58,7 @@ class BlockFrostClient {
         this.cardanoMetadataApi = CardanoMetadataApi(httpClient)
         this.cardanoNetworkApi = CardanoNetworkApi(httpClient)
         this.cardanoPoolApi = CardanoPoolApi(httpClient)
+        this.cardanoScriptsApi = CardanoScriptsApi(httpClient)
     }
 
     /**
@@ -824,6 +827,67 @@ class BlockFrostClient {
         poolId: String,
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoPoolApi.getListStakePoolUpdates(poolId, queryParameters) }
+
+    /**
+     * List of scripts.
+     *
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of scripts.
+     */
+    suspend fun getScripts(queryParameters: QueryParameters = QueryParameters()) =
+        handleApiResult { cardanoScriptsApi.getScripts(queryParameters) }
+
+    /**
+     * Information about a specific script
+     *
+     * @param scriptHash The script hash to query.
+     * @return A [Result] containing the specific script information.
+     */
+    suspend fun getScript(scriptHash: String) = handleApiResult { cardanoScriptsApi.getScript(scriptHash) }
+
+    /**
+     * JSON representation of a `timelock` script
+     *
+     * @param scriptHash The script hash to query.
+     * @return A [Result] containing the JSON representation of a `timelock` script.
+     */
+    suspend fun getScriptJson(scriptHash: String) = handleApiResult { cardanoScriptsApi.getScriptJson(scriptHash) }
+
+    /**
+     * CBOR representation of a `plutus` script
+     *
+     * @param scriptHash The script hash to query.
+     * @return A [Result] containing the CBOR representation of a `plutus` script.
+     */
+    suspend fun getScriptCbor(scriptHash: String) = handleApiResult { cardanoScriptsApi.getScriptCbor(scriptHash) }
+
+    /**
+     * Query JSON value of a datum by its hash
+     *
+     * @param datumHash The datum hash to query.
+     * @return A [Result] containing the JSON value of a datum.
+     */
+    suspend fun getScriptDatum(datumHash: String) = handleApiResult { cardanoScriptsApi.getScriptDatum(datumHash) }
+
+    /**
+     * Query CBOR serialised datum by its hash
+     *
+     * @param datumHash The datum hash to query.
+     * @return A [Result] containing the CBOR serialised datum.
+     */
+    suspend fun getScriptDatumCbor(datumHash: String) = handleApiResult { cardanoScriptsApi.getScriptDatumCbor(datumHash) }
+
+    /**
+     * List of redeemers of a specific script
+     *
+     * @param scriptHash The script hash to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of redeemers of a specific script.
+     */
+    suspend fun getScriptRedeemers(
+        scriptHash: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { cardanoScriptsApi.getScriptRedeemers(scriptHash, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.

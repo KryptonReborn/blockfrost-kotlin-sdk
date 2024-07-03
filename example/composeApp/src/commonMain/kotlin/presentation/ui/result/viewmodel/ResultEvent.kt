@@ -134,4 +134,18 @@ sealed class ResultEvent(val id: String) {
     data object GetListStakePoolBlocks : ResultEvent("GetStakePoolBlocks")
 
     data object GetListStakePoolUpdates : ResultEvent("GetStakePoolUpdates")
+
+    data object GetScripts : ResultEvent("GetScripts")
+
+    data object GetScript : ResultEvent("GetScript")
+
+    data object GetScriptJson : ResultEvent("GetScriptJson")
+
+    data object GetScriptCbor : ResultEvent("GetScriptCbor")
+
+    data object GetScriptRedeemers : ResultEvent("GetScriptRedeemers")
+
+    data object GetScriptDatum : ResultEvent("GetScriptDatum")
+
+    data object GetScriptDatumCbor : ResultEvent("GetScriptDatumCbor")
 }

@@ -164,6 +164,20 @@ data class HomeState(
                             "GetListStakePoolUpdates",
                         ),
                 ),
+            "Cardano Scripts Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetScripts",
+                            "GetScript",
+                            "GetScriptJson",
+                            "GetScriptRedeemers",
+                            "GetScriptCbor",
+                            "GetScriptDatum",
+                            "GetScriptDatumCbor",
+                        ),
+                ),
         ),
 )
 

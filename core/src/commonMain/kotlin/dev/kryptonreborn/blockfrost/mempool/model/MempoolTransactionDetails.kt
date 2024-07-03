@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.mempool.model
 
+import dev.kryptonreborn.blockfrost.base.model.RedeemerPurpose
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -124,7 +125,7 @@ data class TransactionOutput(
 @Serializable
 data class Redeemer(
     @SerialName("tx_index") val txIndex: Int,
-    val purpose: String,
+    val purpose: RedeemerPurpose,
     @SerialName("unit_mem") val unitMem: String,
     @SerialName("unit_steps") val unitSteps: String,
 )

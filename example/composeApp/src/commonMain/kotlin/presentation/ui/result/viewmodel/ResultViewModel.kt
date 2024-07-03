@@ -32,7 +32,8 @@ class ResultViewModel : ViewModel() {
             "cd9630825839003dd93bd0a5d1dd87b6413484b63ad1b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b" +
             "2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a18cd9630825839003dd93bd0a5d1dd87b6413484b63ad1" +
             "b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a004c4b40021a0002be85031a031e00790800a0f5f6"
-
+    private val scriptHash = "65c197d565e88a20885e535f93755682444d3c02fd44dd70883fe89e"
+    private val datumHash = "db583ad85881a96c73fbb26ab9e24d1120bb38f45385664bb9c797a2ea8d9a2d"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -448,6 +449,34 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getListRetiringStakePools()
                     }
                 }
+
+                ResultEvent.GetScript -> {
+                    getResponse { blockFrostClient.getScript(scriptHash) }
+                }
+
+                ResultEvent.GetScriptCbor -> {
+                    getResponse { blockFrostClient.getScriptCbor(scriptHash) }
+                }
+
+                ResultEvent.GetScriptDatum -> {
+                    getResponse { blockFrostClient.getScriptDatum(datumHash) }
+                }
+
+                ResultEvent.GetScriptDatumCbor -> {
+                    getResponse { blockFrostClient.getScriptDatumCbor(datumHash) }
+                }
+
+                ResultEvent.GetScriptJson -> {
+                    getResponse { blockFrostClient.getScriptJson(scriptHash) }
+                }
+
+                ResultEvent.GetScriptRedeemers -> {
+                    getResponse { blockFrostClient.getScriptRedeemers(scriptHash) }
+                }
+
+                ResultEvent.GetScripts -> {
+                    getResponse { blockFrostClient.getScripts() }
+                }
             }
         }
     }
@@ -539,6 +568,13 @@ class ResultViewModel : ViewModel() {
                 "GetListStakePoolUpdates" to ResultEvent.GetListStakePoolUpdates,
                 "GetListRetiredStakePools" to ResultEvent.GetListRetiredStakePools,
                 "GetListRetiringStakePools" to ResultEvent.GetListRetiringStakePools,
+                "GetScripts" to ResultEvent.GetScripts,
+                "GetScript" to ResultEvent.GetScript,
+                "GetScriptRedeemers" to ResultEvent.GetScriptRedeemers,
+                "GetScriptJson" to ResultEvent.GetScriptJson,
+                "GetScriptCbor" to ResultEvent.GetScriptCbor,
+                "GetScriptDatum" to ResultEvent.GetScriptDatum,
+                "GetScriptDatumCbor" to ResultEvent.GetScriptDatumCbor,
             )
     }
 }

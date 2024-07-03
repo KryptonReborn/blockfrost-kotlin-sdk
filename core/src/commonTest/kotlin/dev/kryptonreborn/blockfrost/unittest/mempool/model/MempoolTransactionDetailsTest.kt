@@ -1,6 +1,7 @@
 package dev.kryptonreborn.blockfrost.unittest.mempool.model
 
 import com.goncalossilva.resources.Resource
+import dev.kryptonreborn.blockfrost.base.model.RedeemerPurpose
 import dev.kryptonreborn.blockfrost.ktor.Ktor
 import dev.kryptonreborn.blockfrost.mempool.model.MempoolTransactionDetails
 import kotlin.test.Test
@@ -90,7 +91,7 @@ class MempoolTransactionDetailsTest {
         // Redeemers
         val redeemer = content.redeemers!![0]
         assertEquals(0, redeemer.txIndex)
-        assertEquals("spend", redeemer.purpose)
+        assertEquals(RedeemerPurpose.SPEND, redeemer.purpose)
         assertEquals("27895", redeemer.unitMem)
         assertEquals("12682260", redeemer.unitSteps)
     }

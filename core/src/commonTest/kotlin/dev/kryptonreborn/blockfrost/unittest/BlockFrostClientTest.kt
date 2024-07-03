@@ -115,6 +115,20 @@ import dev.kryptonreborn.blockfrost.pool.model.StakePoolMetadata
 import dev.kryptonreborn.blockfrost.pool.model.StakePoolRelay
 import dev.kryptonreborn.blockfrost.pool.model.StakePoolRetire
 import dev.kryptonreborn.blockfrost.pool.model.StakePoolUpdate
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPTS
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT_CBOR
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT_DATUM
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT_DATUM_CBOR
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT_JSON
+import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi.Companion.PATH_GET_SCRIPT_REDEEMERS
+import dev.kryptonreborn.blockfrost.scripts.model.DatumCborValue
+import dev.kryptonreborn.blockfrost.scripts.model.DatumValue
+import dev.kryptonreborn.blockfrost.scripts.model.Script
+import dev.kryptonreborn.blockfrost.scripts.model.ScriptCbor
+import dev.kryptonreborn.blockfrost.scripts.model.ScriptJson
+import dev.kryptonreborn.blockfrost.scripts.model.ScriptRedeemer
+import dev.kryptonreborn.blockfrost.scripts.model.SpecificScript
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
@@ -1683,6 +1697,164 @@ class BlockFrostClientTest {
         testApiFail(
             PATH_LIST_STAKE_POOL_UPDATES.replace(":pool_id", anyString),
         ) { blockFrostClient -> blockFrostClient.getListStakePoolUpdates(anyString) }
+
+    @Test
+    fun testGetScripts() =
+        runTest {
+            val resource = "src/commonTest/resources/list_scripts.json"
+            val content = resource.resourceToExpectedData<List<Script>>()
+            val httpClient = createMockHttpClient(PATH_GET_SCRIPTS, Resource(resource).readText())
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScripts()
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptsFail() = testApiFail(PATH_GET_SCRIPTS) { blockFrostClient -> blockFrostClient.getScripts() }
+
+    @Test
+    fun testGetScript() =
+        runTest {
+            val resource = "src/commonTest/resources/model/specific_script.json"
+            val content = resource.resourceToExpectedData<SpecificScript>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT.replace(":script_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScript(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptFail() =
+        testApiFail(
+            PATH_GET_SCRIPT.replace(
+                ":script_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScript(anyString) }
+
+    @Test
+    fun testGetScriptRedeemers() =
+        runTest {
+            val resource = "src/commonTest/resources/list_script_redeemer.json"
+            val content = resource.resourceToExpectedData<List<ScriptRedeemer>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT_REDEEMERS.replace(":script_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScriptRedeemers(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptRedeemersFail() =
+        testApiFail(
+            PATH_GET_SCRIPT_REDEEMERS.replace(
+                ":script_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScriptRedeemers(anyString) }
+
+    @Test
+    fun testGetScriptJson() =
+        runTest {
+            val resource = "src/commonTest/resources/model/script_json.json"
+            val content = resource.resourceToExpectedData<ScriptJson>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT_JSON.replace(":script_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScriptJson(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptJsonFail() =
+        testApiFail(
+            PATH_GET_SCRIPT_JSON.replace(
+                ":script_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScriptJson(anyString) }
+
+    @Test
+    fun testGetScriptCbor() =
+        runTest {
+            val resource = "src/commonTest/resources/model/script_cbor.json"
+            val content = resource.resourceToExpectedData<ScriptCbor>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT_CBOR.replace(":script_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScriptCbor(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptCborFail() =
+        testApiFail(
+            PATH_GET_SCRIPT_CBOR.replace(
+                ":script_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScriptCbor(anyString) }
+
+    @Test
+    fun testGetScriptDatum() =
+        runTest {
+            val resource = "src/commonTest/resources/model/datum_value.json"
+            val content = resource.resourceToExpectedData<DatumValue>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT_DATUM.replace(":datum_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScriptDatum(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptDatumFail() =
+        testApiFail(
+            PATH_GET_SCRIPT_DATUM.replace(
+                ":datum_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScriptDatum(anyString) }
+
+    @Test
+    fun testGetScriptDatumCbor() =
+        runTest {
+            val resource = "src/commonTest/resources/model/datum_cbor_value.json"
+            val content = resource.resourceToExpectedData<DatumCborValue>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SCRIPT_DATUM_CBOR.replace(":datum_hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getScriptDatumCbor(anyString)
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testGetScriptDatumCborFail() =
+        testApiFail(
+            PATH_GET_SCRIPT_DATUM_CBOR.replace(
+                ":datum_hash",
+                anyString,
+            ),
+        ) { blockFrostClient -> blockFrostClient.getScriptDatumCbor(anyString) }
 
     private fun testApiFail(
         path: String,
