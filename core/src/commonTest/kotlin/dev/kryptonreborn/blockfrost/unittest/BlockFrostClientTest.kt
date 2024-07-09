@@ -129,6 +129,29 @@ import dev.kryptonreborn.blockfrost.scripts.model.ScriptCbor
 import dev.kryptonreborn.blockfrost.scripts.model.ScriptJson
 import dev.kryptonreborn.blockfrost.scripts.model.ScriptRedeemer
 import dev.kryptonreborn.blockfrost.scripts.model.SpecificScript
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_SPECIFIC_TRANSACTION
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_DELEGATIONS
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_METADATA
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_METADATA_CBOR
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_MIRS
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_POOL_RETIRES
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_POOL_UPDATES
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_REDEEMERS
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_STAKES
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_UTXOS
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi.Companion.PATH_GET_TRANSACTION_WITHDRAWS
+import dev.kryptonreborn.blockfrost.transactions.model.DelegationCertificate
+import dev.kryptonreborn.blockfrost.transactions.model.SpecificTransaction
+import dev.kryptonreborn.blockfrost.transactions.model.StakeAddressCertificate
+import dev.kryptonreborn.blockfrost.transactions.model.StakePoolCertificate
+import dev.kryptonreborn.blockfrost.transactions.model.StakePoolRetirementCertificate
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionMIR
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionMetadata
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionMetadataCbor
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionRedeemer
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionUtxos
+import dev.kryptonreborn.blockfrost.transactions.model.TransactionWithdrawal
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_DERIVE_ADDRESS
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi.Companion.PATH_SUBMIT_TRANSACTION
 import dev.kryptonreborn.blockfrost.utilities.model.DerivedAddress
@@ -1855,6 +1878,253 @@ class BlockFrostClientTest {
                 anyString,
             ),
         ) { blockFrostClient -> blockFrostClient.getScriptDatumCbor(anyString) }
+
+    @Test
+    fun testGetSpecificTransaction() =
+        runTest {
+            val resource = "src/commonTest/resources/model/specific_transaction.json"
+            val expectedData = resource.resourceToExpectedData<SpecificTransaction>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_SPECIFIC_TRANSACTION.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getSpecificTransaction(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetSpecificTransactionFail() =
+        testApiFail(
+            PATH_GET_SPECIFIC_TRANSACTION.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getSpecificTransaction(anyString) }
+
+    @Test
+    fun testGetTransactionUtxos() =
+        runTest {
+            val resource = "src/commonTest/resources/model/transaction_utxos.json"
+            val expectedData = resource.resourceToExpectedData<TransactionUtxos>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_UTXOS.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionUtxos(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionUtxosFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_UTXOS.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionUtxos(anyString) }
+
+    @Test
+    fun testGetTransactionStakes() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_address_certificates.json"
+            val expectedData = resource.resourceToExpectedData<List<StakeAddressCertificate>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_STAKES.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionStakes(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionStakesFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_STAKES.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionStakes(anyString) }
+
+    @Test
+    fun testGetTransactionDelegations() =
+        runTest {
+            val resource = "src/commonTest/resources/list_delegation_certificates.json"
+            val expectedData = resource.resourceToExpectedData<List<DelegationCertificate>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_DELEGATIONS.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionDelegations(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionDelegationsFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_DELEGATIONS.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionDelegations(anyString) }
+
+    @Test
+    fun testGetTransactionWithdrawals() =
+        runTest {
+            val resource = "src/commonTest/resources/list_transaction_withdraw.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionWithdrawal>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_WITHDRAWS.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionWithdrawals(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMirs() =
+        runTest {
+            val resource = "src/commonTest/resources/list_transaction_mirs.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionMIR>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_MIRS.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMirs(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMirsFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_MIRS.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionMirs(anyString) }
+
+    @Test
+    fun testGetTransactionPoolUpdates() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_certificate.json"
+            val expectedData = resource.resourceToExpectedData<List<StakePoolCertificate>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_POOL_UPDATES.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionPoolUpdates(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionPoolUpdatesFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_POOL_UPDATES.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionPoolUpdates(anyString) }
+
+    @Test
+    fun testGetTransactionPoolRetires() =
+        runTest {
+            val resource = "src/commonTest/resources/list_stake_pool_retirement_certificate.json"
+            val expectedData =
+                resource.resourceToExpectedData<List<StakePoolRetirementCertificate>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_POOL_RETIRES.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionPoolRetires(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionPoolRetiresFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_POOL_RETIRES.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionPoolRetires(anyString) }
+
+    @Test
+    fun testGetTransactionMetadata() =
+        runTest {
+            val resource = "src/commonTest/resources/list_transaction_metadata.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionMetadata>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_METADATA.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMetadata(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMetadataFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_METADATA.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionMetadata(anyString) }
+
+    @Test
+    fun testGetTransactionMetadataCbor() =
+        runTest {
+            val resource = "src/commonTest/resources/list_transaction_metadata_cbor.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionMetadataCbor>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_METADATA_CBOR.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionMetadataCbor(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionMetadataCborFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_METADATA_CBOR.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionMetadataCbor(anyString) }
+
+    @Test
+    fun testGetTransactionRedeemers() =
+        runTest {
+            val resource = "src/commonTest/resources/list_transaction_redeemer.json"
+            val expectedData = resource.resourceToExpectedData<List<TransactionRedeemer>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_TRANSACTION_REDEEMERS.replace(":hash", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getTransactionRedeemers(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetTransactionRedeemersFail() =
+        testApiFail(
+            PATH_GET_TRANSACTION_REDEEMERS.replace(":hash", anyString),
+        ) { blockFrostClient -> blockFrostClient.getTransactionRedeemers(anyString) }
+
+    @Test
+    fun testSubmitTransaction() =
+        runTest {
+            val resource = "src/commonTest/resources/test_data.json"
+            val expectedData = resource.resourceToExpectedData<JsonObject>()
+            val httpClient =
+                createMockHttpClient(
+                    CardanoTransactionsApi.PATH_SUBMIT_TRANSACTION,
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.submitTransaction(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testSubmitTransactionFail() =
+        testApiFail(
+            CardanoTransactionsApi.PATH_SUBMIT_TRANSACTION,
+        ) { blockFrostClient -> blockFrostClient.submitTransaction(anyString) }
 
     private fun testApiFail(
         path: String,

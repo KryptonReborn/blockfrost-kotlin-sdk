@@ -15,6 +15,7 @@ import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi
 import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi
+import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi
 import dev.kryptonreborn.blockfrost.utilities.CardanoUtilitiesApi
 import io.ktor.client.HttpClient
 
@@ -39,6 +40,7 @@ class BlockFrostClient {
     private val cardanoNetworkApi: CardanoNetworkApi
     private val cardanoPoolApi: CardanoPoolApi
     private val cardanoScriptsApi: CardanoScriptsApi
+    private val cardanoTransactionsApi: CardanoTransactionsApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -59,6 +61,7 @@ class BlockFrostClient {
         this.cardanoNetworkApi = CardanoNetworkApi(httpClient)
         this.cardanoPoolApi = CardanoPoolApi(httpClient)
         this.cardanoScriptsApi = CardanoScriptsApi(httpClient)
+        this.cardanoTransactionsApi = CardanoTransactionsApi(httpClient)
     }
 
     /**
@@ -888,6 +891,30 @@ class BlockFrostClient {
         scriptHash: String,
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoScriptsApi.getScriptRedeemers(scriptHash, queryParameters) }
+
+    suspend fun getSpecificTransaction(hash: String) = handleApiResult { cardanoTransactionsApi.getSpecificTransaction(hash) }
+
+    suspend fun getTransactionUtxos(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionUtxos(hash) }
+
+    suspend fun getTransactionStakes(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionStakes(hash) }
+
+    suspend fun getTransactionDelegations(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionDelegations(hash) }
+
+    suspend fun getTransactionWithdrawals(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionWithdrawals(hash) }
+
+    suspend fun getTransactionMirs(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMirs(hash) }
+
+    suspend fun getTransactionPoolUpdates(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionPoolUpdates(hash) }
+
+    suspend fun getTransactionPoolRetires(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionPoolRetires(hash) }
+
+    suspend fun getTransactionMetadata(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMetadata(hash) }
+
+    suspend fun getTransactionMetadataCbor(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMetadataCbor(hash) }
+
+    suspend fun getTransactionRedeemers(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionRedeemers(hash) }
+
+    suspend fun submitTransaction(hash: String) = handleApiResult { cardanoTransactionsApi.submitTransaction(hash) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
