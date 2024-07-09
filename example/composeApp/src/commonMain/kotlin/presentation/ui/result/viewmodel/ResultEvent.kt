@@ -148,4 +148,26 @@ sealed class ResultEvent(val id: String) {
     data object GetScriptDatum : ResultEvent("GetScriptDatum")
 
     data object GetScriptDatumCbor : ResultEvent("GetScriptDatumCbor")
+
+    data object GetSpecificTransaction : ResultEvent("GetSpecificTransaction")
+
+    data object GetTransactionUtxos : ResultEvent("GetTransactionUtxos")
+
+    data object GetTransactionStakes : ResultEvent("GetTransactionStakes")
+
+    data object GetTransactionDelegations : ResultEvent("GetTransactionDelegations")
+
+    data object GetTransactionWithdrawals : ResultEvent("GetTransactionWithdrawals")
+
+    data object GetTransactionMirs : ResultEvent("GetTransactionMirs")
+
+    data object GetTransactionPoolUpdates : ResultEvent("GetTransactionPoolUpdates")
+
+    data object GetTransactionPoolRetires : ResultEvent("GetTransactionPoolRetires")
+
+    data object GetTransactionMetadata : ResultEvent("GetTransactionMetadata")
+
+    data object GetTransactionMetadataCbor : ResultEvent("GetTransactionMetadataCbor")
+
+    data object GetTransactionRedeemers : ResultEvent("GetTransactionRedeemers")
 }
