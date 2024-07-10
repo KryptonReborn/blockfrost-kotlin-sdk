@@ -892,28 +892,98 @@ class BlockFrostClient {
         queryParameters: QueryParameters = QueryParameters(),
     ) = handleApiResult { cardanoScriptsApi.getScriptRedeemers(scriptHash, queryParameters) }
 
+    /**
+     * Return content of the requested transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the content of the requested transaction.
+     */
     suspend fun getSpecificTransaction(hash: String) = handleApiResult { cardanoTransactionsApi.getSpecificTransaction(hash) }
 
+    /**
+     * Return the inputs and UTXOs of the specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the inputs and UTXOs of the specific transaction.
+     */
     suspend fun getTransactionUtxos(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionUtxos(hash) }
 
+    /**
+     * Obtain information about (de)registration of stake addresses within a transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the information about (de)registration of stake addresses within a transaction.
+     */
     suspend fun getTransactionStakes(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionStakes(hash) }
 
+    /**
+     * Obtain information about delegation certificates of a specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     */
     suspend fun getTransactionDelegations(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionDelegations(hash) }
 
+    /**
+     * Obtain information about withdrawals of a specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the information about withdrawals of a specific transaction.
+     */
     suspend fun getTransactionWithdrawals(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionWithdrawals(hash) }
 
+    /**
+     * Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the information about Move Instantaneous Rewards (MIRs) of a specific transaction.
+     */
     suspend fun getTransactionMirs(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMirs(hash) }
 
+    /**
+     * Obtain information about stake pool registration and update certificates of a specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the information about stake pool registration and update certificates of a specific transaction.
+     */
     suspend fun getTransactionPoolUpdates(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionPoolUpdates(hash) }
 
+    /**
+     * Obtain information about stake pool retirements within a specific transaction.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the information about stake pool retirements within a specific transaction.
+     */
     suspend fun getTransactionPoolRetires(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionPoolRetires(hash) }
 
+    /**
+     * Obtain the transaction metadata.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the transaction metadata.
+     */
     suspend fun getTransactionMetadata(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMetadata(hash) }
 
+    /**
+     * Obtain the transaction metadata in CBOR.
+     *
+     * @param hash The requested transaction hash.
+     * @return A [Result] containing the transaction metadata in CBOR.
+     */
     suspend fun getTransactionMetadataCbor(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionMetadataCbor(hash) }
 
+    /**
+     * Obtain the transaction redeemers.
+     *
+     * @param hash The requested transaction hash.
+     */
     suspend fun getTransactionRedeemers(hash: String) = handleApiResult { cardanoTransactionsApi.getTransactionRedeemers(hash) }
 
+    /**
+     * Submit an already serialized transaction to the network.
+     *
+     * @param hash The transaction hash to submit.
+     * @return A [Result] containing the result of the transaction submission.
+     */
     suspend fun submitTransaction(hash: String) = handleApiResult { cardanoTransactionsApi.submitTransaction(hash) }
 
     /**
