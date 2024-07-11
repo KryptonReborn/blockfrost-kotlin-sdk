@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.transactions.model
 
+import dev.kryptonreborn.blockfrost.base.model.Amount
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -63,16 +64,4 @@ data class TransactionOutput(
     @SerialName("inline_datum") val inlineDatum: String?,
     val collateral: Boolean,
     @SerialName("reference_script_hash") val referenceScriptHash: String?,
-)
-
-/**
- * Amount
- *
- * @property unit The unit of the value
- * @property quantity The quantity of the unit
- */
-@Serializable
-data class Amount(
-    val unit: String,
-    val quantity: String,
 )

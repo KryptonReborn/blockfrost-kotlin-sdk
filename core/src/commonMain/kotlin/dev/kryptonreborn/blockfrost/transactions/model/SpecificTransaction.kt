@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.transactions.model
 
+import dev.kryptonreborn.blockfrost.base.model.Amount
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,7 +38,7 @@ data class SpecificTransaction(
     @SerialName("block_time") val blockTime: Int,
     val slot: Int,
     val index: Int,
-    @SerialName("output_amount") val outputAmount: List<OutputAmount>,
+    @SerialName("output_amount") val outputAmount: List<Amount>,
     val fees: String,
     val deposit: String,
     val size: Int,
@@ -53,16 +54,4 @@ data class SpecificTransaction(
     @SerialName("asset_mint_or_burn_count") val assetMintOrBurnCount: Int,
     @SerialName("redeemer_count") val redeemerCount: Int,
     @SerialName("valid_contract") val validContract: Boolean,
-)
-
-/**
- * Output Amount
- *
- * @property unit The unit of the value
- * @property quantity The quantity of the unit
- */
-@Serializable
-data class OutputAmount(
-    val unit: String,
-    val quantity: String,
 )

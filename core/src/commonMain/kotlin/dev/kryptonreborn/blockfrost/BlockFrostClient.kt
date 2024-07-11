@@ -981,10 +981,10 @@ class BlockFrostClient {
     /**
      * Submit an already serialized transaction to the network.
      *
-     * @param hash The transaction hash to submit.
+     * @param transaction The transaction to submit, serialized in CBOR.
      * @return A [Result] containing the result of the transaction submission.
      */
-    suspend fun submitTransaction(hash: String) = handleApiResult { cardanoTransactionsApi.submitTransaction(hash) }
+    suspend fun submitTransaction(transaction: String) = handleApiResult { cardanoTransactionsApi.submitTransaction(transaction) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
