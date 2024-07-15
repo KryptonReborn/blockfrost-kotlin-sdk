@@ -54,6 +54,7 @@ fun App(context: Context) {
                         ResultScreen(
                             state = resultViewModel.state.value,
                             events = resultViewModel::onTriggerEvent,
+                            goBack = { navigator.popBackStack() },
                         )
                     }
                 }

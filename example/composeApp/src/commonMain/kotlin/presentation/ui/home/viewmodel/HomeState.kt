@@ -178,6 +178,24 @@ data class HomeState(
                             "GetScriptDatumCbor",
                         ),
                 ),
+            "Cardano Transactions Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetSpecificTransaction",
+                            "GetTransactionUtxos",
+                            "GetTransactionStakes",
+                            "GetTransactionDelegations",
+                            "GetTransactionWithdrawals",
+                            "GetTransactionMirs",
+                            "GetTransactionPoolUpdates",
+                            "GetTransactionPoolRetires",
+                            "GetTransactionMetadata",
+                            "GetTransactionMetadataCbor",
+                            "GetTransactionRedeemers",
+                        ),
+                ),
         ),
 )
 

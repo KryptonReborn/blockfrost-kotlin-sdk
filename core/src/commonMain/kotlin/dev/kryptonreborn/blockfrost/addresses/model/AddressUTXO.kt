@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.addresses.model
 
+import dev.kryptonreborn.blockfrost.base.model.Amount
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

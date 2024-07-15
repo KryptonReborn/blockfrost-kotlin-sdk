@@ -1,5 +1,6 @@
 package dev.kryptonreborn.blockfrost.mempool.model
 
+import dev.kryptonreborn.blockfrost.base.model.Amount
 import dev.kryptonreborn.blockfrost.base.model.RedeemerPurpose
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -44,7 +45,7 @@ data class MempoolTransactionDetails(
 @Serializable
 data class TransactionData(
     val hash: String,
-    @SerialName("output_amount") val outputAmount: List<OutputAmount>,
+    @SerialName("output_amount") val outputAmount: List<Amount>,
     val fees: String,
     val deposit: String,
     val size: Int,
@@ -60,18 +61,6 @@ data class TransactionData(
     @SerialName("asset_mint_or_burn_count") val assetMintOrBurnCount: Int,
     @SerialName("redeemer_count") val redeemerCount: Int,
     @SerialName("valid_contract") val validContract: Boolean,
-)
-
-/**
- * Output Amount
- *
- * @property unit The unit of the value
- * @property quantity The quantity of the unit
- */
-@Serializable
-data class OutputAmount(
-    val unit: String,
-    val quantity: String,
 )
 
 /**
@@ -106,7 +95,7 @@ data class TransactionInput(
 @Serializable
 data class TransactionOutput(
     val address: String,
-    val amount: List<OutputAmount>,
+    val amount: List<Amount>,
     @SerialName("output_index") val outputIndex: Int,
     @SerialName("data_hash") val dataHash: String?,
     @SerialName("inline_datum") val inlineDatum: String?,

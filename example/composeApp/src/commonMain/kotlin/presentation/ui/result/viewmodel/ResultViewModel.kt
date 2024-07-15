@@ -34,6 +34,7 @@ class ResultViewModel : ViewModel() {
             "b03d5e7a87df82395c63b6f8ba39ff259bb19dfa08b2af9cbae0da0e80a2e7e9057c41ccd5c7344db91a004c4b40021a0002be85031a031e00790800a0f5f6"
     private val scriptHash = "65c197d565e88a20885e535f93755682444d3c02fd44dd70883fe89e"
     private val datumHash = "db583ad85881a96c73fbb26ab9e24d1120bb38f45385664bb9c797a2ea8d9a2d"
+    private val hashTransaction = "37746d2fa855de3095792d2e534deea9f1dbb43a113eec5d1dfad3963d8bb09d"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -477,6 +478,70 @@ class ResultViewModel : ViewModel() {
                 ResultEvent.GetScripts -> {
                     getResponse { blockFrostClient.getScripts() }
                 }
+
+                ResultEvent.GetSpecificTransaction -> {
+                    getResponse { blockFrostClient.getSpecificTransaction(hashTransaction) }
+                }
+
+                ResultEvent.GetTransactionDelegations -> {
+                    getResponse {
+                        blockFrostClient.getTransactionDelegations(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionMetadata -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMetadata(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionMetadataCbor -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMetadataCbor(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionMirs -> {
+                    getResponse {
+                        blockFrostClient.getTransactionMirs(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionPoolRetires -> {
+                    getResponse {
+                        blockFrostClient.getTransactionPoolRetires(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionPoolUpdates -> {
+                    getResponse {
+                        blockFrostClient.getTransactionPoolUpdates(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionRedeemers -> {
+                    getResponse {
+                        blockFrostClient.getTransactionRedeemers(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionStakes -> {
+                    getResponse {
+                        blockFrostClient.getTransactionStakes(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionUtxos -> {
+                    getResponse {
+                        blockFrostClient.getTransactionUtxos(hashTransaction)
+                    }
+                }
+
+                ResultEvent.GetTransactionWithdrawals -> {
+                    getResponse {
+                        blockFrostClient.getTransactionWithdrawals(hashTransaction)
+                    }
+                }
             }
         }
     }
@@ -575,6 +640,17 @@ class ResultViewModel : ViewModel() {
                 "GetScriptCbor" to ResultEvent.GetScriptCbor,
                 "GetScriptDatum" to ResultEvent.GetScriptDatum,
                 "GetScriptDatumCbor" to ResultEvent.GetScriptDatumCbor,
+                "GetSpecificTransaction" to ResultEvent.GetSpecificTransaction,
+                "GetTransactionUtxos" to ResultEvent.GetTransactionUtxos,
+                "GetTransactionStakes" to ResultEvent.GetTransactionStakes,
+                "GetTransactionDelegations" to ResultEvent.GetTransactionDelegations,
+                "GetTransactionWithdrawals" to ResultEvent.GetTransactionWithdrawals,
+                "GetTransactionMirs" to ResultEvent.GetTransactionMirs,
+                "GetTransactionPoolUpdates" to ResultEvent.GetTransactionPoolUpdates,
+                "GetTransactionPoolRetires" to ResultEvent.GetTransactionPoolRetires,
+                "GetTransactionMetadata" to ResultEvent.GetTransactionMetadata,
+                "GetTransactionMetadataCbor" to ResultEvent.GetTransactionMetadataCbor,
+                "GetTransactionRedeemers" to ResultEvent.GetTransactionRedeemers,
             )
     }
 }
