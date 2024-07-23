@@ -170,4 +170,12 @@ sealed class ResultEvent(val id: String) {
     data object GetTransactionMetadataCbor : ResultEvent("GetTransactionMetadataCbor")
 
     data object GetTransactionRedeemers : ResultEvent("GetTransactionRedeemers")
+
+    data object GetNutLink : ResultEvent("GetNutLink")
+
+    data object GetNutLinkTickers : ResultEvent("GetNutLinkTickers")
+
+    data object GetNutLinkSpecificTickerForAddress : ResultEvent("GetNutLinkSpecificTickerForAddress")
+
+    data object GetNutLinkSpecificTicker : ResultEvent("GetNutLinkSpecificTicker")
 }

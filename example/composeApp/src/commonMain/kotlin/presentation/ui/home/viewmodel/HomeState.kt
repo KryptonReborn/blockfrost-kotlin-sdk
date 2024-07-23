@@ -196,6 +196,17 @@ data class HomeState(
                             "GetTransactionRedeemers",
                         ),
                 ),
+            "NutLink Api" to
+                HomeCardanoApi(
+                    show = false,
+                    items =
+                        listOf(
+                            "GetNutLink",
+                            "GetNutLinkTickers",
+                            "GetNutLinkSpecificTickerForAddress",
+                            "GetNutLinkSpecificTicker",
+                        ),
+                ),
         ),
 )
 

@@ -35,6 +35,9 @@ class ResultViewModel : ViewModel() {
     private val scriptHash = "65c197d565e88a20885e535f93755682444d3c02fd44dd70883fe89e"
     private val datumHash = "db583ad85881a96c73fbb26ab9e24d1120bb38f45385664bb9c797a2ea8d9a2d"
     private val hashTransaction = "37746d2fa855de3095792d2e534deea9f1dbb43a113eec5d1dfad3963d8bb09d"
+    private val nutlinkAdrees =
+        "addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t"
+
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
@@ -542,6 +545,26 @@ class ResultViewModel : ViewModel() {
                         blockFrostClient.getTransactionWithdrawals(hashTransaction)
                     }
                 }
+
+                ResultEvent.GetNutLink ->
+                    getResponse {
+                        blockFrostClient.getNutLink(nutlinkAdrees)
+                    }
+
+                ResultEvent.GetNutLinkSpecificTicker ->
+                    getResponse {
+                        blockFrostClient.getNutLinkSpecificTicker("ADABTC")
+                    }
+
+                ResultEvent.GetNutLinkSpecificTickerForAddress ->
+                    getResponse {
+                        blockFrostClient.getNutLinkSpecificTickerForAddress(nutlinkAdrees, "ADABTC")
+                    }
+
+                ResultEvent.GetNutLinkTickers ->
+                    getResponse {
+                        blockFrostClient.getNutLinkTickers(address)
+                    }
             }
         }
     }
@@ -651,6 +674,10 @@ class ResultViewModel : ViewModel() {
                 "GetTransactionMetadata" to ResultEvent.GetTransactionMetadata,
                 "GetTransactionMetadataCbor" to ResultEvent.GetTransactionMetadataCbor,
                 "GetTransactionRedeemers" to ResultEvent.GetTransactionRedeemers,
+                "GetNutLink" to ResultEvent.GetNutLink,
+                "GetNutLinkTickers" to ResultEvent.GetNutLinkTickers,
+                "GetNutLinkSpecificTickerForAddress" to ResultEvent.GetNutLinkSpecificTickerForAddress,
+                "GetNutLinkSpecificTicker" to ResultEvent.GetNutLinkSpecificTicker,
             )
     }
 }
