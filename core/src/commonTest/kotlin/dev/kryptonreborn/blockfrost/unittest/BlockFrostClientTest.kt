@@ -96,6 +96,13 @@ import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.GET_NETW
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi.Companion.QUERY_SUMMARY_BLOCKCHAIN_ERAS
 import dev.kryptonreborn.blockfrost.network.model.EraSummary
 import dev.kryptonreborn.blockfrost.network.model.NetworkInformation
+import dev.kryptonreborn.blockfrost.nutlink.NutLinkApi.Companion.PATH_GET_NUTLINK
+import dev.kryptonreborn.blockfrost.nutlink.NutLinkApi.Companion.PATH_GET_NUTLINK_SPECIFIC_TICKER
+import dev.kryptonreborn.blockfrost.nutlink.NutLinkApi.Companion.PATH_GET_NUTLINK_SPECIFIC_TICKER_FOR_ADDRESS
+import dev.kryptonreborn.blockfrost.nutlink.NutLinkApi.Companion.PATH_GET_NUTLINK_TICKERS
+import dev.kryptonreborn.blockfrost.nutlink.model.NutLinkAddressMetadata
+import dev.kryptonreborn.blockfrost.nutlink.model.OracleTicker
+import dev.kryptonreborn.blockfrost.nutlink.model.TickerRecord
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_RETIRED_STAKE_POOLS
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_RETIRING_STAKE_POOLS
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi.Companion.PATH_LIST_STAKE_POOLS
@@ -2125,6 +2132,103 @@ class BlockFrostClientTest {
         testApiFail(
             CardanoTransactionsApi.PATH_SUBMIT_TRANSACTION,
         ) { blockFrostClient -> blockFrostClient.submitTransaction(anyString) }
+
+    @Test
+    fun testGetAddressMetadata() =
+        runTest {
+            val resource = "src/commonTest/resources/model/nutlink_address_metadata.json"
+            val expectedData = resource.resourceToExpectedData<NutLinkAddressMetadata>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_NUTLINK.replace(":address", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNutLink(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetAddressMetadataFail() =
+        testApiFail(
+            PATH_GET_NUTLINK.replace(":address", anyString),
+        ) { blockFrostClient -> blockFrostClient.getNutLink(anyString) }
+
+    @Test
+    fun testGetNutLinkTickers() =
+        runTest {
+            val resource = "src/commonTest/resources/list_oracle_ticker.json"
+            val expectedData = resource.resourceToExpectedData<List<OracleTicker>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_NUTLINK_TICKERS.replace(":address", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNutLinkTickers(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetNutLinkTickersFail() =
+        testApiFail(
+            PATH_GET_NUTLINK_TICKERS.replace(":address", anyString),
+        ) { blockFrostClient -> blockFrostClient.getNutLinkTickers(anyString) }
+
+    @Test
+    fun testGetNutLinkSpecificTickerForAddress() =
+        runTest {
+            val resource = "src/commonTest/resources/list_ticker_record.json"
+            val expectedData = resource.resourceToExpectedData<List<TickerRecord>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_NUTLINK_SPECIFIC_TICKER_FOR_ADDRESS.replace(":address", anyString)
+                        .replace(":ticker", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNutLinkSpecificTickerForAddress(anyString, anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetNutLinkSpecificTickerForAddressFail() =
+        testApiFail(
+            PATH_GET_NUTLINK_SPECIFIC_TICKER_FOR_ADDRESS.replace(":address", anyString)
+                .replace(":ticker", anyString),
+        ) { blockFrostClient ->
+            blockFrostClient.getNutLinkSpecificTickerForAddress(
+                anyString,
+                anyString,
+            )
+        }
+
+    @Test
+    fun testGetNutLinkSpecificTicker() =
+        runTest {
+            val resource = "src/commonTest/resources/list_ticker_record.json"
+            val expectedData = resource.resourceToExpectedData<List<TickerRecord>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_GET_NUTLINK_SPECIFIC_TICKER.replace(":address", anyString)
+                        .replace(":ticker", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostClient = BlockFrostClient(httpClient)
+            val result = blockFrostClient.getNutLinkSpecificTicker(anyString)
+            assertEquals(expectedData, result.getOrNull())
+        }
+
+    @Test
+    fun testGetNutLinkSpecificTickerFail() =
+        testApiFail(
+            PATH_GET_NUTLINK_SPECIFIC_TICKER.replace(":address", anyString)
+                .replace(":ticker", anyString),
+        ) { blockFrostClient ->
+            blockFrostClient.getNutLinkSpecificTicker(
+                anyString,
+            )
+        }
 
     private fun testApiFail(
         path: String,
