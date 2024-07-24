@@ -13,6 +13,7 @@ import dev.kryptonreborn.blockfrost.mempool.CardanoMempoolApi
 import dev.kryptonreborn.blockfrost.metadata.CardanoMetadataApi
 import dev.kryptonreborn.blockfrost.metrics.MetricsApi
 import dev.kryptonreborn.blockfrost.network.CardanoNetworkApi
+import dev.kryptonreborn.blockfrost.nutlink.NutLinkApi
 import dev.kryptonreborn.blockfrost.pool.CardanoPoolApi
 import dev.kryptonreborn.blockfrost.scripts.CardanoScriptsApi
 import dev.kryptonreborn.blockfrost.transactions.CardanoTransactionsApi
@@ -41,6 +42,7 @@ class BlockFrostClient {
     private val cardanoPoolApi: CardanoPoolApi
     private val cardanoScriptsApi: CardanoScriptsApi
     private val cardanoTransactionsApi: CardanoTransactionsApi
+    private val nutLinkApi: NutLinkApi
 
     constructor(blockfrostConfig: BlockfrostConfig) : this(Ktor.httpClient(blockfrostConfig))
 
@@ -62,6 +64,7 @@ class BlockFrostClient {
         this.cardanoPoolApi = CardanoPoolApi(httpClient)
         this.cardanoScriptsApi = CardanoScriptsApi(httpClient)
         this.cardanoTransactionsApi = CardanoTransactionsApi(httpClient)
+        this.nutLinkApi = NutLinkApi(httpClient)
     }
 
     /**
@@ -985,6 +988,52 @@ class BlockFrostClient {
      * @return A [Result] containing the result of the transaction submission.
      */
     suspend fun submitTransaction(transaction: String) = handleApiResult { cardanoTransactionsApi.submitTransaction(transaction) }
+
+    /**
+     * List metadata about specific address
+     *
+     * @param address The address to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of metadata about specific address.
+     */
+    suspend fun getNutLink(address: String) = handleApiResult { nutLinkApi.getNutLink(address) }
+
+    /**
+     * List of records of a specific oracle
+     *
+     * @param oracle The oracle to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of records of a specific oracle.
+     */
+    suspend fun getNutLinkTickers(
+        address: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { nutLinkApi.getNutLinkTickers(address, queryParameters) }
+
+    /**
+     * List of records of a specific ticker
+     *
+     * @param ticker The ticker to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of records of a specific ticker.
+     */
+    suspend fun getNutLinkSpecificTickerForAddress(
+        address: String,
+        ticker: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { nutLinkApi.getNutLinkSpecificTickerForAddress(address, ticker, queryParameters) }
+
+    /**
+     * List of records of a specific ticker
+     *
+     * @param ticker The ticker to query.
+     * @param queryParameters The query parameters to apply.
+     * @return A [Result] containing a list of records of a specific ticker.
+     */
+    suspend fun getNutLinkSpecificTicker(
+        ticker: String,
+        queryParameters: QueryParameters = QueryParameters(),
+    ) = handleApiResult { nutLinkApi.getNutLinkSpecificTicker(ticker, queryParameters) }
 
     /**
      * Handles the result of an API call, wrapping it in a [Result] object.
