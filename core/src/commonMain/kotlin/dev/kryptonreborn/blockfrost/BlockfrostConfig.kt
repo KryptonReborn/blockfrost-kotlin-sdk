@@ -11,7 +11,7 @@ import io.ktor.client.plugins.logging.LogLevel
  */
 data class BlockfrostConfig(
     val networkType: NetworkType = NetworkType.Mainnet,
-    var projectId: String? = null,
+    val projectId: String? = null,
     val logLevel: BlockfrostLogLevel = BlockfrostLogLevel.NONE,
 )
 
@@ -41,6 +41,8 @@ enum class NetworkType(val url: String) {
      * @property url The base URL for the Preview network.
      */
     Preview("https://cardano-preview.blockfrost.io"),
+
+    IPFS("https://ipfs.blockfrost.io"),
 }
 
 /**

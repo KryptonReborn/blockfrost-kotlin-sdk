@@ -87,6 +87,7 @@ internal suspend inline fun <reified T> HttpClient.fetchResource(
                 }
             }
             this.method = method
+            header(HttpHeaders.Accept, "application/octet-stream")
             contentType(contentType)
             requestBody?.let {
                 setBody(requestBody)

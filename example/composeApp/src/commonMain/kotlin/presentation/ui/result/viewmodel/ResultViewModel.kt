@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.kryptonreborn.blockfrost.BlockFrostClient
+import dev.kryptonreborn.blockfrost.BlockFrostIPFS
 import dev.kryptonreborn.blockfrost.BlockfrostConfig
 import dev.kryptonreborn.blockfrost.BlockfrostLogLevel
 import dev.kryptonreborn.blockfrost.NetworkType
@@ -37,13 +38,20 @@ class ResultViewModel : ViewModel() {
     private val hashTransaction = "37746d2fa855de3095792d2e534deea9f1dbb43a113eec5d1dfad3963d8bb09d"
     private val nutlinkAdrees =
         "addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t"
-
+    private val iPFSPath = "QmUCXMTcvuJpwHF3gABRr69ceQR2uEG2Fsik9CyWh8MUoQ"
     private val blockFrostClient =
         BlockFrostClient(
             BlockfrostConfig(
                 networkType = NetworkType.Mainnet,
                 projectId = "mainnet7fToxtolmPU20aln1LrH2brEJOwq4ZoJ",
                 logLevel = BlockfrostLogLevel.ALL,
+            ),
+        )
+    private val blockFrostIPFS =
+        BlockFrostIPFS(
+            BlockfrostConfig(
+                networkType = NetworkType.IPFS,
+                projectId = "ipfsekXGfZImDIAFiT24O3Z6EqfdPEGrHcaM",
             ),
         )
     val state: MutableState<ResultState> = mutableStateOf(ResultState())
