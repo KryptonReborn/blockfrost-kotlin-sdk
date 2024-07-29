@@ -42,8 +42,7 @@ class BlockFrostIPFS {
      * @param IPFSPath The IPFS path of the object.
      * @return The object bytes.
      */
-    suspend fun relayToIPFSGateway(IPFSPath: String) =
-        handleApiResult { ipfsApi.relayToIPFSGateway(IPFSPath) }
+    suspend fun relayToIPFSGateway(IPFSPath: String) = handleApiResult { ipfsApi.relayToIPFSGateway(IPFSPath) }
 
     /**
      * Pinning is necessary to avoid regular garbage collection (deletion) of IPFS objects. Non-pinned objects are regularly being removed without prior notice. Pinned objects are counted in your user storage quota.
@@ -51,8 +50,7 @@ class BlockFrostIPFS {
      *  @param IPFSPath The IPFS path of the object.
      *  @return The pinned object details.
      */
-    suspend fun pinIPFSObject(IPFSPath: String) =
-        handleApiResult { ipfsApi.pinIPFSObject(IPFSPath) }
+    suspend fun pinIPFSObject(IPFSPath: String) = handleApiResult { ipfsApi.pinIPFSObject(IPFSPath) }
 
     /**
      * List objects pinned to local storage
@@ -69,8 +67,7 @@ class BlockFrostIPFS {
      * @param IPFSPath The IPFS path of the object.
      * @return The pinned object details.
      */
-    suspend fun getPinnedObjectDetails(IPFSPath: String) =
-        handleApiResult { ipfsApi.getPinnedObjectDetails(IPFSPath) }
+    suspend fun getPinnedObjectDetails(IPFSPath: String) = handleApiResult { ipfsApi.getPinnedObjectDetails(IPFSPath) }
 
     /**
      * Remove pinned objects from local storage
@@ -78,8 +75,7 @@ class BlockFrostIPFS {
      * @param IPFSPath The IPFS path of the object.
      * @return The unpinned object details.
      */
-    suspend fun removePinnedObject(IPFSPath: String) =
-        handleApiResult { ipfsApi.removePinnedObject(IPFSPath) }
+    suspend fun removePinnedObject(IPFSPath: String) = handleApiResult { ipfsApi.removePinnedObject(IPFSPath) }
 
     private inline fun <T> handleApiResult(block: () -> T): Result<T> {
         return try {

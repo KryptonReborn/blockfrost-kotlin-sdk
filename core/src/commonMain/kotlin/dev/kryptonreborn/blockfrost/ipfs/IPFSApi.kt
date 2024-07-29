@@ -69,13 +69,14 @@ internal class IPFSApi(private val httpClient: HttpClient) {
     }
 
     suspend fun relayToIPFSGateway(IPFSPath: String): ByteArray {
-        val response = httpClient.request {
-            url {
-                encodedPath += PATH_IPFS_GATEWAY.replace(":IPFS_path", IPFSPath)
+        val response =
+            httpClient.request {
+                url {
+                    encodedPath += PATH_IPFS_GATEWAY.replace(":IPFS_path", IPFSPath)
+                }
+                this.method = HttpMethod.Get
+                header(HttpHeaders.Accept, ContentType.Application.OctetStream)
             }
-            this.method = HttpMethod.Get
-            header(HttpHeaders.Accept, ContentType.Application.OctetStream)
-        }
         val textResponse = response.bodyAsText()
         if (response.status == HttpStatusCode.OK && !isValidJson(textResponse)) {
             return response.readBytes()

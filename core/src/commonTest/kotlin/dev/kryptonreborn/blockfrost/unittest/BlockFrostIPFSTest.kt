@@ -24,133 +24,144 @@ class BlockFrostIPFSTest {
     private val anyString = "anyString"
 
     @Test
-    fun testAddFileToIPFS() = runTest {
-        val resource = "src/commonTest/resources/model/added_ipfs_object.json"
-        val content = resource.resourceToExpectedData<AddedIpfsObject>()
-        val httpClient =
-            createMockHttpClient(
+    fun testAddFileToIPFS() =
+        runTest {
+            val resource = "src/commonTest/resources/model/added_ipfs_object.json"
+            val content = resource.resourceToExpectedData<AddedIpfsObject>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_ADD.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+            val result = blockFrostIPFS.addFileToIPFS(ByteArray(0), "filename")
+            assertEquals(content, result.getOrNull())
+        }
+
+    @Test
+    fun testAddFileToIPFSFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_ADD.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-        val result = blockFrostIPFS.addFileToIPFS(ByteArray(0), "filename")
-        assertEquals(content, result.getOrNull())
-    }
+            ) { it.addFileToIPFS(ByteArray(0), "filename") }
+        }
 
     @Test
-    fun testAddFileToIPFSFail() = runTest {
-        testApiFail(
-            PATH_IPFS_ADD.replace(":IPFS_path", anyString),
-        ) { it.addFileToIPFS(ByteArray(0), "filename") }
-    }
+    fun testRelayToIPFSGatewayReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/file/test.txt"
+            val content = Resource(resource).readBytes()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_GATEWAY.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+            val result = blockFrostIPFS.relayToIPFSGateway(anyString)
+            assertEquals(content.size, result.getOrNull()?.size)
+        }
 
     @Test
-    fun testRelayToIPFSGatewayReturn200() = runTest {
-        val resource = "src/commonTest/resources/file/test.txt"
-        val content = Resource(resource).readBytes()
-        val httpClient =
-            createMockHttpClient(
+    fun testRelayToIPFSGatewayFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_GATEWAY.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-        val result = blockFrostIPFS.relayToIPFSGateway(anyString)
-        assertEquals(content.size, result.getOrNull()?.size)
-    }
+            ) { it.relayToIPFSGateway(anyString) }
+        }
 
     @Test
-    fun testRelayToIPFSGatewayFail() = runTest {
-        testApiFail(
-            PATH_IPFS_GATEWAY.replace(":IPFS_path", anyString),
-        ) { it.relayToIPFSGateway(anyString) }
-    }
+    fun testPinIPFSObjectReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/model/pinned_object.json"
+            val content = resource.resourceToExpectedData<PinnedObject>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_PIN_ADD.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+            val result = blockFrostIPFS.pinIPFSObject(anyString)
+            assertEquals(content, result.getOrNull())
+        }
 
     @Test
-    fun testPinIPFSObjectReturn200() = runTest {
-        val resource = "src/commonTest/resources/model/pinned_object.json"
-        val content = resource.resourceToExpectedData<PinnedObject>()
-        val httpClient =
-            createMockHttpClient(
+    fun testPinIPFSObjectFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_PIN_ADD.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-        val result = blockFrostIPFS.pinIPFSObject(anyString)
-        assertEquals(content, result.getOrNull())
-    }
+            ) { it.pinIPFSObject(anyString) }
+        }
 
     @Test
-    fun testPinIPFSObjectFail() = runTest {
-        testApiFail(
-            PATH_IPFS_PIN_ADD.replace(":IPFS_path", anyString),
-        ) { it.pinIPFSObject(anyString) }
-    }
+    fun testUnpinIPFSObjectReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/model/pinned_object.json"
+            val content = resource.resourceToExpectedData<PinnedObject>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_PIN_REMOVE.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+            val result = blockFrostIPFS.removePinnedObject(anyString)
+            assertEquals(content, result.getOrNull())
+        }
 
     @Test
-    fun testUnpinIPFSObjectReturn200() = runTest {
-        val resource = "src/commonTest/resources/model/pinned_object.json"
-        val content = resource.resourceToExpectedData<PinnedObject>()
-        val httpClient =
-            createMockHttpClient(
+    fun testUnpinIPFSObjectFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_PIN_REMOVE.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-        val result = blockFrostIPFS.removePinnedObject(anyString)
-        assertEquals(content, result.getOrNull())
-    }
+            ) { it.removePinnedObject(anyString) }
+        }
 
     @Test
-    fun testUnpinIPFSObjectFail() = runTest {
-        testApiFail(
-            PATH_IPFS_PIN_REMOVE.replace(":IPFS_path", anyString),
-        ) { it.removePinnedObject(anyString) }
-    }
+    fun testGetPinnedObjectDetailsReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/model/pinned_object_details.json"
+            val content =
+                resource.resourceToExpectedData<PinnedObjectDetails>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_PIN_DETAILS.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+            val result = blockFrostIPFS.getPinnedObjectDetails(anyString)
+            assertEquals(content, result.getOrNull())
+        }
 
     @Test
-    fun testGetPinnedObjectDetailsReturn200() = runTest {
-        val resource = "src/commonTest/resources/model/pinned_object_details.json"
-        val content =
-            resource.resourceToExpectedData<PinnedObjectDetails>()
-        val httpClient =
-            createMockHttpClient(
+    fun testGetPinnedObjectDetailsFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_PIN_DETAILS.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-        val result = blockFrostIPFS.getPinnedObjectDetails(anyString)
-        assertEquals(content, result.getOrNull())
-    }
+            ) { it.getPinnedObjectDetails(anyString) }
+        }
 
     @Test
-    fun testGetPinnedObjectDetailsFail() = runTest {
-        testApiFail(
-            PATH_IPFS_PIN_DETAILS.replace(":IPFS_path", anyString),
-        ) { it.getPinnedObjectDetails(anyString) }
-    }
+    fun testGetListPinnedObjectsReturn200() =
+        runTest {
+            val resource = "src/commonTest/resources/list_pinned_object_details.json"
+            val content = resource.resourceToExpectedData<List<PinnedObjectDetails>>()
+            val httpClient =
+                createMockHttpClient(
+                    PATH_IPFS_PIN_LIST.replace(":IPFS_path", anyString),
+                    Resource(resource).readText(),
+                )
+            val blockFrostIPFS = BlockFrostIPFS(httpClient)
+
+            val result = blockFrostIPFS.getListPinnedObjects(QueryParameters())
+            assertEquals(content, result.getOrNull())
+        }
 
     @Test
-    fun testGetListPinnedObjectsReturn200() = runTest {
-        val resource = "src/commonTest/resources/list_pinned_object_details.json"
-        val content = resource.resourceToExpectedData<List<PinnedObjectDetails>>()
-        val httpClient =
-            createMockHttpClient(
+    fun testGetListPinnedObjectsFail() =
+        runTest {
+            testApiFail(
                 PATH_IPFS_PIN_LIST.replace(":IPFS_path", anyString),
-                Resource(resource).readText(),
-            )
-        val blockFrostIPFS = BlockFrostIPFS(httpClient)
-
-        val result = blockFrostIPFS.getListPinnedObjects(QueryParameters())
-        assertEquals(content, result.getOrNull())
-    }
-
-    @Test
-    fun testGetListPinnedObjectsFail() = runTest {
-        testApiFail(
-            PATH_IPFS_PIN_LIST.replace(":IPFS_path", anyString),
-        ) { it.getListPinnedObjects(QueryParameters()) }
-    }
-
+            ) { it.getListPinnedObjects(QueryParameters()) }
+        }
 
     private fun testApiFail(
         path: String,

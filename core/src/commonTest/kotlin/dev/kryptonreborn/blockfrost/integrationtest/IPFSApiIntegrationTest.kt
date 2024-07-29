@@ -32,10 +32,11 @@ class IPFSApiIntegrationTest : BaseIntegrationTest() {
         runIntegrationTest {
             val bytes = Resource("src/commonTest/resources/file/test.txt").readBytes()
             println(bytes)
-            val result = blockFrostIPFS.addFileToIPFS(
-                bytes = Resource("src/commonTest/resources/file/test.txt").readBytes(),
-                fileName = "test.txt",
-            )
+            val result =
+                blockFrostIPFS.addFileToIPFS(
+                    bytes = Resource("src/commonTest/resources/file/test.txt").readBytes(),
+                    fileName = "test.txt",
+                )
             println(result)
             assertNotNull(result.getOrNull())
             assertTrue(result.getOrNull() is AddedIpfsObject)
