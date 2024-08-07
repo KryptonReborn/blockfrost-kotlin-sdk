@@ -1,6 +1,5 @@
 package plugins
 
-import BuildModules
 import com.android.build.api.dsl.ApplicationExtension
 import extensions.libs
 import org.gradle.api.JavaVersion
@@ -18,6 +17,7 @@ class CommonMppComposePlugin : Plugin<Project> {
                 apply(libs.findPlugin("kotlinMultiplatform").get().get().pluginId)
                 apply(libs.findPlugin("jetbrainsCompose").get().get().pluginId)
                 apply(libs.findPlugin("ktlint").get().get().pluginId)
+                apply(libs.findPlugin("composeCompiler").get().get().pluginId)
             }
 
             extensions.configure<ApplicationExtension> {
