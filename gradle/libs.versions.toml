@@ -1,7 +1,7 @@
 [versions]
 agp = "8.3.2"
 kermit = "2.0.3"
-kotlin = "2.0.0"
+kotlin = "2.0.10"
 androidMinSdk = "24"
 androidCompileSdk = "34"
 androidTargetSdk = "34"
@@ -26,7 +26,7 @@ ktor = "2.3.11"
 coroutines = "1.8.1"
 androidxLifecycle = "2.8.0"
 arrow = "1.2.4"
-kotlinxCoroutinesTest = "1.8.0"
+kotlinxCoroutinesTest = "1.8.1"
 dokka = "1.9.20"
 kover = "0.8.3"
 [libraries]
